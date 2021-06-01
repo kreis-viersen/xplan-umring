@@ -1,2 +1,2 @@
-# umringpolygon-zu-xplan
+# umringpolygon-zu-xplanung
 GML in den Standard XPlanung konvertieren
