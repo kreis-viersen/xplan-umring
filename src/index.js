@@ -89,7 +89,7 @@ var template = {
         }],
         "xplan:planArt": 10001,
         "xplan:rechtsstand": 1000,
-        "xplan:aufstellungsbeschlussDatum": "2019-11-21",
+        "xplan:aufstellungsbeschlussDatum": "",
         "xplan:bereich": [{
           "@": {
             "xlink:href": ""
