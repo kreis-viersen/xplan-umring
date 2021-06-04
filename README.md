@@ -12,7 +12,7 @@ Eine offline Verwendung des Browserkonvertierungstool ist möglich.<br>Hierzu ei
 
 ## Workflow
 
-1. Bebauungsplanumring in QGIS digitalieren oder vorhandenen Umring laden.<br>Wichtig: Der Vektorlayer darf nur ein Objekt (= den Umring) beinhalten.
+1. Bebauungsplanumring in QGIS digitalieren<br>Wichtig: Der Vektorlayer darf nur ein Objekt (= den Umring) vom Typ Polygon beinhalten.
 2. QGIS Modell `umringpolygon-zu-xplanung.model3` ausführen.<br>Eingabelayer ist der Vektorlayer mit dem Bebauungsplanumring, die übrigen Modelleingaben ensprechend befüllen/auswählen und Speicherort für die `.gml`-Datei festlegen.
 3. Die so erzeugte `.gml`-Datei mit dem [Browserkonvertierungstool](https://kreis-viersen.github.io/umringpolygon-zu-xplanung) nach XPlanGML konvertieren, erzeugte `.zip`-Datei speichern.
 
