@@ -1,2 +1,2 @@
 # umringpolygon-zu-xplanung
-GML in XPlanGML konvertieren
+Umringpolygon eines Bebauungsplans aus QGIS nach XPlanGML konvertieren
