@@ -972,8 +972,8 @@
   </Option>
   <Option name="parameterOrder" type="StringList">
     <Option type="QString" value="BPlanUmriss"/>
-    <Option type="QString" value="Nummer"/>
     <Option type="QString" value="Name"/>
+    <Option type="QString" value="Nummer"/>
     <Option type="QString" value="Gemeindename"/>
     <Option type="QString" value="Ortsteilname"/>
     <Option type="QString" value="AGS"/>
