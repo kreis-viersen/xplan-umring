@@ -183,6 +183,9 @@ function convertGML() {
     template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['gml:boundedBy'][0]['gml:Envelope'][0]['gml:upperCorner'] = upperCorner
 
     var boundary = content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:geometryProperty'][0]['gml:Polygon'][0]['gml:outerBoundaryIs'][0]['gml:LinearRing'][0]['gml:coordinates'];
+    boundary = boundary.split(' ');
+    boundary = boundary.reverse();
+    boundary = boundary.join();
     boundary = boundary.split(',').join(' ')
 
     template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:raeumlicherGeltungsbereich'][0]['gml:Polygon'][0]['gml:exterior'][0]['gml:LinearRing'][0]['gml:posList'][0]['#text'] = boundary;
