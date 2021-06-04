@@ -1,6 +1,7 @@
-const LicensePlugin = require('webpack-license-plugin')
+const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
+const LicensePlugin = require('webpack-license-plugin')
 
 const path = require('path');
 
@@ -11,6 +12,17 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   plugins: [
+    new CopyPlugin({
+      patterns: [{
+          from: './umringpolygon-zu-xplanung.model3',
+          to: 'umringpolygon-zu-xplanung.model3'
+        },
+        {
+          from: './LICENSE',
+          to: 'umringpolygon-zu-xplanung_license.txt'
+        }
+      ],
+    }),
     new HtmlWebpackPlugin({
       append: true,
       template: path.join(__dirname, 'src/index.html')
