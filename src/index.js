@@ -13,7 +13,7 @@ var template = {
       "xmlns:adv": "http://www.adv-online.de/nas",
       "xmlns:gml": "http://www.opengis.net/gml/3.2",
       "xmlns:xlink": "http://www.w3.org/1999/xlink",
-      "xmlns:xplan": "http://www.xplanung.de/xplangml/5/1",
+      "xmlns:xplan": "http://www.xplanung.de/xplangml/5/2",
       "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
       "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
       "xmlns:wfs": "http://www.opengis.net/wfs/2.0",
