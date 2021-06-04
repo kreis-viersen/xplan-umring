@@ -268,7 +268,7 @@
         </Option>
         <Option name="FORMULA" type="List">
           <Option type="Map">
-            <Option name="expression" type="QString" value="'@DatumAufstellungsbeschlussJJJJMMTT'"/>
+            <Option name="expression" type="QString" value="'@DatumAufstellungsbeschluss'"/>
             <Option name="source" type="int" value="3"/>
           </Option>
         </Option>
@@ -831,17 +831,17 @@
       <Option name="name" type="QString" value="BPlanUmriss"/>
       <Option name="parameter_type" type="QString" value="vector"/>
     </Option>
-    <Option name="DatumAufstellungsbeschlussJJJJMMTT" type="Map">
+    <Option name="DatumAufstellungsbeschluss" type="Map">
       <Option name="data_type" type="int" value="1"/>
       <Option name="default" type="invalid"/>
       <Option name="defaultGui" type="invalid"/>
-      <Option name="description" type="QString" value="Datum Aufstellungsbeschluss (JJJJ-MM-TT)"/>
+      <Option name="description" type="QString" value="Datum Aufstellungsbeschluss"/>
       <Option name="flags" type="int" value="0"/>
       <Option name="help" type="QString" value=""/>
       <Option name="max" type="datetime" value=""/>
       <Option name="metadata"/>
       <Option name="min" type="datetime" value=""/>
-      <Option name="name" type="QString" value="DatumAufstellungsbeschlussJJJJMMTT"/>
+      <Option name="name" type="QString" value="DatumAufstellungsbeschluss"/>
       <Option name="parameter_type" type="QString" value="datetime"/>
     </Option>
     <Option name="Gemeindename" type="Map">
@@ -977,7 +977,7 @@
     <Option type="QString" value="Gemeindename"/>
     <Option type="QString" value="Ortsteilname"/>
     <Option type="QString" value="AGS"/>
-    <Option type="QString" value="DatumAufstellungsbeschlussJJJJMMTT"/>
+    <Option type="QString" value="DatumAufstellungsbeschluss"/>
     <Option type="QString" value="Plangeber"/>
     <Option type="QString" value="Planart"/>
     <Option type="QString" value="Rechststand"/>
@@ -1025,7 +1025,7 @@
       <Option name="outputs_collapsed" type="bool" value="true"/>
       <Option name="parameters_collapsed" type="bool" value="true"/>
     </Option>
-    <Option name="DatumAufstellungsbeschlussJJJJMMTT" type="Map">
+    <Option name="DatumAufstellungsbeschluss" type="Map">
       <Option name="color" type="QString" value=""/>
       <Option name="comment" type="Map">
         <Option name="color" type="QString" value=""/>
@@ -1037,12 +1037,12 @@
         <Option name="outputs_collapsed" type="bool" value="true"/>
         <Option name="parameters_collapsed" type="bool" value="true"/>
       </Option>
-      <Option name="component_description" type="QString" value="DatumAufstellungsbeschlussJJJJMMTT"/>
+      <Option name="component_description" type="QString" value="DatumAufstellungsbeschluss"/>
       <Option name="component_height" type="double" value="30"/>
       <Option name="component_pos_x" type="double" value="720"/>
       <Option name="component_pos_y" type="double" value="45"/>
       <Option name="component_width" type="double" value="300"/>
-      <Option name="name" type="QString" value="DatumAufstellungsbeschlussJJJJMMTT"/>
+      <Option name="name" type="QString" value="DatumAufstellungsbeschluss"/>
       <Option name="outputs_collapsed" type="bool" value="true"/>
       <Option name="parameters_collapsed" type="bool" value="true"/>
     </Option>
