@@ -203,7 +203,7 @@ function convertGML() {
     zip.generateAsync({
       type: "blob"
     }).then(function(content) {
-      FileSaver.saveAs(content, slugify(name) + ".zip");
+      FileSaver.saveAs(content, slugify(name, '_') + ".zip");
     });
   };
   reader.readAsText(file);
