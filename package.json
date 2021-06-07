@@ -1,6 +1,6 @@
 {
   "name": "umringpolygon-zu-xplanung",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server",
