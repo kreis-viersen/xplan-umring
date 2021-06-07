@@ -100,20 +100,6 @@ var template = {
   }]
 };
 
-const uuid_1 = "GML_" + uuidv4()
-template['xplan:XPlanAuszug'][0]['@']['gml:id'] = uuid_1
-
-const uuid_2 = "ID_" + uuidv4()
-template['xplan:XPlanAuszug'][0]['gml:featureMember'][0]['xplan:BP_Bereich'][0]['@']['gml:id'] = uuid_2
-template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:bereich'][0]['@']['xlink:href'] = '#' + uuid_2
-
-const uuid_3 = "ID_" + uuidv4()
-template['xplan:XPlanAuszug'][0]['gml:featureMember'][0]['xplan:BP_Bereich'][0]['xplan:gehoertZuPlan'][0]['@']['xlink:href'] = '#' + uuid_3
-template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['@']['gml:id'] = uuid_3
-
-const uuid_4 = "ID_" + uuidv4()
-template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:raeumlicherGeltungsbereich'][0]['gml:Polygon'][0]['@']['gml:id'] = uuid_4
-
 const inputElement = document.getElementById('input');
 inputElement.addEventListener('change', convertGML, false);
 
@@ -189,6 +175,20 @@ function convertGML() {
     boundary = boundary.split(',').join(' ')
 
     template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:raeumlicherGeltungsbereich'][0]['gml:Polygon'][0]['gml:exterior'][0]['gml:LinearRing'][0]['gml:posList'][0]['#text'] = boundary;
+
+    const uuid_1 = "GML_" + uuidv4()
+    template['xplan:XPlanAuszug'][0]['@']['gml:id'] = uuid_1
+
+    const uuid_2 = "ID_" + uuidv4()
+    template['xplan:XPlanAuszug'][0]['gml:featureMember'][0]['xplan:BP_Bereich'][0]['@']['gml:id'] = uuid_2
+    template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:bereich'][0]['@']['xlink:href'] = '#' + uuid_2
+
+    const uuid_3 = "ID_" + uuidv4()
+    template['xplan:XPlanAuszug'][0]['gml:featureMember'][0]['xplan:BP_Bereich'][0]['xplan:gehoertZuPlan'][0]['@']['xlink:href'] = '#' + uuid_3
+    template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['@']['gml:id'] = uuid_3
+
+    const uuid_4 = "ID_" + uuidv4()
+    template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:raeumlicherGeltungsbereich'][0]['gml:Polygon'][0]['@']['gml:id'] = uuid_4
 
     var defaultOptions = {
       attributeNamePrefix: "",
