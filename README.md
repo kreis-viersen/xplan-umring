@@ -2,10 +2,10 @@
 Umringpolygon eines Bebauungsplans aus QGIS nach XPlanGML konvertieren
 
 ## Es wird benötigt:
-1. QGIS mit QGIS Modell [`umringpolygon-zu-xplanung.model3`](https://github.com/kreis-viersen/umringpolygon-zu-xplanung/releases/download/v0.2.1/umringpolygon-zu-xplanung_v0_2_1.zip).
+1. QGIS mit QGIS Modell [`umringpolygon-zu-xplanung.model3`](https://github.com/kreis-viersen/umringpolygon-zu-xplanung/releases/download/v0.2.2/umringpolygon-zu-xplanung_v0_2_2.zip).
 2. Das Browserkonvertierungstool unter https://kreis-viersen.github.io/umringpolygon-zu-xplanung
 
-Eine offline Verwendung des Browserkonvertierungstool ist möglich. Hierzu einfach die ebenfalls in der [`.zip`-Datei](https://github.com/kreis-viersen/umringpolygon-zu-xplanung/releases/download/v0.2.1/umringpolygon-zu-xplanung_v0_2_1.zip) enthaltene `.html`-Datei lokal im Browser öffnen.<br>Die aktuelle Online-Version ist immer unter https://kreis-viersen.github.io/umringpolygon-zu-xplanung zu finden.
+Eine offline Verwendung des Browserkonvertierungstool ist möglich. Hierzu einfach die ebenfalls in der [`.zip`-Datei](https://github.com/kreis-viersen/umringpolygon-zu-xplanung/releases/download/v0.2.2/umringpolygon-zu-xplanung_v0_2_2.zip) enthaltene `.html`-Datei lokal im Browser öffnen.<br>Die aktuelle Online-Version ist immer unter https://kreis-viersen.github.io/umringpolygon-zu-xplanung zu finden.
 
 ## Workflow
 
