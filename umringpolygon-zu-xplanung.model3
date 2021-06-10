@@ -853,31 +853,7 @@
       </Option>
     </Option>
   </Option>
-  <Option name="designerParameterValues" type="Map">
-    <Option name="BPlanUmriss" type="QString" value="Neuer_Temporärlayer_50d7207a_0c34_4c59_8db5_21ff7599e921"></Option>
-    <Option name="DatumAufstellungsbeschluss" type="QString" value="d"></Option>
-    <Option name="Gemeindename" type="QString" value="b"></Option>
-    <Option name="Name" type="QString" value="test44"></Option>
-    <Option name="Nummer (2) (2) (2)" type="int" value="-2147483648"></Option>
-    <Option name="Nummer (2) (2)" type="int" value="-2147483648"></Option>
-    <Option name="Nummer (2)" type="int" value="0"></Option>
-    <Option name="Nummer" type="int" value="0"></Option>
-    <Option name="Ortsteilname" type="QString" value="c"></Option>
-    <Option name="Plangeber" type="QString" value="e"></Option>
-    <Option name="VERBOSE_LOG" type="bool" value="true"></Option>
-    <Option name="native:fieldcalculator_5:t3" type="QgsProcessingOutputLayerDefinition">
-      <Option type="Map">
-        <Option name="create_options" type="Map">
-          <Option name="fileEncoding" type="QString" value="System"></Option>
-        </Option>
-        <Option name="sink" type="Map">
-          <Option name="active" type="bool" value="true"></Option>
-          <Option name="type" type="int" value="1"></Option>
-          <Option name="val" type="QString" value="TEMPORARY_OUTPUT"></Option>
-        </Option>
-      </Option>
-    </Option>
-  </Option>
+  <Option name="designerParameterValues"/>
   <Option name="groupBoxes"></Option>
   <Option name="help"></Option>
   <Option name="modelVariables"></Option>
