@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack serve",
     "build": "webpack",
     "deploy": "gh-pages -d dist"
   },
