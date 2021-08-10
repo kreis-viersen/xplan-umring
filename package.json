@@ -20,8 +20,8 @@
   "dependencies": {
     "fast-xml-parser": "^3.19.0",
     "file-saver": "^2.0.5",
-    "jszip": "^3.6.0",
-    "slugify": "^1.5.3",
-    "uuid": "^3.4.0"
+    "jszip": "^3.7.1",
+    "slugify": "^1.6.0",
+    "uuid": "^8.3.2"
   }
 }
