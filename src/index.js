@@ -206,7 +206,7 @@ function convertGML() {
     zip.generateAsync({
       type: "blob"
     }).then(function(content) {
-      FileSaver.saveAs(content, slugify(name, '_') + ".zip");
+      FileSaver.saveAs(content, slugify(name, {replacement: '_', strict: true}) + ".zip");
     });
   };
   reader.readAsText(file);
