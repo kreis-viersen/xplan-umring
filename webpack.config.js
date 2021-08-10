@@ -32,7 +32,9 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       append: true,
-      template: path.join(__dirname, 'src/index.html')
+      template: path.join(__dirname, 'src/index.html'),
+      // <https://github.com/jantimon/html-webpack-plugin/blob/main/CHANGELOG.md#500-2021-02-03>
+      scriptLoading: 'blocking'
     }),
     new HtmlInlineScriptPlugin(),
     new LicensePlugin({
