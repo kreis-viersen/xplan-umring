@@ -1,10 +1,10 @@
 <!DOCTYPE model>
 <Option type="Map">
   <Option type="Map" name="children">
-    <Option type="Map" name="native:deletecolumn_1">
+    <Option type="Map" name="qgis:deletecolumn_1">
       <Option type="bool" value="true" name="active"/>
       <Option name="alg_config"/>
-      <Option type="QString" value="native:deletecolumn" name="alg_id"/>
+      <Option type="QString" value="qgis:deletecolumn" name="alg_id"/>
       <Option type="QString" value="" name="color"/>
       <Option type="Map" name="comment">
         <Option type="QString" value="" name="color"/>
@@ -27,7 +27,7 @@
           <Option type="QString" value="" name="conditional_branch"/>
         </Option>
       </Option>
-      <Option type="QString" value="native:deletecolumn_1" name="id"/>
+      <Option type="QString" value="qgis:deletecolumn_1" name="id"/>
       <Option name="outputs"/>
       <Option type="bool" value="true" name="outputs_collapsed"/>
       <Option type="bool" value="true" name="parameters_collapsed"/>
@@ -745,7 +745,7 @@
       <Option type="double" value="200" name="component_width"/>
       <Option type="List" name="dependencies">
         <Option type="Map">
-          <Option type="QString" value="native:deletecolumn_1" name="child_id"/>
+          <Option type="QString" value="qgis:deletecolumn_1" name="child_id"/>
           <Option type="QString" value="" name="conditional_branch"/>
         </Option>
       </Option>
@@ -756,7 +756,7 @@
       <Option type="Map" name="params">
         <Option type="List" name="INPUT">
           <Option type="Map">
-            <Option type="QString" value="native:deletecolumn_1" name="child_id"/>
+            <Option type="QString" value="qgis:deletecolumn_1" name="child_id"/>
             <Option type="QString" value="OUTPUT" name="output_name"/>
             <Option type="int" value="1" name="source"/>
           </Option>
