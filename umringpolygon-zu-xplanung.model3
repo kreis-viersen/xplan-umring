@@ -873,7 +873,7 @@
       <Option type="int" value="0" name="data_type"/>
       <Option type="double" value="5166032" name="default"/>
       <Option type="invalid" name="defaultGui"/>
-      <Option type="QString" value="AGS (7-stellig)" name="description"/>
+      <Option type="QString" value="AGS (7-stellig) [Pflicht]" name="description"/>
       <Option type="int" value="0" name="flags"/>
       <Option type="QString" value="" name="help"/>
       <Option type="double" value="9999999" name="max"/>
@@ -888,7 +888,7 @@
       </Option>
       <Option type="invalid" name="default"/>
       <Option type="invalid" name="defaultGui"/>
-      <Option type="QString" value="Vektorlayer mit Umringpolygon" name="description"/>
+      <Option type="QString" value="Vektorlayer mit Umringpolygon [Pflicht]" name="description"/>
       <Option type="int" value="0" name="flags"/>
       <Option type="QString" value="" name="help"/>
       <Option name="metadata"/>
@@ -911,7 +911,7 @@
     <Option type="Map" name="Gemeindename">
       <Option type="QString" value="Name der Kommune" name="default"/>
       <Option type="invalid" name="defaultGui"/>
-      <Option type="QString" value="Gemeindename" name="description"/>
+      <Option type="QString" value="Gemeindename [Pflicht]" name="description"/>
       <Option type="int" value="0" name="flags"/>
       <Option type="QString" value="" name="help"/>
       <Option name="metadata"/>
@@ -922,7 +922,7 @@
     <Option type="Map" name="Name">
       <Option type="QString" value="Name Bebauungsplan" name="default"/>
       <Option type="invalid" name="defaultGui"/>
-      <Option type="QString" value="Name" name="description"/>
+      <Option type="QString" value="Name [Pflicht]" name="description"/>
       <Option type="int" value="0" name="flags"/>
       <Option type="QString" value="" name="help"/>
       <Option name="metadata"/>
@@ -933,7 +933,7 @@
     <Option type="Map" name="Nummer">
       <Option type="QString" value="Nummer Bebaungsplan" name="default"/>
       <Option type="invalid" name="defaultGui"/>
-      <Option type="QString" value="Nummer" name="description"/>
+      <Option type="QString" value="Nummer [Pflicht]" name="description"/>
       <Option type="int" value="0" name="flags"/>
       <Option type="QString" value="" name="help"/>
       <Option name="metadata"/>
@@ -944,7 +944,7 @@
     <Option type="Map" name="Ortsteilname">
       <Option type="QString" value="Name der Kommune wenn nichts anderes bekannt" name="default"/>
       <Option type="invalid" name="defaultGui"/>
-      <Option type="QString" value="Ortsteilname" name="description"/>
+      <Option type="QString" value="Ortsteilname [Pflicht]" name="description"/>
       <Option type="int" value="0" name="flags"/>
       <Option type="QString" value="" name="help"/>
       <Option name="metadata"/>
@@ -958,7 +958,7 @@
         <Option type="int" value="0"/>
       </Option>
       <Option type="invalid" name="defaultGui"/>
-      <Option type="QString" value="Planart" name="description"/>
+      <Option type="QString" value="Planart [Pflicht]" name="description"/>
       <Option type="int" value="0" name="flags"/>
       <Option type="QString" value="" name="help"/>
       <Option name="metadata"/>
@@ -980,10 +980,10 @@
       <Option type="bool" value="false" name="uses_static_strings"/>
     </Option>
     <Option type="Map" name="Plangeber">
-      <Option type="QString" value="Name der Kommune" name="default"/>
+      <Option type="QString" value="" name="default"/>
       <Option type="invalid" name="defaultGui"/>
       <Option type="QString" value="Plangeber" name="description"/>
-      <Option type="int" value="0" name="flags"/>
+      <Option type="int" value="8" name="flags"/>
       <Option type="QString" value="" name="help"/>
       <Option name="metadata"/>
       <Option type="bool" value="false" name="multiline"/>
@@ -996,7 +996,7 @@
         <Option type="int" value="0"/>
       </Option>
       <Option type="invalid" name="defaultGui"/>
-      <Option type="QString" value="Rechststand" name="description"/>
+      <Option type="QString" value="Rechststand [Pflicht]" name="description"/>
       <Option type="int" value="0" name="flags"/>
       <Option type="QString" value="" name="help"/>
       <Option name="metadata"/>
@@ -1011,7 +1011,7 @@
         <Option type="QString" value="3000 (Satzung)"/>
         <Option type="QString" value="4000 (InkraftGetreten)"/>
         <Option type="QString" value="4500 (TeilweiseUntergegangen)"/>
-        <Option type="QString" value="5000 (Untergegangen)"/> 
+        <Option type="QString" value="5000 (Untergegangen)"/>
       </Option>
       <Option type="QString" value="enum" name="parameter_type"/>
       <Option type="bool" value="false" name="uses_static_strings"/>
