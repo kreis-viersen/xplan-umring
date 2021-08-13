@@ -900,7 +900,7 @@
       <Option type="invalid" name="default"/>
       <Option type="invalid" name="defaultGui"/>
       <Option type="QString" value="Datum Aufstellungsbeschluss" name="description"/>
-      <Option type="int" value="0" name="flags"/>
+      <Option type="int" value="8" name="flags"/>
       <Option type="QString" value="" name="help"/>
       <Option type="datetime" value="" name="max"/>
       <Option name="metadata"/>
