@@ -658,7 +658,7 @@
             <Option type="bool" value="true" name="outputs_collapsed"/>
             <Option type="bool" value="true" name="parameters_collapsed"/>
           </Option>
-          <Option type="QString" value="Ergebnis_umringpolygon-zu-xplanung" name="component_description"/>
+          <Option type="QString" value="Speicherpfad auswählen und als GML-Datei speichern [Pflicht]" name="component_description"/>
           <Option type="double" value="60" name="component_height"/>
           <Option type="double" value="225.6" name="component_pos_x"/>
           <Option type="double" value="621" name="component_pos_y"/>
@@ -675,7 +675,7 @@
             </Option>
           </Option>
           <Option type="bool" value="true" name="mandatory"/>
-          <Option type="QString" value="Ergebnis_umringpolygon-zu-xplanung" name="name"/>
+          <Option type="QString" value="Speicherpfad auswählen und als GML-Datei speichern [Pflicht]" name="name"/>
           <Option type="QString" value="OUTPUT" name="output_name"/>
           <Option type="bool" value="true" name="outputs_collapsed"/>
           <Option type="bool" value="true" name="parameters_collapsed"/>
@@ -1032,7 +1032,7 @@
         </Option>
       </Option>
       <Option type="invalid" name="defaultGui"/>
-      <Option type="QString" value="Ergebnis_umringpolygon-zu-xplanung" name="description"/>
+      <Option type="QString" value="Speicherpfad auswählen und als GML-Datei speichern [Pflicht]" name="description"/>
       <Option type="int" value="0" name="flags"/>
       <Option type="QString" value="" name="help"/>
       <Option name="metadata"/>
