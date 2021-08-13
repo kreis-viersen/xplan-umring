@@ -645,7 +645,7 @@
       </Option>
       <Option type="QString" value="native:fieldcalculator_9" name="id"/>
       <Option type="Map" name="outputs">
-        <Option type="Map" name="Ergebnis_umringpolygon-zu-xplanung">
+        <Option type="Map" name="Speicherpfad auswählen und als GML-Datei speichern [Pflicht]">
           <Option type="QString" value="native:fieldcalculator_9" name="child_id"/>
           <Option type="QString" value="" name="color"/>
           <Option type="Map" name="comment">
@@ -1016,7 +1016,7 @@
       <Option type="QString" value="enum" name="parameter_type"/>
       <Option type="bool" value="false" name="uses_static_strings"/>
     </Option>
-    <Option type="Map" name="native:fieldcalculator_9:Ergebnis_umringpolygon-zu-xplanung">
+    <Option type="Map" name="native:fieldcalculator_9:Speicherpfad auswählen und als GML-Datei speichern [Pflicht]">
       <Option type="bool" value="true" name="create_by_default"/>
       <Option type="int" value="-1" name="data_type"/>
       <Option type="QgsProcessingOutputLayerDefinition" name="default">
@@ -1036,7 +1036,7 @@
       <Option type="int" value="0" name="flags"/>
       <Option type="QString" value="" name="help"/>
       <Option name="metadata"/>
-      <Option type="QString" value="native:fieldcalculator_9:Ergebnis_umringpolygon-zu-xplanung" name="name"/>
+      <Option type="QString" value="native:fieldcalculator_9:Speicherpfad auswählen und als GML-Datei speichern [Pflicht]" name="name"/>
       <Option type="QString" value="sink" name="parameter_type"/>
       <Option type="bool" value="true" name="supports_append"/>
       <Option type="bool" value="true" name="supports_non_file_outputs"/>
