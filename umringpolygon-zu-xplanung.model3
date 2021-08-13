@@ -1004,6 +1004,14 @@
       <Option type="StringList" name="options">
         <Option type="QString" value="1000 (Aufstellungsbeschluss)"/>
         <Option type="QString" value="2000 (Entwurf)"/>
+        <Option type="QString" value="2100 (FruehzeitigeBehoerdenBeteiligung)"/>
+        <Option type="QString" value="2200 (FruehzeitigeOeffentlichkeitsBeteiligung)"/>
+        <Option type="QString" value="2300 (BehoerdenBeteiligung)"/>
+        <Option type="QString" value="2400 (OeffentlicheAuslegung)"/>
+        <Option type="QString" value="3000 (Satzung)"/>
+        <Option type="QString" value="4000 (InkraftGetreten)"/>
+        <Option type="QString" value="4500 (TeilweiseUntergegangen)"/>
+        <Option type="QString" value="5000 (Untergegangen)"/> 
       </Option>
       <Option type="QString" value="enum" name="parameter_type"/>
       <Option type="bool" value="false" name="uses_static_strings"/>
