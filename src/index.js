@@ -151,7 +151,11 @@ function convertGML() {
     template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:rechtsstand'] = rechtsstand
 
     const aufstellungsbeschlussDatum = content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:aufstellungsbeschlussDatum'];
-    template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:aufstellungsbeschlussDatum'] = aufstellungsbeschlussDatum
+    if (content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:aufstellungsbeschlussDatum'][0]['@'] === undefined) {
+      template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:aufstellungsbeschlussDatum'] = aufstellungsbeschlussDatum
+    } else {
+      delete template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:aufstellungsbeschlussDatum']
+    }
 
     const bbox = content['ogr:FeatureCollection'][0]['gml:boundedBy'][0]['gml:Box'][0]['gml:coord']
     const bbox_e = bbox[0]['gml:X']
@@ -206,7 +210,10 @@ function convertGML() {
     zip.generateAsync({
       type: "blob"
     }).then(function(content) {
-      FileSaver.saveAs(content, slugify(name, {replacement: '_', strict: true}) + ".zip");
+      FileSaver.saveAs(content, slugify(name, {
+        replacement: '_',
+        strict: true
+      }) + ".zip");
     });
   };
   reader.readAsText(file);
