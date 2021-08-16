@@ -7,99 +7,6 @@ const {
 } = require('uuid');
 const slugify = require('slugify')
 
-var template = {
-  "xplan:XPlanAuszug": [{
-    "@": {
-      "xmlns:adv": "http://www.adv-online.de/nas",
-      "xmlns:gml": "http://www.opengis.net/gml/3.2",
-      "xmlns:xlink": "http://www.w3.org/1999/xlink",
-      "xmlns:xplan": "http://www.xplanung.de/xplangml/5/2",
-      "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
-      "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-      "xmlns:wfs": "http://www.opengis.net/wfs/2.0",
-      "gml:id": ""
-    },
-    "gml:boundedBy": [{
-      "gml:Envelope": [{
-        "@": {
-          "srsName": "EPSG:25832"
-        },
-        "gml:lowerCorner": "",
-        "gml:upperCorner": ""
-      }]
-    }],
-    "gml:featureMember": [{
-      "xplan:BP_Bereich": [{
-        "@": {
-          "gml:id": ""
-        },
-        "xplan:nummer": 0,
-        "xplan:name": "Basisplan",
-        "xplan:gehoertZuPlan": [{
-          "@": {
-            "xlink:href": ""
-          }
-        }]
-      }]
-    }, {
-      "xplan:BP_Plan": [{
-        "@": {
-          "gml:id": ""
-        },
-        "gml:boundedBy": [{
-          "gml:Envelope": [{
-            "@": {
-              "srsName": "EPSG:25832"
-            },
-            "gml:lowerCorner": "",
-            "gml:upperCorner": ""
-          }]
-        }],
-        "xplan:name": "",
-        "xplan:nummer": "",
-        "xplan:raeumlicherGeltungsbereich": [{
-          "gml:Polygon": [{
-            "@": {
-              "srsName": "EPSG:25832",
-              "gml:id": ""
-            },
-            "gml:exterior": [{
-              "gml:LinearRing": [{
-                "gml:posList": [{
-                  "#text": "",
-                  "@": {
-                    "srsDimension": "2"
-                  }
-                }]
-              }]
-            }]
-          }]
-        }],
-        "xplan:gemeinde": [{
-          "xplan:XP_Gemeinde": [{
-            "xplan:ags": "",
-            "xplan:gemeindeName": "",
-            "xplan:ortsteilName": ""
-          }]
-        }],
-        "xplan:plangeber": [{
-          "xplan:XP_Plangeber": [{
-            "xplan:name": ""
-          }]
-        }],
-        "xplan:planArt": 10001,
-        "xplan:rechtsstand": 1000,
-        "xplan:aufstellungsbeschlussDatum": "",
-        "xplan:bereich": [{
-          "@": {
-            "xlink:href": ""
-          }
-        }]
-      }]
-    }]
-  }]
-};
-
 const inputElement = document.getElementById('input');
 inputElement.addEventListener('change', convertGML, false);
 
@@ -123,6 +30,99 @@ function convertGML() {
     };
 
     content = parser.parse(content, options);
+
+    var template = {
+      "xplan:XPlanAuszug": [{
+        "@": {
+          "xmlns:adv": "http://www.adv-online.de/nas",
+          "xmlns:gml": "http://www.opengis.net/gml/3.2",
+          "xmlns:xlink": "http://www.w3.org/1999/xlink",
+          "xmlns:xplan": "http://www.xplanung.de/xplangml/5/2",
+          "xmlns:xs": "http://www.w3.org/2001/XMLSchema",
+          "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+          "xmlns:wfs": "http://www.opengis.net/wfs/2.0",
+          "gml:id": ""
+        },
+        "gml:boundedBy": [{
+          "gml:Envelope": [{
+            "@": {
+              "srsName": "EPSG:25832"
+            },
+            "gml:lowerCorner": "",
+            "gml:upperCorner": ""
+          }]
+        }],
+        "gml:featureMember": [{
+          "xplan:BP_Bereich": [{
+            "@": {
+              "gml:id": ""
+            },
+            "xplan:nummer": 0,
+            "xplan:name": "Basisplan",
+            "xplan:gehoertZuPlan": [{
+              "@": {
+                "xlink:href": ""
+              }
+            }]
+          }]
+        }, {
+          "xplan:BP_Plan": [{
+            "@": {
+              "gml:id": ""
+            },
+            "gml:boundedBy": [{
+              "gml:Envelope": [{
+                "@": {
+                  "srsName": "EPSG:25832"
+                },
+                "gml:lowerCorner": "",
+                "gml:upperCorner": ""
+              }]
+            }],
+            "xplan:name": "",
+            "xplan:nummer": "",
+            "xplan:raeumlicherGeltungsbereich": [{
+              "gml:Polygon": [{
+                "@": {
+                  "srsName": "EPSG:25832",
+                  "gml:id": ""
+                },
+                "gml:exterior": [{
+                  "gml:LinearRing": [{
+                    "gml:posList": [{
+                      "#text": "",
+                      "@": {
+                        "srsDimension": "2"
+                      }
+                    }]
+                  }]
+                }]
+              }]
+            }],
+            "xplan:gemeinde": [{
+              "xplan:XP_Gemeinde": [{
+                "xplan:ags": "",
+                "xplan:gemeindeName": "",
+                "xplan:ortsteilName": ""
+              }]
+            }],
+            "xplan:plangeber": [{
+              "xplan:XP_Plangeber": [{
+                "xplan:name": ""
+              }]
+            }],
+            "xplan:planArt": 10001,
+            "xplan:rechtsstand": 1000,
+            "xplan:aufstellungsbeschlussDatum": "",
+            "xplan:bereich": [{
+              "@": {
+                "xlink:href": ""
+              }
+            }]
+          }]
+        }]
+      }]
+    };
 
     var inputID = Object.keys(content['ogr:FeatureCollection'][0]['gml:featureMember'][0])[0]
 
