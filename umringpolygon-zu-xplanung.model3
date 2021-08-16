@@ -473,12 +473,12 @@
         <Option type="List" name="FIELD_TYPE">
           <Option type="Map">
             <Option value="2" type="int" name="source"/>
-            <Option value="1" type="int" name="static_value"/>
+            <Option value="2" type="int" name="static_value"/>
           </Option>
         </Option>
         <Option type="List" name="FORMULA">
           <Option type="Map">
-            <Option value="'@AGS'" type="QString" name="expression"/>
+            <Option value="'@AGS8stelligPflicht'" type="QString" name="expression"/>
             <Option value="3" type="int" name="source"/>
           </Option>
         </Option>
@@ -921,18 +921,16 @@
   <Option value="" type="QString" name="model_group"/>
   <Option value="umringpolygon-zu-xplanung" type="QString" name="model_name"/>
   <Option type="Map" name="parameterDefinitions">
-    <Option type="Map" name="AGS">
-      <Option value="0" type="int" name="data_type"/>
-      <Option value="5166032" type="double" name="default"/>
+    <Option type="Map" name="AGS8stelligPflicht">
+      <Option value="05166032" type="QString" name="default"/>
       <Option type="invalid" name="defaultGui"/>
-      <Option value="AGS (7-stellig) [Pflicht]" type="QString" name="description"/>
+      <Option value="AGS (8-stellig) [Pflicht]" type="QString" name="description"/>
       <Option value="0" type="int" name="flags"/>
       <Option value="" type="QString" name="help"/>
-      <Option value="9999999" type="double" name="max"/>
       <Option name="metadata"/>
-      <Option value="0" type="double" name="min"/>
-      <Option value="AGS" type="QString" name="name"/>
-      <Option value="number" type="QString" name="parameter_type"/>
+      <Option value="false" type="bool" name="multiline"/>
+      <Option value="AGS8stelligPflicht" type="QString" name="name"/>
+      <Option value="string" type="QString" name="parameter_type"/>
     </Option>
     <Option type="Map" name="BPlanUmriss">
       <Option type="List" name="data_types">
@@ -1100,31 +1098,31 @@
     <Option value="Nummer" type="QString"/>
     <Option value="Gemeindename" type="QString"/>
     <Option value="Ortsteilname" type="QString"/>
-    <Option value="AGS" type="QString"/>
+    <Option value="AGS8stelligPflicht" type="QString"/>
     <Option value="DatumAufstellungsbeschluss" type="QString"/>
     <Option value="Plangeber" type="QString"/>
     <Option value="Planart" type="QString"/>
     <Option value="Rechststand" type="QString"/>
   </Option>
   <Option type="Map" name="parameters">
-    <Option type="Map" name="AGS">
+    <Option type="Map" name="AGS8stelligPflicht">
       <Option value="" type="QString" name="color"/>
       <Option type="Map" name="comment">
         <Option value="" type="QString" name="color"/>
         <Option value="" type="QString" name="component_description"/>
         <Option value="60" type="double" name="component_height"/>
-        <Option value="1281" type="double" name="component_pos_x"/>
+        <Option value="1140" type="double" name="component_pos_x"/>
         <Option value="15" type="double" name="component_pos_y"/>
         <Option value="100" type="double" name="component_width"/>
         <Option value="true" type="bool" name="outputs_collapsed"/>
         <Option value="true" type="bool" name="parameters_collapsed"/>
       </Option>
-      <Option value="AGS" type="QString" name="component_description"/>
+      <Option value="AGS8stelligPflicht" type="QString" name="component_description"/>
       <Option value="30" type="double" name="component_height"/>
       <Option value="435" type="double" name="component_pos_x"/>
       <Option value="225" type="double" name="component_pos_y"/>
       <Option value="210" type="double" name="component_width"/>
-      <Option value="AGS" type="QString" name="name"/>
+      <Option value="AGS8stelligPflicht" type="QString" name="name"/>
       <Option value="true" type="bool" name="outputs_collapsed"/>
       <Option value="true" type="bool" name="parameters_collapsed"/>
     </Option>
