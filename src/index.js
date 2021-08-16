@@ -142,7 +142,11 @@ function convertGML() {
     template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:gemeinde'][0]['xplan:XP_Gemeinde'][0]['xplan:ortsteilName'] = ortsteilName
 
     const plangeber = content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:plangeber'];
-    template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:plangeber'][0]['xplan:XP_Plangeber'][0]['xplan:name'] = plangeber
+    if (plangeber !== "") {
+      template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:plangeber'][0]['xplan:XP_Plangeber'][0]['xplan:name'] = plangeber
+    } else {
+      delete template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:plangeber']
+    }
 
     const planArt = content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:planArt'];
     template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:planArt'] = planArt
