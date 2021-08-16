@@ -8,6 +8,9 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
+  devServer: {
+    stats: 'minimal',
+  },
   entry: './src/index.js',
   optimization: {
     minimizer: [new TerserPlugin({
