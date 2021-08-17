@@ -25,7 +25,7 @@ function convertGML() {
       allowBooleanAttributes: true,
       parseNodeValue: true,
       cdataPositionChar: "\\c",
-      parseTrueNumberOnly: false,
+      parseTrueNumberOnly: true,
       arrayMode: true
     };
 
