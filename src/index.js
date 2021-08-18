@@ -1,11 +1,15 @@
 import FileSaver from 'file-saver';
 import JSZip from 'jszip';
+import pkgJson from '../package.json'
 const parser = require('fast-xml-parser');
 const Parser = require("fast-xml-parser").j2xParser;
 const {
   v4: uuidv4
 } = require('uuid');
 const slugify = require('slugify')
+
+const versionElement = document.getElementById('version');
+versionElement.innerHTML = 'v' + pkgJson.version
 
 const inputElement = document.getElementById('input');
 inputElement.addEventListener('change', convertGML, false);
