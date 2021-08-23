@@ -654,7 +654,7 @@
         </Option>
         <Option type="List" name="FORMULA">
           <Option type="Map">
-            <Option value="CASE &#xd;&#xa;WHEN  @Rechststand IS 0 THEN 1000&#xd;&#xa;WHEN  @Rechststand IS 1 THEN 2000&#xd;&#xa;END" type="QString" name="expression"/>
+            <Option value="CASE &#xd;&#xa;WHEN  @Rechststand IS 0 THEN 1000&#xd;&#xa;WHEN  @Rechststand IS 1 THEN 2000&#xd;&#xa;WHEN  @Rechststand IS 2 THEN 2100&#xd;&#xa;WHEN  @Rechststand IS 3 THEN 2200&#xd;&#xa;WHEN  @Rechststand IS 4 THEN 2300&#xd;&#xa;WHEN  @Rechststand IS 5 THEN 2400&#xd;&#xa;WHEN  @Rechststand IS 6 THEN 3000&#xd;&#xa;WHEN  @Rechststand IS 7 THEN 4000&#xd;&#xa;WHEN  @Rechststand IS 8 THEN 4500&#xd;&#xa;WHEN  @Rechststand IS 9 THEN 5000&#xd;&#xa;END" type="QString" name="expression"/>
             <Option value="3" type="int" name="source"/>
           </Option>
         </Option>
