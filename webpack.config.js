@@ -9,9 +9,15 @@ const path = require('path');
 module.exports = {
   mode: 'production',
   devServer: {
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+      }
+    },
     devMiddleware: {
       stats: 'minimal'
-    },  
+    },
   },
   entry: './src/index.js',
   optimization: {
@@ -22,6 +28,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: ''
   },
   plugins: [
     new CopyPlugin({
