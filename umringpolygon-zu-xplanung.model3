@@ -919,7 +919,7 @@
   <Option name="help"/>
   <Option name="modelVariables"/>
   <Option value="" type="QString" name="model_group"/>
-  <Option value="umringpolygon-zu-xplanung (v0.8.0)" type="QString" name="model_name"/>
+  <Option value="umringpolygon-zu-xplanung (v0.8.1)" type="QString" name="model_name"/>
   <Option type="Map" name="parameterDefinitions">
     <Option type="Map" name="AGS8stelligPflicht">
       <Option value="05166032" type="QString" name="default"/>
