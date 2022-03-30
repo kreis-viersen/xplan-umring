@@ -922,12 +922,12 @@
     <Option name="ALG_DESC" value="Umringpolygon eines Bebauungsplans aus QGIS nach XPlanGML konvertieren.&lt;br>&lt;br>Bebauungsplanumring in QGIS digitalisieren oder vorhandenen Umring laden.
 Wichtig: Der Vektorlayer darf nur ein Objekt (= den Umring) vom Typ Polygon beinhalten.&lt;br>&lt;br>Eingabelayer für das Modell ist der Vektorlayer mit dem Bebauungsplanumring, die übrigen Modelleingaben ensprechend befüllen/auswählen und Speicherort für die .gml-Datei festlegen.&lt;br>&lt;br>Die so erzeugte .gml-Datei mit dem &lt;a href=&quot;https://kreis-viersen.github.io/umringpolygon-zu-xplanung&quot;>Browserkonvertierungstool&lt;/a> nach XPlanGML konvertieren, erzeugte .zip-Datei speichern.&lt;br>&lt;br>&lt;a href=&quot;https://github.com/kreis-viersen/umringpolygon-zu-xplanung#readme&quot;>Ausführliche Anleitung&lt;/a>" type="QString"/>
     <Option name="ALG_HELP_CREATOR" value="" type="QString"/>
-    <Option name="ALG_VERSION" value="v0.8.3" type="QString"/>
+    <Option name="ALG_VERSION" value="v0.9.0" type="QString"/>
     <Option name="HELP_URL" value="https://github.com/kreis-viersen/umringpolygon-zu-xplanung" type="QString"/>
     <Option name="SHORT_DESCRIPTION" value="Umringpolygon eines Bebauungsplans aus QGIS nach XPlanGML konvertieren" type="QString"/>  </Option>
   <Option name="modelVariables"/>
   <Option value="" name="model_group" type="QString"/>
-  <Option value="umringpolygon-zu-xplanung (v0.8.3)" name="model_name" type="QString"/>
+  <Option value="umringpolygon-zu-xplanung (v0.9.0)" name="model_name" type="QString"/>
   <Option name="parameterDefinitions" type="Map">
     <Option name="AGS8stelligPflicht" type="Map">
       <Option value="05166032" name="default" type="QString"/>
