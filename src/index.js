@@ -128,51 +128,68 @@ function convertGML() {
       }]
     };
 
-    var inputID = Object.keys(content['ogr:FeatureCollection'][0]['gml:featureMember'][0])[0]
+    var ns = 'gml:featureMember'
 
-    const name = content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:name'];
+    try {
+      const test = content['ogr:FeatureCollection'][0]['gml:featureMember'][0];
+    } catch (err) {
+      ns = 'ogr:featureMember';
+    }
+
+    const inputID = Object.keys(content['ogr:FeatureCollection'][0][ns][0])[0]
+
+    const name = content['ogr:FeatureCollection'][0][ns][0][inputID][0]['ogr:name'];
     template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:name'] = name
 
-    const nummer = content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:nummer'];
+    const nummer = content['ogr:FeatureCollection'][0][ns][0][inputID][0]['ogr:nummer'];
     template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:nummer'] = nummer
 
-    const ags = content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:ags'];
+    const ags = content['ogr:FeatureCollection'][0][ns][0][inputID][0]['ogr:ags'];
     template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:gemeinde'][0]['xplan:XP_Gemeinde'][0]['xplan:ags'] = ags
 
-    const gemeindeName = content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:gemeindeName'];
+    const gemeindeName = content['ogr:FeatureCollection'][0][ns][0][inputID][0]['ogr:gemeindeName'];
     template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:gemeinde'][0]['xplan:XP_Gemeinde'][0]['xplan:gemeindeName'] = gemeindeName
 
-    const ortsteilName = content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:ortsteilName'];
+    const ortsteilName = content['ogr:FeatureCollection'][0][ns][0][inputID][0]['ogr:ortsteilName'];
     template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:gemeinde'][0]['xplan:XP_Gemeinde'][0]['xplan:ortsteilName'] = ortsteilName
 
-    const plangeber = content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:plangeber'];
+    const plangeber = content['ogr:FeatureCollection'][0][ns][0][inputID][0]['ogr:plangeber'];
     if (plangeber !== "") {
       template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:plangeber'][0]['xplan:XP_Plangeber'][0]['xplan:name'] = plangeber
     } else {
       delete template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:plangeber']
     }
 
-    const planArt = content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:planArt'];
+    const planArt = content['ogr:FeatureCollection'][0][ns][0][inputID][0]['ogr:planArt'];
     template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:planArt'] = planArt
 
-    const rechtsstand = content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:rechtsstand'];
+    const rechtsstand = content['ogr:FeatureCollection'][0][ns][0][inputID][0]['ogr:rechtsstand'];
     template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:rechtsstand'] = rechtsstand
 
-    const aufstellungsbeschlussDatum = content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:aufstellungsbeschlussDatum'];
-    if (content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:aufstellungsbeschlussDatum'][0]['@'] === undefined) {
+    const aufstellungsbeschlussDatum = content['ogr:FeatureCollection'][0][ns][0][inputID][0]['ogr:aufstellungsbeschlussDatum'];
+    if (content['ogr:FeatureCollection'][0][ns][0][inputID][0]['ogr:aufstellungsbeschlussDatum'][0]['@'] === undefined) {
       template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:aufstellungsbeschlussDatum'] = aufstellungsbeschlussDatum
     } else {
       delete template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['xplan:aufstellungsbeschlussDatum']
     }
 
-    const bbox = content['ogr:FeatureCollection'][0]['gml:boundedBy'][0]['gml:Box'][0]['gml:coord']
-    const bbox_e = bbox[0]['gml:X']
-    const bbox_s = bbox[0]['gml:Y']
-    const bbox_w = bbox[1]['gml:X']
-    const bbox_n = bbox[1]['gml:Y']
+    var lowerCorner
+    var upperCorner
 
-    const lowerCorner = bbox_e + " " + bbox_s
-    const upperCorner = bbox_w + " " + bbox_n
+    if (ns == 'gml:featureMember') {
+      const bbox = content['ogr:FeatureCollection'][0]['gml:boundedBy'][0]['gml:Box'][0]['gml:coord']
+
+      const bbox_e = bbox[0]['gml:X']
+      const bbox_s = bbox[0]['gml:Y']
+      const bbox_w = bbox[1]['gml:X']
+      const bbox_n = bbox[1]['gml:Y']
+
+      lowerCorner = bbox_e + " " + bbox_s
+      upperCorner = bbox_w + " " + bbox_n
+    } else {
+      lowerCorner = content['ogr:FeatureCollection'][0]['gml:boundedBy'][0]['gml:Envelope'][0]['gml:lowerCorner']
+      upperCorner = content['ogr:FeatureCollection'][0]['gml:boundedBy'][0]['gml:Envelope'][0]['gml:upperCorner']
+    }
 
     template['xplan:XPlanAuszug'][0]['gml:boundedBy'][0]['gml:Envelope'][0]['gml:lowerCorner'] = lowerCorner
     template['xplan:XPlanAuszug'][0]['gml:boundedBy'][0]['gml:Envelope'][0]['gml:upperCorner'] = upperCorner
@@ -180,7 +197,14 @@ function convertGML() {
     template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['gml:boundedBy'][0]['gml:Envelope'][0]['gml:lowerCorner'] = lowerCorner
     template['xplan:XPlanAuszug'][0]['gml:featureMember'][1]['xplan:BP_Plan'][0]['gml:boundedBy'][0]['gml:Envelope'][0]['gml:upperCorner'] = upperCorner
 
-    var boundary = content['ogr:FeatureCollection'][0]['gml:featureMember'][0][inputID][0]['ogr:geometryProperty'][0]['gml:Polygon'][0]['gml:outerBoundaryIs'][0]['gml:LinearRing'][0]['gml:coordinates'];
+    var boundary
+
+    if (ns == 'gml:featureMember') {
+      boundary = content['ogr:FeatureCollection'][0][ns][0][inputID][0]['ogr:geometryProperty'][0]['gml:Polygon'][0]['gml:outerBoundaryIs'][0]['gml:LinearRing'][0]['gml:coordinates'];
+    } else {
+      boundary = content['ogr:FeatureCollection'][0][ns][0][inputID][0]['ogr:geometryProperty'][0]['gml:Polygon'][0]['gml:exterior'][0]['gml:LinearRing'][0]['gml:posList'];
+      boundary = boundary.replace(/\s([^\s]+(\s|$))/g, ',$1')
+    }
     boundary = boundary.split(' ');
     boundary = boundary.reverse();
     boundary = boundary.join();
