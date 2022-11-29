@@ -4,7 +4,7 @@ Umringpolygon eines Bebauungsplans aus QGIS nach XPlanung konvertieren.
 Bei Fragen, Anmerkungen, etc. erreichen Sie uns auch per E-Mail unter [open@kreis-viersen.de](mailto:open@kreis-viersen.de?subject=umringpolygon-zu-xplanung).
 
 ## Es wird benötigt:
-Skript [`xplan-umring.py`](https://kreis-viersen.github.io/umringpolygon-zu-xplanung/xplan-umring.py).
+QGIS mit Skript [`xplan-umring.py`](https://kreis-viersen.github.io/umringpolygon-zu-xplanung/xplan-umring.py).
 
 ## Workflow
 
