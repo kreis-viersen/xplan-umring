@@ -159,6 +159,13 @@ class xplanUmring(QgsProcessingAlgorithm):
             </gml:Envelope>
           </gml:boundedBy>
           <gml:featureMember>
+            <xplan:BP_Bereich gml:id="ID_f92ead39-7f9e-47f0-bfad-498ef2cb0d9f">
+              <xplan:nummer>0</xplan:nummer>
+              <xplan:name>Basisplan</xplan:name>
+              <xplan:gehoertZuPlan xlink:href="#ID_5cad5f10-5fa3-42c8-bff7-22f21cf38e4c"></xplan:gehoertZuPlan>
+            </xplan:BP_Bereich>
+          </gml:featureMember>
+          <gml:featureMember>
             <xplan:BP_Plan gml:id="ID_5cad5f10-5fa3-42c8-bff7-22f21cf38e4c">
               <gml:boundedBy>
                 <gml:Envelope srsName="EPSG:25832">
@@ -194,6 +201,7 @@ class xplanUmring(QgsProcessingAlgorithm):
               <xplan:aufstellungsbeschlussDatum>2022-09-09</xplan:aufstellungsbeschlussDatum>
               <xplan:inkrafttretensDatum></xplan:inkrafttretensDatum>
               <xplan:satzungsbeschlussDatum></xplan:satzungsbeschlussDatum>
+              <xplan:bereich xlink:href="#ID_f92ead39-7f9e-47f0-bfad-498ef2cb0d9f"></xplan:bereich>
             </xplan:BP_Plan>
           </gml:featureMember>
         </xplan:XPlanAuszug>'''
@@ -206,20 +214,27 @@ class xplanUmring(QgsProcessingAlgorithm):
         for xplanauszug_element in root.iter('{http://www.xplanung.de/xplangml/5/2}XPlanAuszug'):
             xplanauszug_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_1
 
-
         uuid_2 = "ID_" + str(uuid.uuid4())
 
-        for bp_plan_element in root.iter('{http://www.xplanung.de/xplangml/5/2}BP_Plan'):
-            bp_plan_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_2
+        for bp_bereich_element in root.iter('{http://www.xplanung.de/xplangml/5/2}BP_Bereich'):
+            bp_bereich_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_2
 
-
-        for gehoertzuplan_element in root.iter('{http://www.xplanung.de/xplangml/5/2}gehoertZuPlan'):
-            gehoertzuplan_element.attrib['{http://www.w3.org/1999/xlink}href'] = '#' + uuid_2
+        for bereich_element in root.iter('{http://www.xplanung.de/xplangml/5/2}bereich'):
+            bereich_element.attrib['{http://www.w3.org/1999/xlink}href'] = '#' + uuid_2
 
         uuid_3 = "ID_" + str(uuid.uuid4())
 
+        for bp_plan_element in root.iter('{http://www.xplanung.de/xplangml/5/2}BP_Plan'):
+            bp_plan_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_3
+
+
+        for gehoertzuplan_element in root.iter('{http://www.xplanung.de/xplangml/5/2}gehoertZuPlan'):
+            gehoertzuplan_element.attrib['{http://www.w3.org/1999/xlink}href'] = '#' + uuid_3
+
+        uuid_4 = "ID_" + str(uuid.uuid4())
+
         for polygon_element in root.iter('{http://www.opengis.net/gml/3.2}Polygon'):
-            polygon_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_3
+            polygon_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_4
 
         for pos_list_element in root.iter('{http://www.opengis.net/gml/3.2}posList'):
             pos_list_element.text = coords
