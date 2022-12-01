@@ -3,7 +3,7 @@
 """
 ***************************************************************************
 XPlan-Umring
-QGIS-Skript
+QGIS-Script
 
         Date                 : September 2022
         Copyright            : (C) 2022 by Kreis Viersen
@@ -49,7 +49,7 @@ class xplanUmring(QgsProcessingAlgorithm):
         return 'xplanUmring'
 
     def displayName(self):
-        return 'XPlan-Umring'
+        return 'XPlan-Umring v1.0-beta'
 
     def group(self):
         return self.groupId()
@@ -58,7 +58,10 @@ class xplanUmring(QgsProcessingAlgorithm):
         return "Umringpolygon eines Bebauungsplans aus QGIS nach XPlanGML konvertieren." + '\n'\
         + '\n' + "Bebauungsplanumring in QGIS digitalisieren oder vorhandenen Umring laden." + '\n'\
         + '\n' + "Wichtig: Der Vektorlayer darf nur ein Objekt (= den Umring) vom Typ Polygon beinhalten." + '\n'\
-        + '\n' + "Eingabelayer für das Skript ist der Vektorlayer mit dem Bebauungsplanumring, die übrigen Skripteingaben ensprechend befüllen/auswählen und Speicherort für das XPlanArchiv festlegen."
+        + '\n' + "Eingabelayer für das Skript ist der Vektorlayer mit dem Bebauungsplanumring, die übrigen Skripteingaben ensprechend befüllen/auswählen und Speicherort für das XPlanArchiv festlegen." + '\n'\
+        + '\n' + "Autor: Kreis Viersen" + '\n'\
+        + '\n' + "Kontakt: open@kreis-viersen.de" + '\n'\
+        + '\n' + "GitHub: https://github.com/kreis-viersen/umringpolygon-zu-xplanung"
 
     def shortDescription(self):
         return "Umringpolygon eines Bebauungsplans aus QGIS nach XPlanung konvertieren."
