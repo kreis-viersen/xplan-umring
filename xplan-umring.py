@@ -50,7 +50,7 @@ class xplanUmring(QgsProcessingAlgorithm):
         return 'xplanUmring'
 
     def displayName(self):
-        return 'XPlan-Umring v1.0-beta'
+        return 'XPlan-Umring v1.0'
 
     def group(self):
         return self.groupId()
