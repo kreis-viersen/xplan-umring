@@ -28,7 +28,8 @@ import zipfile
 
 from lxml import etree
 
-from qgis.core import (QgsProcessing,
+from qgis.core import (QgsFeatureRequest,
+                       QgsProcessing,
                        QgsProcessingAlgorithm,
                        QgsCoordinateReferenceSystem,
                        QgsProcessingParameterDateTime,
@@ -142,7 +143,9 @@ class xplanUmring(QgsProcessingAlgorithm):
 
         vlayer = QgsProcessingUtils.mapLayerFromString(outputs['DoppelteSttzpunkteEntfernen']['OUTPUT'], context)
 
-        for feature in vlayer.getFeatures():
+        request = QgsFeatureRequest()
+        request.setLimit(1)
+        for feature in vlayer.getFeatures(request):
             wkt_geometry = feature.geometry().asWkt()
 
             coords = wkt_geometry.split("((")[1].split("))")[0].replace(",", "")
