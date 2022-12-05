@@ -74,10 +74,10 @@ class xplanUmring(QgsProcessingAlgorithm):
         self.addParameter(QgsProcessingParameterString('Gemeindename', 'Gemeindename [Pflicht]', optional=False, multiLine=False, defaultValue='Name der Kommune'))
         self.addParameter(QgsProcessingParameterString('Ortsteilname', 'Ortsteilname [Pflicht]', optional=False, multiLine=False, defaultValue='Name der Kommune wenn nichts anderes bekannt'))
         self.addParameter(QgsProcessingParameterString('AGS8stelligPflicht', 'AGS (8-stellig) [Pflicht]', optional=False, multiLine=False, defaultValue='05166032'))
-        self.addParameter(QgsProcessingParameterDateTime('DatumAufstellungsbeschluss', 'Datum Rechtsstand [Pflicht]', optional=False, type=QgsProcessingParameterDateTime.Date, defaultValue=None))
         self.addParameter(QgsProcessingParameterString('Plangeber', 'Plangeber', optional=True, multiLine=False, defaultValue=''))
         self.addParameter(QgsProcessingParameterEnum('Planart', 'Planart [Pflicht]', options=['1000 (BPlan)','10000 (EinfacherBPlan)','10001 (QualifizierterBPlan)','3000 (VorhabenbezogenerBPlan)','4000 (InnenbereichsSatzung)','40000 (KlarstellungsSatzung)','40001 (EntwicklungsSatzung)','40002 (ErgaenzungsSatzung)','5000 (AussenbereichsSatzung)','7000 (OertlicheBauvorschrift)','9999 (Sonstiges)'], optional=False, allowMultiple=False, usesStaticStrings=False, defaultValue=[0]))
         self.addParameter(QgsProcessingParameterEnum('Rechtsstand', 'Rechtsstand [Pflicht]', options=['1000 (Aufstellungsbeschluss)','3000 (Satzung)','4000 (InkraftGetreten)'], optional=False, allowMultiple=False, usesStaticStrings=False, defaultValue=[0]))
+        self.addParameter(QgsProcessingParameterDateTime('DatumAufstellungsbeschluss', 'Datum Rechtsstand [Pflicht]', optional=False, type=QgsProcessingParameterDateTime.Date, defaultValue=None))
         self.addParameter(QgsProcessingParameterFile(name="outputZip", description="Speicherpfad für erzeugtes XPlan-Archiv [Pflicht]", behavior=QgsProcessingParameterFile.Folder, fileFilter='Alle Dateien (*.*)'))
 
     def processAlgorithm(self, parameters, context, feedback):
@@ -87,7 +87,6 @@ class xplanUmring(QgsProcessingAlgorithm):
         gemeindename = self.parameterAsString(parameters,'Gemeindename',context).strip()
         ortsteilname = self.parameterAsString(parameters,'Ortsteilname',context).strip()
         ags = self.parameterAsString(parameters,'AGS8stelligPflicht',context).strip()
-        datum = self.parameterAsString(parameters,'DatumAufstellungsbeschluss',context).strip()
         plangeber = self.parameterAsString(parameters,'Plangeber',context).strip()
 
         planart = self.parameterAsInt(parameters,'Planart',context)
@@ -97,6 +96,8 @@ class xplanUmring(QgsProcessingAlgorithm):
         rechtsstand = self.parameterAsInt(parameters,'Rechtsstand',context)
         rechtsstand_keys = [1000, 3000, 4000]
         rechtsstand_key = str(rechtsstand_keys[rechtsstand])
+
+        datum = self.parameterAsString(parameters,'DatumAufstellungsbeschluss',context).strip()
 
         my_output_folder = self.parameterAsString(parameters,'outputZip',context)
 
