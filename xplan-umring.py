@@ -24,6 +24,7 @@ QGIS-Script
 import os
 import processing
 import re
+import uuid
 import zipfile
 
 from lxml import etree
@@ -38,8 +39,6 @@ from qgis.core import (QgsFeatureRequest,
                        QgsProcessingParameterString,
                        QgsProcessingParameterVectorLayer,
                        QgsProcessingUtils)
-
-import uuid
 
 class xplanUmring(QgsProcessingAlgorithm):
 
