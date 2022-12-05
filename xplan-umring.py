@@ -28,7 +28,8 @@ import zipfile
 
 from lxml import etree
 
-from qgis.core import (QgsProcessing,
+from qgis.core import (QgsFeatureRequest,
+                       QgsProcessing,
                        QgsProcessingAlgorithm,
                        QgsCoordinateReferenceSystem,
                        QgsProcessingParameterDateTime,
@@ -49,7 +50,7 @@ class xplanUmring(QgsProcessingAlgorithm):
         return 'xplanUmring'
 
     def displayName(self):
-        return 'XPlan-Umring v1.0-beta'
+        return 'XPlan-Umring v1.0'
 
     def group(self):
         return self.groupId()
@@ -74,10 +75,10 @@ class xplanUmring(QgsProcessingAlgorithm):
         self.addParameter(QgsProcessingParameterString('Gemeindename', 'Gemeindename [Pflicht]', optional=False, multiLine=False, defaultValue='Name der Kommune'))
         self.addParameter(QgsProcessingParameterString('Ortsteilname', 'Ortsteilname [Pflicht]', optional=False, multiLine=False, defaultValue='Name der Kommune wenn nichts anderes bekannt'))
         self.addParameter(QgsProcessingParameterString('AGS8stelligPflicht', 'AGS (8-stellig) [Pflicht]', optional=False, multiLine=False, defaultValue='05166032'))
-        self.addParameter(QgsProcessingParameterDateTime('DatumAufstellungsbeschluss', 'Datum Rechtsstand [Pflicht]', optional=False, type=QgsProcessingParameterDateTime.Date, defaultValue=None))
         self.addParameter(QgsProcessingParameterString('Plangeber', 'Plangeber', optional=True, multiLine=False, defaultValue=''))
         self.addParameter(QgsProcessingParameterEnum('Planart', 'Planart [Pflicht]', options=['1000 (BPlan)','10000 (EinfacherBPlan)','10001 (QualifizierterBPlan)','3000 (VorhabenbezogenerBPlan)','4000 (InnenbereichsSatzung)','40000 (KlarstellungsSatzung)','40001 (EntwicklungsSatzung)','40002 (ErgaenzungsSatzung)','5000 (AussenbereichsSatzung)','7000 (OertlicheBauvorschrift)','9999 (Sonstiges)'], optional=False, allowMultiple=False, usesStaticStrings=False, defaultValue=[0]))
         self.addParameter(QgsProcessingParameterEnum('Rechtsstand', 'Rechtsstand [Pflicht]', options=['1000 (Aufstellungsbeschluss)','3000 (Satzung)','4000 (InkraftGetreten)'], optional=False, allowMultiple=False, usesStaticStrings=False, defaultValue=[0]))
+        self.addParameter(QgsProcessingParameterDateTime('DatumAufstellungsbeschluss', 'Datum Rechtsstand [Pflicht]', optional=False, type=QgsProcessingParameterDateTime.Date, defaultValue=None))
         self.addParameter(QgsProcessingParameterFile(name="outputZip", description="Speicherpfad für erzeugtes XPlan-Archiv [Pflicht]", behavior=QgsProcessingParameterFile.Folder, fileFilter='Alle Dateien (*.*)'))
 
     def processAlgorithm(self, parameters, context, feedback):
@@ -87,7 +88,6 @@ class xplanUmring(QgsProcessingAlgorithm):
         gemeindename = self.parameterAsString(parameters,'Gemeindename',context).strip()
         ortsteilname = self.parameterAsString(parameters,'Ortsteilname',context).strip()
         ags = self.parameterAsString(parameters,'AGS8stelligPflicht',context).strip()
-        datum = self.parameterAsString(parameters,'DatumAufstellungsbeschluss',context).strip()
         plangeber = self.parameterAsString(parameters,'Plangeber',context).strip()
 
         planart = self.parameterAsInt(parameters,'Planart',context)
@@ -97,6 +97,8 @@ class xplanUmring(QgsProcessingAlgorithm):
         rechtsstand = self.parameterAsInt(parameters,'Rechtsstand',context)
         rechtsstand_keys = [1000, 3000, 4000]
         rechtsstand_key = str(rechtsstand_keys[rechtsstand])
+
+        datum = self.parameterAsString(parameters,'DatumAufstellungsbeschluss',context).strip()
 
         my_output_folder = self.parameterAsString(parameters,'outputZip',context)
 
@@ -129,7 +131,6 @@ class xplanUmring(QgsProcessingAlgorithm):
         }
         outputs['GeometrieNachAusdruck'] = processing.run('native:geometrybyexpression', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
 
-
         # Doppelte Stützpunkte entfernen
         alg_params = {
             'INPUT': outputs['GeometrieNachAusdruck']['OUTPUT'],
@@ -142,7 +143,9 @@ class xplanUmring(QgsProcessingAlgorithm):
 
         vlayer = QgsProcessingUtils.mapLayerFromString(outputs['DoppelteSttzpunkteEntfernen']['OUTPUT'], context)
 
-        for feature in vlayer.getFeatures():
+        request = QgsFeatureRequest()
+        request.setLimit(1)
+        for feature in vlayer.getFeatures(request):
             wkt_geometry = feature.geometry().asWkt()
 
             coords = wkt_geometry.split("((")[1].split("))")[0].replace(",", "")
@@ -151,13 +154,20 @@ class xplanUmring(QgsProcessingAlgorithm):
             lower_corner = str(bbox.xMinimum()) + " " +  str(bbox.yMinimum())
             upper_corner = str(bbox.xMaximum()) + " " +  str(bbox.yMaximum())
 
-        template = '''<xplan:XPlanAuszug xmlns:adv="http://www.adv-online.de/nas" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xplan="http://www.xplanung.de/xplangml/5/2" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wfs="http://www.opengis.net/wfs/2.0" gml:id="GML_707064d8-687a-494c-bb3e-1f9c23af0d50">
+        template = '''<xplan:XPlanAuszug xmlns:adv="http://www.adv-online.de/nas" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xplan="http://www.xplanung.de/xplangml/5/4" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wfs="http://www.opengis.net/wfs/2.0" gml:id="GML_707064d8-687a-494c-bb3e-1f9c23af0d50">
           <gml:boundedBy>
             <gml:Envelope srsName="EPSG:25832">
               <gml:lowerCorner>-1.36383928571428 -0.5625</gml:lowerCorner>
               <gml:upperCorner>1.08258928571429 0.839285714285714</gml:upperCorner>
             </gml:Envelope>
           </gml:boundedBy>
+          <gml:featureMember>
+            <xplan:BP_Bereich gml:id="ID_f92ead39-7f9e-47f0-bfad-498ef2cb0d9f">
+              <xplan:nummer>0</xplan:nummer>
+              <xplan:name>Basisplan</xplan:name>
+              <xplan:gehoertZuPlan xlink:href="#ID_5cad5f10-5fa3-42c8-bff7-22f21cf38e4c"></xplan:gehoertZuPlan>
+            </xplan:BP_Bereich>
+          </gml:featureMember>
           <gml:featureMember>
             <xplan:BP_Plan gml:id="ID_5cad5f10-5fa3-42c8-bff7-22f21cf38e4c">
               <gml:boundedBy>
@@ -194,6 +204,7 @@ class xplanUmring(QgsProcessingAlgorithm):
               <xplan:aufstellungsbeschlussDatum>2022-09-09</xplan:aufstellungsbeschlussDatum>
               <xplan:inkrafttretensDatum></xplan:inkrafttretensDatum>
               <xplan:satzungsbeschlussDatum></xplan:satzungsbeschlussDatum>
+              <xplan:bereich xlink:href="#ID_f92ead39-7f9e-47f0-bfad-498ef2cb0d9f"></xplan:bereich>
             </xplan:BP_Plan>
           </gml:featureMember>
         </xplan:XPlanAuszug>'''
@@ -203,23 +214,30 @@ class xplanUmring(QgsProcessingAlgorithm):
 
         uuid_1 = "GML_" + str(uuid.uuid4())
 
-        for xplanauszug_element in root.iter('{http://www.xplanung.de/xplangml/5/2}XPlanAuszug'):
+        for xplanauszug_element in root.iter('{http://www.xplanung.de/xplangml/5/4}XPlanAuszug'):
             xplanauszug_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_1
-
 
         uuid_2 = "ID_" + str(uuid.uuid4())
 
-        for bp_plan_element in root.iter('{http://www.xplanung.de/xplangml/5/2}BP_Plan'):
-            bp_plan_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_2
+        for bp_bereich_element in root.iter('{http://www.xplanung.de/xplangml/5/4}BP_Bereich'):
+            bp_bereich_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_2
 
-
-        for gehoertzuplan_element in root.iter('{http://www.xplanung.de/xplangml/5/2}gehoertZuPlan'):
-            gehoertzuplan_element.attrib['{http://www.w3.org/1999/xlink}href'] = '#' + uuid_2
+        for bereich_element in root.iter('{http://www.xplanung.de/xplangml/5/4}bereich'):
+            bereich_element.attrib['{http://www.w3.org/1999/xlink}href'] = '#' + uuid_2
 
         uuid_3 = "ID_" + str(uuid.uuid4())
 
+        for bp_plan_element in root.iter('{http://www.xplanung.de/xplangml/5/4}BP_Plan'):
+            bp_plan_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_3
+
+
+        for gehoertzuplan_element in root.iter('{http://www.xplanung.de/xplangml/5/4}gehoertZuPlan'):
+            gehoertzuplan_element.attrib['{http://www.w3.org/1999/xlink}href'] = '#' + uuid_3
+
+        uuid_4 = "ID_" + str(uuid.uuid4())
+
         for polygon_element in root.iter('{http://www.opengis.net/gml/3.2}Polygon'):
-            polygon_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_3
+            polygon_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_4
 
         for pos_list_element in root.iter('{http://www.opengis.net/gml/3.2}posList'):
             pos_list_element.text = coords
@@ -230,30 +248,30 @@ class xplanUmring(QgsProcessingAlgorithm):
         for upperCorner_element in root.iter('{http://www.opengis.net/gml/3.2}upperCorner'):
             upperCorner_element.text = upper_corner
 
-        for name_element in root.iter('{http://www.xplanung.de/xplangml/5/2}name'):
+        for name_element in root.iter('{http://www.xplanung.de/xplangml/5/4}name'):
             name_element.text = name
 
-        for bp_plan_element in root.iter('{http://www.xplanung.de/xplangml/5/2}BP_Plan'):
-            for nummer_element in bp_plan_element.iter('{http://www.xplanung.de/xplangml/5/2}nummer'):
+        for bp_plan_element in root.iter('{http://www.xplanung.de/xplangml/5/4}BP_Plan'):
+            for nummer_element in bp_plan_element.iter('{http://www.xplanung.de/xplangml/5/4}nummer'):
                 nummer_element.text = nummer
 
-        for gemeindename_element in root.iter('{http://www.xplanung.de/xplangml/5/2}gemeindeName'):
+        for gemeindename_element in root.iter('{http://www.xplanung.de/xplangml/5/4}gemeindeName'):
             gemeindename_element.text = gemeindename
 
-        for ortsteilname_element in root.iter('{http://www.xplanung.de/xplangml/5/2}ortsteilName'):
+        for ortsteilname_element in root.iter('{http://www.xplanung.de/xplangml/5/4}ortsteilName'):
             ortsteilname_element.text = ortsteilname
 
-        for ags_element in root.iter('{http://www.xplanung.de/xplangml/5/2}ags'):
+        for ags_element in root.iter('{http://www.xplanung.de/xplangml/5/4}ags'):
             ags_element.text = ags
 
-        for plangeber_element in root.iter('{http://www.xplanung.de/xplangml/5/2}plangeber'):
-            for name_element in plangeber_element.iter('{http://www.xplanung.de/xplangml/5/2}name'):
+        for plangeber_element in root.iter('{http://www.xplanung.de/xplangml/5/4}plangeber'):
+            for name_element in plangeber_element.iter('{http://www.xplanung.de/xplangml/5/4}name'):
                 name_element.text = plangeber
 
-        for bp_plan_element in root.iter('{http://www.xplanung.de/xplangml/5/2}BP_Plan'):
-            aufstellungsbeschlussDatum_element = next(bp_plan_element.iter('{http://www.xplanung.de/xplangml/5/2}aufstellungsbeschlussDatum'))
-            satzungsbeschlussDatum_element = next(bp_plan_element.iter('{http://www.xplanung.de/xplangml/5/2}satzungsbeschlussDatum'))
-            inkrafttretensDatum_element = next(bp_plan_element.iter('{http://www.xplanung.de/xplangml/5/2}inkrafttretensDatum'))
+        for bp_plan_element in root.iter('{http://www.xplanung.de/xplangml/5/4}BP_Plan'):
+            aufstellungsbeschlussDatum_element = next(bp_plan_element.iter('{http://www.xplanung.de/xplangml/5/4}aufstellungsbeschlussDatum'))
+            satzungsbeschlussDatum_element = next(bp_plan_element.iter('{http://www.xplanung.de/xplangml/5/4}satzungsbeschlussDatum'))
+            inkrafttretensDatum_element = next(bp_plan_element.iter('{http://www.xplanung.de/xplangml/5/4}inkrafttretensDatum'))
             if rechtsstand_key == "1000":
                 aufstellungsbeschlussDatum_element.text = datum
                 bp_plan_element.remove(satzungsbeschlussDatum_element)
@@ -267,10 +285,10 @@ class xplanUmring(QgsProcessingAlgorithm):
                 bp_plan_element.remove(aufstellungsbeschlussDatum_element)
                 bp_plan_element.remove(satzungsbeschlussDatum_element)
 
-        for planart_element in root.iter('{http://www.xplanung.de/xplangml/5/2}planArt'):
+        for planart_element in root.iter('{http://www.xplanung.de/xplangml/5/4}planArt'):
             planart_element.text = planart_key
 
-        for rechtsstand_element in root.iter('{http://www.xplanung.de/xplangml/5/2}rechtsstand'):
+        for rechtsstand_element in root.iter('{http://www.xplanung.de/xplangml/5/4}rechtsstand'):
             rechtsstand_element.text = rechtsstand_key
 
         etree.indent(tree, space="\t", level=0)
