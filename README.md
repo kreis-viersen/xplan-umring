@@ -29,6 +29,10 @@ Aktuell stehen drei Rechtsstände zur Auswahl, wodurch auch bestimmt wird, mit w
 <img src="./screenshots/rechtsstand-datum.png"/>
 Quelle (bearbeitet): https://xleitstelle.de/downloads/xplanung/releases/XPlanung%20Version%205.3/Objektartenkatalog%20%28PDF%29.pdf
 
+## XPlan-Reader
+QGIS-Plugin zum Import einer XPlanGML-Datei:<br>
+https://github.com/kreis-viersen/xplan-reader
+
 [XPlanung-Spezifikation]: <https://xleitstelle.de/xplanung/releases-xplanung>
 [KRZN]: <https://www.krzn.de/>
 [XPlanBox]: <https://gitlab.opencode.de/diplanung/ozgxplanung>
