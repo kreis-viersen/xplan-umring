@@ -19,7 +19,7 @@ Das Skript kann dem QGIS-Werkzeugkasten hinzugefügt werden:
 
 ## Anmerkungen
 
-Bis auf das Feld _Plangeber_ sind alle Eingabefelder Pflicht. Hierbei handelt es sich nicht ausschließlich um Pflichtattribute gemäß der [XPlanung-Spezifikation]. Die Plflichtattribute ergeben sich auch durch die Verwendung der [XPlanBox] im [KRZN]-Gebiet.
+Bis auf das Feld _Plangeber_ sind alle Eingabefelder Pflicht. Hierbei handelt es sich nicht ausschließlich um Pflichtattribute gemäß der [XPlanung-Spezifikation]. Die Plflichtattribute ergeben sich auch durch die Verwendung der [XPlanBox] im [KRZN]-Gebiet. Die Attribute und Auswahlmöglichkeiten können sich zukunftig noch ändern, wir freuen uns über fachlichen Input :-)
 
 Aktuell stehen drei Rechtsstände zur Auswahl, wodurch auch bestimmt wird, mit welchem Attribut das Datum angelegt wird:
 - Aufstellungsbeschluss -> xplan:aufstellungsbeschlussDatum
@@ -28,6 +28,11 @@ Aktuell stehen drei Rechtsstände zur Auswahl, wodurch auch bestimmt wird, mit w
 
 <img src="./screenshots/rechtsstand-datum.png"/>
 Quelle (bearbeitet): https://xleitstelle.de/downloads/xplanung/releases/XPlanung%20Version%205.3/Objektartenkatalog%20%28PDF%29.pdf
+
+## Klassisches Einsatz-Szenario
+
+<img src="./screenshots/klassisches_einsatz-szenario.png"/>
+
 
 ## XPlan-Reader
 QGIS-Plugin zum Import einer XPlanGML-Datei:<br>
