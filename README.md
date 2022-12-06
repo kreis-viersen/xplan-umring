@@ -12,7 +12,7 @@ Das Skript kann dem QGIS-Werkzeugkasten hinzugefügt werden:
 
 ## Workflow
 
-1. Bebauungsplanumring in QGIS digitalisieren oder vorhandenen Umring laden.<br>Wichtig: Der Vektorlayer darf nur ein Objekt (= den Umring) vom Typ Polygon beinhalten.
+1. Bebauungsplanumring in QGIS digitalisieren oder vorhandenen Umring laden (z.B. mit dem QGIS-Plugin [Flurstücksfinder NRW]).<br>Wichtig: Der Vektorlayer darf nur ein Objekt (= den Umring) vom Typ Polygon beinhalten.
 2. QGIS-Skript `xplan-umring` ausführen.<br>Eingabelayer ist der Vektorlayer mit dem Bebauungsplanumring, die übrigen Modelleingaben ensprechend befüllen/auswählen und Speicherort für das XPlan-Archiv festlegen.
 
 <img src="./screenshots/eingabemaske.png"/>
@@ -38,6 +38,7 @@ Quelle (bearbeitet): https://xleitstelle.de/downloads/xplanung/releases/XPlanung
 QGIS-Plugin zum Import einer XPlanGML-Datei:<br>
 https://github.com/kreis-viersen/xplan-reader
 
+[Flurstücksfinder NRW]: <https://github.com/kreis-viersen/flurstuecksfinder-nrw>
 [XPlanung-Spezifikation]: <https://xleitstelle.de/xplanung/releases-xplanung>
 [KRZN]: <https://www.krzn.de/>
 [XPlanBox]: <https://gitlab.opencode.de/diplanung/ozgxplanung>
