@@ -19,7 +19,7 @@ Das Skript kann dem QGIS-Werkzeugkasten hinzugefügt werden:
 
 ## Anmerkungen
 
-Bis auf das Feld _Plangeber_ sind alle Eingabefelder Pflicht. Hierbei handelt es sich nicht ausschließlich um Pflichtattribute gemäß der [XPlanung-Spezifikation]. Die Pflichtattribute ergeben sich auch durch die Verwendung der [XPlanBox] im [KRZN]-Gebiet. Die Attribute und Auswahlmöglichkeiten können sich zukunftig noch ändern, wir freuen uns über fachlichen Input :-)
+Bis auf das Feld _Plangeber_ sind alle Eingabefelder Pflicht. Hierbei handelt es sich **nicht** ausschließlich um Pflichtattribute gemäß der [XPlanung-Spezifikation]. Die Pflichtattribute ergeben sich auch durch die Verwendung der [XPlanBox] im [KRZN]-Gebiet. Die Attribute und Auswahlmöglichkeiten können sich zukunftig noch ändern, wir freuen uns über fachlichen Input :-)
 
 Aktuell stehen drei Rechtsstände zur Auswahl, wodurch auch bestimmt wird, mit welchem Attribut das Datum angelegt wird:
 - Aufstellungsbeschluss -> xplan:aufstellungsbeschlussDatum
