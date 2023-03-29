@@ -1,4 +1,4 @@
-                                    # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 """
 ***************************************************************************
@@ -29,118 +29,278 @@ import zipfile
 
 from lxml import etree
 
-from qgis.core import (QgsFeatureRequest,
-                       QgsProcessing,
-                       QgsProcessingAlgorithm,
-                       QgsCoordinateReferenceSystem,
-                       QgsProcessingParameterDateTime,
-                       QgsProcessingParameterEnum,
-                       QgsProcessingParameterFile,
-                       QgsProcessingParameterString,
-                       QgsProcessingParameterVectorLayer,
-                       QgsProcessingUtils)
+from qgis.core import (
+    QgsFeatureRequest,
+    QgsProcessing,
+    QgsProcessingAlgorithm,
+    QgsCoordinateReferenceSystem,
+    QgsProcessingParameterDateTime,
+    QgsProcessingParameterEnum,
+    QgsProcessingParameterFile,
+    QgsProcessingParameterString,
+    QgsProcessingParameterVectorLayer,
+    QgsProcessingUtils,
+)
+
 
 class xplanUmring(QgsProcessingAlgorithm):
-
     def createInstance(self):
         return xplanUmring()
 
     def name(self):
-        return 'xplanUmring'
+        return "xplanUmring"
 
     def displayName(self):
-        return 'XPlan-Umring v1.0'
+        return "XPlan-Umring v1.0"
 
     def group(self):
         return self.groupId()
 
     def shortHelpString(self):
-        return "Umringpolygon eines Bebauungsplans aus QGIS nach XPlanGML konvertieren." + '\n'\
-        + '\n' + "Bebauungsplanumring in QGIS digitalisieren oder vorhandenen Umring laden." + '\n'\
-        + '\n' + "Wichtig: Der Vektorlayer darf nur ein Objekt (= den Umring) vom Typ Polygon beinhalten." + '\n'\
-        + '\n' + "Eingabelayer für das Skript ist der Vektorlayer mit dem Bebauungsplanumring, die übrigen Skripteingaben ensprechend befüllen/auswählen und Speicherort für das XPlanArchiv festlegen." + '\n'\
-        + '\n' + "Autor: Kreis Viersen" + '\n'\
-        + '\n' + "Kontakt: open@kreis-viersen.de" + '\n'\
-        + '\n' + "GitHub: https://github.com/kreis-viersen/umringpolygon-zu-xplanung"
+        return (
+            "Umringpolygon eines Bebauungsplans aus QGIS nach XPlanGML konvertieren."
+            + "\n\n"
+            + "Bebauungsplanumring in QGIS digitalisieren oder vorhandenen Umring laden."
+            + "\n\n"
+            + "Wichtig: Der Vektorlayer darf nur ein Objekt (= den Umring) vom Typ Polygon beinhalten."
+            + "\n\n"
+            + "Eingabelayer für das Skript ist der Vektorlayer mit dem Bebauungsplanumring, die übrigen Skripteingaben ensprechend befüllen/auswählen und Speicherort für das XPlanArchiv festlegen."
+            + "\n\n"
+            + "Autor: Kreis Viersen"
+            + "\n\n"
+            + "Kontakt: open@kreis-viersen.de"
+            + "\n\n"
+            + "GitHub: https://github.com/kreis-viersen/umringpolygon-zu-xplanung"
+        )
 
     def shortDescription(self):
         return "Umringpolygon eines Bebauungsplans aus QGIS nach XPlanung konvertieren."
 
     def initAlgorithm(self, config=None):
 
-        self.addParameter(QgsProcessingParameterVectorLayer('BPlanUmriss', 'Vektorlayer mit Umringpolygon [Pflicht]', optional=False, types=[QgsProcessing.TypeVectorPolygon], defaultValue=None))
-        self.addParameter(QgsProcessingParameterString('Name', 'Name [Pflicht]', optional=False, multiLine=False, defaultValue='Name Bebauungsplan'))
-        self.addParameter(QgsProcessingParameterString('Nummer', 'Nummer [Pflicht]', optional=False, multiLine=False, defaultValue='Nummer Bebaungsplan'))
-        self.addParameter(QgsProcessingParameterString('Gemeindename', 'Gemeindename [Pflicht]', optional=False, multiLine=False, defaultValue='Name der Kommune'))
-        self.addParameter(QgsProcessingParameterString('Ortsteilname', 'Ortsteilname [Pflicht]', optional=False, multiLine=False, defaultValue='Name der Kommune wenn nichts anderes bekannt'))
-        self.addParameter(QgsProcessingParameterString('AGS8stelligPflicht', 'AGS (8-stellig) [Pflicht]', optional=False, multiLine=False, defaultValue='05166032'))
-        self.addParameter(QgsProcessingParameterString('Plangeber', 'Plangeber', optional=True, multiLine=False, defaultValue=''))
-        self.addParameter(QgsProcessingParameterEnum('Planart', 'Planart [Pflicht]', options=['1000 (BPlan)','10000 (EinfacherBPlan)','10001 (QualifizierterBPlan)','3000 (VorhabenbezogenerBPlan)','4000 (InnenbereichsSatzung)','40000 (KlarstellungsSatzung)','40001 (EntwicklungsSatzung)','40002 (ErgaenzungsSatzung)','5000 (AussenbereichsSatzung)','7000 (OertlicheBauvorschrift)','9999 (Sonstiges)'], optional=False, allowMultiple=False, usesStaticStrings=False, defaultValue=[0]))
-        self.addParameter(QgsProcessingParameterEnum('Rechtsstand', 'Rechtsstand [Pflicht]', options=['1000 (Aufstellungsbeschluss)','3000 (Satzung)','4000 (InkraftGetreten)'], optional=False, allowMultiple=False, usesStaticStrings=False, defaultValue=[0]))
-        self.addParameter(QgsProcessingParameterDateTime('DatumAufstellungsbeschluss', 'Datum Rechtsstand [Pflicht]', optional=False, type=QgsProcessingParameterDateTime.Date, defaultValue=None))
-        self.addParameter(QgsProcessingParameterFile(name="outputZip", description="Speicherpfad für erzeugtes XPlan-Archiv [Pflicht]", behavior=QgsProcessingParameterFile.Folder, fileFilter='Alle Dateien (*.*)'))
+        self.addParameter(
+            QgsProcessingParameterVectorLayer(
+                "BPlanUmriss",
+                "Vektorlayer mit Umringpolygon [Pflicht]",
+                optional=False,
+                types=[QgsProcessing.TypeVectorPolygon],
+                defaultValue=None,
+            )
+        )
+        self.addParameter(
+            QgsProcessingParameterString(
+                "Name",
+                "Name [Pflicht]",
+                optional=False,
+                multiLine=False,
+                defaultValue="Name Bebauungsplan",
+            )
+        )
+        self.addParameter(
+            QgsProcessingParameterString(
+                "Nummer",
+                "Nummer [Pflicht]",
+                optional=False,
+                multiLine=False,
+                defaultValue="Nummer Bebaungsplan",
+            )
+        )
+        self.addParameter(
+            QgsProcessingParameterString(
+                "Gemeindename",
+                "Gemeindename [Pflicht]",
+                optional=False,
+                multiLine=False,
+                defaultValue="Name der Kommune",
+            )
+        )
+        self.addParameter(
+            QgsProcessingParameterString(
+                "Ortsteilname",
+                "Ortsteilname [Pflicht]",
+                optional=False,
+                multiLine=False,
+                defaultValue="Name der Kommune wenn nichts anderes bekannt",
+            )
+        )
+        self.addParameter(
+            QgsProcessingParameterString(
+                "AGS8stelligPflicht",
+                "AGS (8-stellig) [Pflicht]",
+                optional=False,
+                multiLine=False,
+                defaultValue="05166032",
+            )
+        )
+        self.addParameter(
+            QgsProcessingParameterString(
+                "Plangeber",
+                "Plangeber",
+                optional=True,
+                multiLine=False,
+                defaultValue="",
+            )
+        )
+        self.addParameter(
+            QgsProcessingParameterEnum(
+                "Planart",
+                "Planart [Pflicht]",
+                options=[
+                    "1000 (BPlan)",
+                    "10000 (EinfacherBPlan)",
+                    "10001 (QualifizierterBPlan)",
+                    "3000 (VorhabenbezogenerBPlan)",
+                    "4000 (InnenbereichsSatzung)",
+                    "40000 (KlarstellungsSatzung)",
+                    "40001 (EntwicklungsSatzung)",
+                    "40002 (ErgaenzungsSatzung)",
+                    "5000 (AussenbereichsSatzung)",
+                    "7000 (OertlicheBauvorschrift)",
+                    "9999 (Sonstiges)",
+                ],
+                optional=False,
+                allowMultiple=False,
+                usesStaticStrings=False,
+                defaultValue=[0],
+            )
+        )
+        self.addParameter(
+            QgsProcessingParameterEnum(
+                "Rechtsstand",
+                "Rechtsstand [Pflicht]",
+                options=[
+                    "1000 (Aufstellungsbeschluss)",
+                    "3000 (Satzung)",
+                    "4000 (InkraftGetreten)",
+                ],
+                optional=False,
+                allowMultiple=False,
+                usesStaticStrings=False,
+                defaultValue=[0],
+            )
+        )
+        self.addParameter(
+            QgsProcessingParameterDateTime(
+                "DatumAufstellungsbeschluss",
+                "Datum Rechtsstand [Pflicht]",
+                optional=False,
+                type=QgsProcessingParameterDateTime.Date,
+                defaultValue=None,
+            )
+        )
+        self.addParameter(
+            QgsProcessingParameterFile(
+                name="outputZip",
+                description="Speicherpfad für erzeugtes XPlan-Archiv [Pflicht]",
+                behavior=QgsProcessingParameterFile.Folder,
+                fileFilter="Alle Dateien (*.*)",
+            )
+        )
 
     def processAlgorithm(self, parameters, context, feedback):
 
-        name = self.parameterAsString(parameters,'Name',context).strip()
-        nummer = self.parameterAsString(parameters,'Nummer',context).strip()
-        gemeindename = self.parameterAsString(parameters,'Gemeindename',context).strip()
-        ortsteilname = self.parameterAsString(parameters,'Ortsteilname',context).strip()
-        ags = self.parameterAsString(parameters,'AGS8stelligPflicht',context).strip()
-        plangeber = self.parameterAsString(parameters,'Plangeber',context).strip()
+        name = self.parameterAsString(parameters, "Name", context).strip()
+        nummer = self.parameterAsString(parameters, "Nummer", context).strip()
+        gemeindename = self.parameterAsString(
+            parameters, "Gemeindename", context
+        ).strip()
+        ortsteilname = self.parameterAsString(
+            parameters, "Ortsteilname", context
+        ).strip()
+        ags = self.parameterAsString(parameters, "AGS8stelligPflicht", context).strip()
+        plangeber = self.parameterAsString(parameters, "Plangeber", context).strip()
 
-        planart = self.parameterAsInt(parameters,'Planart',context)
-        planart_keys = [1000, 10000, 10001, 3000, 4000, 40000, 40001, 40002, 5000, 7000, 9999]
+        planart = self.parameterAsInt(parameters, "Planart", context)
+        planart_keys = [
+            1000,
+            10000,
+            10001,
+            3000,
+            4000,
+            40000,
+            40001,
+            40002,
+            5000,
+            7000,
+            9999,
+        ]
         planart_key = str(planart_keys[planart])
 
-        rechtsstand = self.parameterAsInt(parameters,'Rechtsstand',context)
+        rechtsstand = self.parameterAsInt(parameters, "Rechtsstand", context)
         rechtsstand_keys = [1000, 3000, 4000]
         rechtsstand_key = str(rechtsstand_keys[rechtsstand])
 
-        datum = self.parameterAsString(parameters,'DatumAufstellungsbeschluss',context).strip()
+        datum = self.parameterAsString(
+            parameters, "DatumAufstellungsbeschluss", context
+        ).strip()
 
-        my_output_folder = self.parameterAsString(parameters,'outputZip',context)
+        my_output_folder = self.parameterAsString(parameters, "outputZip", context)
 
         outputs = {}
 
         # Mehr- zu einteilig
         alg_params = {
-            'INPUT': parameters['BPlanUmriss'],
-            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
+            "INPUT": parameters["BPlanUmriss"],
+            "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
         }
-        outputs['MehrZuEinteilig'] = processing.run('native:multiparttosingleparts', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+        outputs["MehrZuEinteilig"] = processing.run(
+            "native:multiparttosingleparts",
+            alg_params,
+            context=context,
+            feedback=feedback,
+            is_child_algorithm=True,
+        )
 
         # Layer reprojizieren in EPSG 25832
         alg_params = {
-            'INPUT': outputs['MehrZuEinteilig']['OUTPUT'],
-            'OPERATION': '',
-            'TARGET_CRS': QgsCoordinateReferenceSystem('EPSG:25832'),
-            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
+            "INPUT": outputs["MehrZuEinteilig"]["OUTPUT"],
+            "OPERATION": "",
+            "TARGET_CRS": QgsCoordinateReferenceSystem("EPSG:25832"),
+            "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
         }
-        outputs['LayerReprojizierenInEpsg25832'] = processing.run('native:reprojectlayer', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+        outputs["LayerReprojizierenInEpsg25832"] = processing.run(
+            "native:reprojectlayer",
+            alg_params,
+            context=context,
+            feedback=feedback,
+            is_child_algorithm=True,
+        )
 
         # Geometrie nach Ausdruck force_polygon_ccw
         alg_params = {
-            'EXPRESSION': 'force_polygon_ccw( $geometry)',
-            'INPUT': outputs['LayerReprojizierenInEpsg25832']['OUTPUT'],
-            'OUTPUT_GEOMETRY': 0,  # Polygon
-            'WITH_M': False,
-            'WITH_Z': False,
-            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
+            "EXPRESSION": "force_polygon_ccw( $geometry)",
+            "INPUT": outputs["LayerReprojizierenInEpsg25832"]["OUTPUT"],
+            "OUTPUT_GEOMETRY": 0,  # Polygon
+            "WITH_M": False,
+            "WITH_Z": False,
+            "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
         }
-        outputs['GeometrieNachAusdruck'] = processing.run('native:geometrybyexpression', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+        outputs["GeometrieNachAusdruck"] = processing.run(
+            "native:geometrybyexpression",
+            alg_params,
+            context=context,
+            feedback=feedback,
+            is_child_algorithm=True,
+        )
 
         # Doppelte Stützpunkte entfernen
         alg_params = {
-            'INPUT': outputs['GeometrieNachAusdruck']['OUTPUT'],
-            'TOLERANCE': 1e-06,
-            'USE_Z_VALUE': False,
-            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
+            "INPUT": outputs["GeometrieNachAusdruck"]["OUTPUT"],
+            "TOLERANCE": 1e-06,
+            "USE_Z_VALUE": False,
+            "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
         }
-        outputs['DoppelteSttzpunkteEntfernen'] = processing.run('native:removeduplicatevertices', alg_params, context=context, feedback=feedback, is_child_algorithm=True)
+        outputs["DoppelteSttzpunkteEntfernen"] = processing.run(
+            "native:removeduplicatevertices",
+            alg_params,
+            context=context,
+            feedback=feedback,
+            is_child_algorithm=True,
+        )
 
-
-        vlayer = QgsProcessingUtils.mapLayerFromString(outputs['DoppelteSttzpunkteEntfernen']['OUTPUT'], context)
+        vlayer = QgsProcessingUtils.mapLayerFromString(
+            outputs["DoppelteSttzpunkteEntfernen"]["OUTPUT"], context
+        )
 
         request = QgsFeatureRequest()
         request.setLimit(1)
@@ -150,10 +310,10 @@ class xplanUmring(QgsProcessingAlgorithm):
             coords = wkt_geometry.split("((")[1].split("))")[0].replace(",", "")
 
             bbox = feature.geometry().boundingBox()
-            lower_corner = str(bbox.xMinimum()) + " " +  str(bbox.yMinimum())
-            upper_corner = str(bbox.xMaximum()) + " " +  str(bbox.yMaximum())
+            lower_corner = str(bbox.xMinimum()) + " " + str(bbox.yMinimum())
+            upper_corner = str(bbox.xMaximum()) + " " + str(bbox.yMaximum())
 
-        template = '''<xplan:XPlanAuszug xmlns:adv="http://www.adv-online.de/nas" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xplan="http://www.xplanung.de/xplangml/5/4" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wfs="http://www.opengis.net/wfs/2.0" gml:id="GML_707064d8-687a-494c-bb3e-1f9c23af0d50">
+        template = """<xplan:XPlanAuszug xmlns:adv="http://www.adv-online.de/nas" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xplan="http://www.xplanung.de/xplangml/5/4" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wfs="http://www.opengis.net/wfs/2.0" gml:id="GML_707064d8-687a-494c-bb3e-1f9c23af0d50">
           <gml:boundedBy>
             <gml:Envelope srsName="EPSG:25832">
               <gml:lowerCorner>-1.36383928571428 -0.5625</gml:lowerCorner>
@@ -206,71 +366,112 @@ class xplanUmring(QgsProcessingAlgorithm):
               <xplan:bereich xlink:href="#ID_f92ead39-7f9e-47f0-bfad-498ef2cb0d9f"></xplan:bereich>
             </xplan:BP_Plan>
           </gml:featureMember>
-        </xplan:XPlanAuszug>'''
+        </xplan:XPlanAuszug>"""
 
         tree = etree.ElementTree(etree.fromstring(template))
         root = tree.getroot()
 
         uuid_1 = "GML_" + str(uuid.uuid4())
 
-        for xplanauszug_element in root.iter('{http://www.xplanung.de/xplangml/5/4}XPlanAuszug'):
-            xplanauszug_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_1
+        for xplanauszug_element in root.iter(
+            "{http://www.xplanung.de/xplangml/5/4}XPlanAuszug"
+        ):
+            xplanauszug_element.attrib["{http://www.opengis.net/gml/3.2}id"] = uuid_1
 
         uuid_2 = "ID_" + str(uuid.uuid4())
 
-        for bp_bereich_element in root.iter('{http://www.xplanung.de/xplangml/5/4}BP_Bereich'):
-            bp_bereich_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_2
+        for bp_bereich_element in root.iter(
+            "{http://www.xplanung.de/xplangml/5/4}BP_Bereich"
+        ):
+            bp_bereich_element.attrib["{http://www.opengis.net/gml/3.2}id"] = uuid_2
 
-        for bereich_element in root.iter('{http://www.xplanung.de/xplangml/5/4}bereich'):
-            bereich_element.attrib['{http://www.w3.org/1999/xlink}href'] = '#' + uuid_2
+        for bereich_element in root.iter(
+            "{http://www.xplanung.de/xplangml/5/4}bereich"
+        ):
+            bereich_element.attrib["{http://www.w3.org/1999/xlink}href"] = "#" + uuid_2
 
         uuid_3 = "ID_" + str(uuid.uuid4())
 
-        for bp_plan_element in root.iter('{http://www.xplanung.de/xplangml/5/4}BP_Plan'):
-            bp_plan_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_3
+        for bp_plan_element in root.iter(
+            "{http://www.xplanung.de/xplangml/5/4}BP_Plan"
+        ):
+            bp_plan_element.attrib["{http://www.opengis.net/gml/3.2}id"] = uuid_3
 
-
-        for gehoertzuplan_element in root.iter('{http://www.xplanung.de/xplangml/5/4}gehoertZuPlan'):
-            gehoertzuplan_element.attrib['{http://www.w3.org/1999/xlink}href'] = '#' + uuid_3
+        for gehoertzuplan_element in root.iter(
+            "{http://www.xplanung.de/xplangml/5/4}gehoertZuPlan"
+        ):
+            gehoertzuplan_element.attrib["{http://www.w3.org/1999/xlink}href"] = (
+                "#" + uuid_3
+            )
 
         uuid_4 = "ID_" + str(uuid.uuid4())
 
-        for polygon_element in root.iter('{http://www.opengis.net/gml/3.2}Polygon'):
-            polygon_element.attrib['{http://www.opengis.net/gml/3.2}id'] = uuid_4
+        for polygon_element in root.iter("{http://www.opengis.net/gml/3.2}Polygon"):
+            polygon_element.attrib["{http://www.opengis.net/gml/3.2}id"] = uuid_4
 
-        for pos_list_element in root.iter('{http://www.opengis.net/gml/3.2}posList'):
+        for pos_list_element in root.iter("{http://www.opengis.net/gml/3.2}posList"):
             pos_list_element.text = coords
 
-        for lowerCorner_element in root.iter('{http://www.opengis.net/gml/3.2}lowerCorner'):
+        for lowerCorner_element in root.iter(
+            "{http://www.opengis.net/gml/3.2}lowerCorner"
+        ):
             lowerCorner_element.text = lower_corner
 
-        for upperCorner_element in root.iter('{http://www.opengis.net/gml/3.2}upperCorner'):
+        for upperCorner_element in root.iter(
+            "{http://www.opengis.net/gml/3.2}upperCorner"
+        ):
             upperCorner_element.text = upper_corner
 
-        for name_element in root.iter('{http://www.xplanung.de/xplangml/5/4}name'):
+        for name_element in root.iter("{http://www.xplanung.de/xplangml/5/4}name"):
             name_element.text = name
 
-        for bp_plan_element in root.iter('{http://www.xplanung.de/xplangml/5/4}BP_Plan'):
-            for nummer_element in bp_plan_element.iter('{http://www.xplanung.de/xplangml/5/4}nummer'):
+        for bp_plan_element in root.iter(
+            "{http://www.xplanung.de/xplangml/5/4}BP_Plan"
+        ):
+            for nummer_element in bp_plan_element.iter(
+                "{http://www.xplanung.de/xplangml/5/4}nummer"
+            ):
                 nummer_element.text = nummer
 
-        for gemeindename_element in root.iter('{http://www.xplanung.de/xplangml/5/4}gemeindeName'):
+        for gemeindename_element in root.iter(
+            "{http://www.xplanung.de/xplangml/5/4}gemeindeName"
+        ):
             gemeindename_element.text = gemeindename
 
-        for ortsteilname_element in root.iter('{http://www.xplanung.de/xplangml/5/4}ortsteilName'):
+        for ortsteilname_element in root.iter(
+            "{http://www.xplanung.de/xplangml/5/4}ortsteilName"
+        ):
             ortsteilname_element.text = ortsteilname
 
-        for ags_element in root.iter('{http://www.xplanung.de/xplangml/5/4}ags'):
+        for ags_element in root.iter("{http://www.xplanung.de/xplangml/5/4}ags"):
             ags_element.text = ags
 
-        for plangeber_element in root.iter('{http://www.xplanung.de/xplangml/5/4}plangeber'):
-            for name_element in plangeber_element.iter('{http://www.xplanung.de/xplangml/5/4}name'):
+        for plangeber_element in root.iter(
+            "{http://www.xplanung.de/xplangml/5/4}plangeber"
+        ):
+            for name_element in plangeber_element.iter(
+                "{http://www.xplanung.de/xplangml/5/4}name"
+            ):
                 name_element.text = plangeber
 
-        for bp_plan_element in root.iter('{http://www.xplanung.de/xplangml/5/4}BP_Plan'):
-            aufstellungsbeschlussDatum_element = next(bp_plan_element.iter('{http://www.xplanung.de/xplangml/5/4}aufstellungsbeschlussDatum'))
-            satzungsbeschlussDatum_element = next(bp_plan_element.iter('{http://www.xplanung.de/xplangml/5/4}satzungsbeschlussDatum'))
-            inkrafttretensDatum_element = next(bp_plan_element.iter('{http://www.xplanung.de/xplangml/5/4}inkrafttretensDatum'))
+        for bp_plan_element in root.iter(
+            "{http://www.xplanung.de/xplangml/5/4}BP_Plan"
+        ):
+            aufstellungsbeschlussDatum_element = next(
+                bp_plan_element.iter(
+                    "{http://www.xplanung.de/xplangml/5/4}aufstellungsbeschlussDatum"
+                )
+            )
+            satzungsbeschlussDatum_element = next(
+                bp_plan_element.iter(
+                    "{http://www.xplanung.de/xplangml/5/4}satzungsbeschlussDatum"
+                )
+            )
+            inkrafttretensDatum_element = next(
+                bp_plan_element.iter(
+                    "{http://www.xplanung.de/xplangml/5/4}inkrafttretensDatum"
+                )
+            )
             if rechtsstand_key == "1000":
                 aufstellungsbeschlussDatum_element.text = datum
                 bp_plan_element.remove(satzungsbeschlussDatum_element)
@@ -284,33 +485,41 @@ class xplanUmring(QgsProcessingAlgorithm):
                 bp_plan_element.remove(aufstellungsbeschlussDatum_element)
                 bp_plan_element.remove(satzungsbeschlussDatum_element)
 
-        for planart_element in root.iter('{http://www.xplanung.de/xplangml/5/4}planArt'):
+        for planart_element in root.iter(
+            "{http://www.xplanung.de/xplangml/5/4}planArt"
+        ):
             planart_element.text = planart_key
 
-        for rechtsstand_element in root.iter('{http://www.xplanung.de/xplangml/5/4}rechtsstand'):
+        for rechtsstand_element in root.iter(
+            "{http://www.xplanung.de/xplangml/5/4}rechtsstand"
+        ):
             rechtsstand_element.text = rechtsstand_key
 
         etree.indent(tree, space="\t", level=0)
 
-        translation_table = str.maketrans({'ä': 'ae',
-                                           'Ä': 'Ae',
-                                           'ö': 'oe',
-                                           'Ö': 'Oe',
-                                           'ü': 'ue',
-                                           'Ü': 'Ue',
-                                           'ß': 'ss'})
+        translation_table = str.maketrans(
+            {
+                "ä": "ae",
+                "Ä": "Ae",
+                "ö": "oe",
+                "Ö": "Oe",
+                "ü": "ue",
+                "Ü": "Ue",
+                "ß": "ss",
+            }
+        )
 
         name = name.translate(translation_table)
-        name = re.sub(r"[^a-zA-Z0-9-_]","_",name)
-        name = re.sub("_+","_", name)
-        name =  re.sub(r'^[\_]+', '', name)
-        name =  re.sub(r'[\_]+$', '', name)
+        name = re.sub(r"[^a-zA-Z0-9-_]", "_", name)
+        name = re.sub("_+", "_", name)
+        name = re.sub(r"^[\_]+", "", name)
+        name = re.sub(r"[\_]+$", "", name)
 
-        zip_name = name + '.zip'
+        zip_name = name + ".zip"
         zip_path = os.path.join(my_output_folder, zip_name)
 
-        with zipfile.ZipFile(zip_path, 'w') as myzip:
-            with myzip.open('xplan.gml', 'w') as myfile:
-                tree.write(myfile, encoding = "UTF-8", xml_declaration = True)
+        with zipfile.ZipFile(zip_path, "w") as myzip:
+            with myzip.open("xplan.gml", "w") as myfile:
+                tree.write(myfile, encoding="UTF-8", xml_declaration=True)
 
-        return {'XPlan-Archiv wurde erstellt': zip_path}
+        return {"XPlan-Archiv wurde erstellt": zip_path}
