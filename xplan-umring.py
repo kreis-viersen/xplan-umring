@@ -75,7 +75,6 @@ class xplanUmring(QgsProcessingAlgorithm):
         return "Umringpolygon eines Bebauungsplans aus QGIS nach XPlanung konvertieren."
 
     def initAlgorithm(self, config=None):
-
         self.addParameter(
             QgsProcessingParameterVectorLayer(
                 "BPlanUmriss",
@@ -187,6 +186,31 @@ class xplanUmring(QgsProcessingAlgorithm):
             )
         )
         self.addParameter(
+            QgsProcessingParameterEnum(
+                "Koordinatenbezugssystem",
+                "Koordinatenbezugssystem (KBS) [Pflicht]",
+                options=[
+                    "25831",
+                    "25832",
+                    "25833",
+                    "5649",
+                    "4647",
+                    "5650",
+                    "5651",
+                    "5652",
+                    "5653",
+                    "31466",
+                    "31467",
+                    "31468",
+                    "31469",
+                ],
+                optional=False,
+                allowMultiple=False,
+                usesStaticStrings=True,
+                defaultValue="25832",
+            )
+        )
+        self.addParameter(
             QgsProcessingParameterFile(
                 name="outputZip",
                 description="Speicherpfad für erzeugtes XPlan-Archiv [Pflicht]",
@@ -196,7 +220,6 @@ class xplanUmring(QgsProcessingAlgorithm):
         )
 
     def processAlgorithm(self, parameters, context, feedback):
-
         name = self.parameterAsString(parameters, "Name", context).strip()
         nummer = self.parameterAsString(parameters, "Nummer", context).strip()
         gemeindename = self.parameterAsString(
@@ -232,6 +255,8 @@ class xplanUmring(QgsProcessingAlgorithm):
             parameters, "DatumAufstellungsbeschluss", context
         ).strip()
 
+        kbs = self.parameterAsString(parameters, "Koordinatenbezugssystem", context)
+
         my_output_folder = self.parameterAsString(parameters, "outputZip", context)
 
         outputs = {}
@@ -249,14 +274,14 @@ class xplanUmring(QgsProcessingAlgorithm):
             is_child_algorithm=True,
         )
 
-        # Layer reprojizieren in EPSG 25832
+        # Layer reprojizieren in ausgewähltes KBS
         alg_params = {
             "INPUT": outputs["MehrZuEinteilig"]["OUTPUT"],
             "OPERATION": "",
-            "TARGET_CRS": QgsCoordinateReferenceSystem("EPSG:25832"),
+            "TARGET_CRS": QgsCoordinateReferenceSystem("EPSG:" + kbs),
             "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
         }
-        outputs["LayerReprojizierenInEpsg25832"] = processing.run(
+        outputs["LayerReprojizierenInKbs"] = processing.run(
             "native:reprojectlayer",
             alg_params,
             context=context,
@@ -267,7 +292,7 @@ class xplanUmring(QgsProcessingAlgorithm):
         # Geometrie nach Ausdruck force_polygon_ccw
         alg_params = {
             "EXPRESSION": "force_polygon_ccw( $geometry)",
-            "INPUT": outputs["LayerReprojizierenInEpsg25832"]["OUTPUT"],
+            "INPUT": outputs["LayerReprojizierenInKbs"]["OUTPUT"],
             "OUTPUT_GEOMETRY": 0,  # Polygon
             "WITH_M": False,
             "WITH_Z": False,
@@ -311,9 +336,9 @@ class xplanUmring(QgsProcessingAlgorithm):
             lower_corner = str(bbox.xMinimum()) + " " + str(bbox.yMinimum())
             upper_corner = str(bbox.xMaximum()) + " " + str(bbox.yMaximum())
 
-        template = """<xplan:XPlanAuszug xmlns:adv="http://www.adv-online.de/nas" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xplan="http://www.xplanung.de/xplangml/5/4" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wfs="http://www.opengis.net/wfs/2.0" gml:id="GML_707064d8-687a-494c-bb3e-1f9c23af0d50">
+        template = f"""<xplan:XPlanAuszug xmlns:adv="http://www.adv-online.de/nas" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xplan="http://www.xplanung.de/xplangml/5/4" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wfs="http://www.opengis.net/wfs/2.0" gml:id="GML_707064d8-687a-494c-bb3e-1f9c23af0d50">
           <gml:boundedBy>
-            <gml:Envelope srsName="EPSG:25832">
+            <gml:Envelope srsName="EPSG:{kbs}">
               <gml:lowerCorner>-1.36383928571428 -0.5625</gml:lowerCorner>
               <gml:upperCorner>1.08258928571429 0.839285714285714</gml:upperCorner>
             </gml:Envelope>
@@ -328,7 +353,7 @@ class xplanUmring(QgsProcessingAlgorithm):
           <gml:featureMember>
             <xplan:BP_Plan gml:id="ID_5cad5f10-5fa3-42c8-bff7-22f21cf38e4c">
               <gml:boundedBy>
-                <gml:Envelope srsName="EPSG:25832">
+                <gml:Envelope srsName="EPSG:{kbs}">
                   <gml:lowerCorner>-1.36383928571428 -0.5625</gml:lowerCorner>
                   <gml:upperCorner>1.08258928571429 0.839285714285714</gml:upperCorner>
                 </gml:Envelope>
@@ -336,7 +361,7 @@ class xplanUmring(QgsProcessingAlgorithm):
               <xplan:name>Name Bebauungsplan</xplan:name>
               <xplan:nummer>Nummer Bebaungsplan</xplan:nummer>
               <xplan:raeumlicherGeltungsbereich>
-                <gml:Polygon srsName="EPSG:25832" gml:id="ID_a7faf948-6db3-4dac-8f32-0e9ae0720611">
+                <gml:Polygon srsName="EPSG:{kbs}" gml:id="ID_a7faf948-6db3-4dac-8f32-0e9ae0720611">
                   <gml:exterior>
                     <gml:LinearRing>
                       <gml:posList srsDimension="2">-1.36383928571428 0.25 -0.560267857142857 -0.5625 1.08258928571429 -0.151785714285714 0.037946428571429 0.839285714285714 -1.36383928571428 0.25</gml:posList>
