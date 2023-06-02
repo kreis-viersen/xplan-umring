@@ -1,9 +1,8 @@
 """
 ***************************************************************************
 XPlan-Umring
-QGIS-Script
 
-        Date                 : September 2022
+        begin                : September 2022
         Copyright            : (C) 2022 by Kreis Viersen
         Email                : open@kreis-viersen.de
 
@@ -41,18 +40,21 @@ from qgis.core import (
 )
 
 
-class xplanUmring(QgsProcessingAlgorithm):
+class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
     def createInstance(self):
-        return xplanUmring()
+        return XPlanUmringAlgorithm()
 
     def name(self):
-        return "xplanUmring"
+        return "XPlan-Umring"
 
     def displayName(self):
-        return "XPlan-Umring v1.0"
+        return "XPlan-Umring"
 
     def group(self):
         return self.groupId()
+
+    def groupId(self):
+        return ""
 
     def shortHelpString(self):
         return (
@@ -68,7 +70,7 @@ class xplanUmring(QgsProcessingAlgorithm):
             + "\n\n"
             + "Kontakt: open@kreis-viersen.de"
             + "\n\n"
-            + "GitHub: https://github.com/kreis-viersen/umringpolygon-zu-xplanung"
+            + "GitHub: https://github.com/kreis-viersen/xplan-umring"
         )
 
     def shortDescription(self):
