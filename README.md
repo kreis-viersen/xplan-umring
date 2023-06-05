@@ -1,5 +1,5 @@
 # xplan-umring
-### _QGIS-Plugin zum Erstellen einer XPlanGML-Datei für ein Umringszenario _
+### _QGIS-Plugin zum Erstellen einer XPlanGML-Datei für ein Umringszenario_
 
 Bei Fragen, Anmerkungen, etc. erreichen Sie uns auch per E-Mail unter [open@kreis-viersen.de](mailto:open@kreis-viersen.de?subject=xplan-umring).
 
