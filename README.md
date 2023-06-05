@@ -1,7 +1,12 @@
 # xplan-umring
-### _Umringpolygon eines Bebauungsplans aus QGIS nach XPlanung konvertieren_
+### _QGIS-Plugin zum Erstellen einer XPlanGML-Datei für ein Umringszenario _
 
 Bei Fragen, Anmerkungen, etc. erreichen Sie uns auch per E-Mail unter [open@kreis-viersen.de](mailto:open@kreis-viersen.de?subject=xplan-umring).
+
+## Installation
+
+Es wird **QGIS mindestens in der Version 3.24.0** benötigt.<br><br>
+Das Plugin ist im offiziellen [QGIS-Plugin-Repository] enthalten und kann in QGIS über das Hauptmenü (*Erweiterungen -> Erweiterungen verwalten und installieren*) installiert und auch bei Verfügbarkeit einer neuen Version aktualisiert werden.
 
 ## Es wird benötigt:
 QGIS mit Skript [`xplan-umring.py`](https://kreis-viersen.github.io/xplan-umring/xplan-umring.py).
@@ -38,6 +43,7 @@ Quelle (bearbeitet): https://xleitstelle.de/downloads/xplanung/releases/XPlanung
 QGIS-Plugin zum Import einer XPlanGML-Datei:<br>
 https://github.com/kreis-viersen/xplan-reader
 
+[QGIS-Plugin-Repository]: <https://plugins.qgis.org/plugins/xplan-umring/>
 [Flurstücksfinder NRW]: <https://github.com/kreis-viersen/flurstuecksfinder-nrw>
 [XPlanung-Spezifikation]: <https://xleitstelle.de/xplanung/releases-xplanung>
 [KRZN]: <https://www.krzn.de/>
