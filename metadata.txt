@@ -25,5 +25,5 @@ changelog=v2.1.0:
     - KBS-Auswahlliste ergänzt mit "EPSG:"
     v2.0.0:
     - weitere KBS neben EPSG:25832 möglich
-    - Umbenennung in Xplan-Umring
+    - Umbenennung in XPlan-Umring
     - Überführung in QGIS-Plugin
