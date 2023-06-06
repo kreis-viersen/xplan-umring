@@ -255,8 +255,6 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
         rechtsstand_key = str(rechtsstand_keys[rechtsstand])
 
         datum = self.parameterAsString(parameters, "DatumRechtsstand", context).strip()
-        if datum == None:
-            datum = ""
 
         kbs = self.parameterAsString(parameters, "Koordinatenbezugssystem", context)
 
@@ -504,25 +502,31 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
                     "{http://www.xplanung.de/xplangml/5/4}inkrafttretensDatum"
                 )
             )
-            if rechtsstand_key == "1000":
-                aufstellungsbeschlussDatum_element.text = datum
+            if len(datum) > 0:
+                if rechtsstand_key == "1000":
+                    aufstellungsbeschlussDatum_element.text = datum
+                    bp_plan_element.remove(aenderungenBisDatum_element)
+                    bp_plan_element.remove(inkrafttretensDatum_element)
+                    bp_plan_element.remove(satzungsbeschlussDatum_element)
+                elif rechtsstand_key == "2000":
+                    aenderungenBisDatum_element.text = datum
+                    bp_plan_element.remove(aufstellungsbeschlussDatum_element)
+                    bp_plan_element.remove(inkrafttretensDatum_element)
+                    bp_plan_element.remove(satzungsbeschlussDatum_element)
+                elif rechtsstand_key == "3000":
+                    satzungsbeschlussDatum_element.text = datum
+                    bp_plan_element.remove(aenderungenBisDatum_element)
+                    bp_plan_element.remove(aufstellungsbeschlussDatum_element)
+                    bp_plan_element.remove(inkrafttretensDatum_element)
+                elif rechtsstand_key == "4000":
+                    inkrafttretensDatum_element.text = datum
+                    bp_plan_element.remove(aenderungenBisDatum_element)
+                    bp_plan_element.remove(aufstellungsbeschlussDatum_element)
+                    bp_plan_element.remove(satzungsbeschlussDatum_element)
+            else:
+                bp_plan_element.remove(aufstellungsbeschlussDatum_element)
                 bp_plan_element.remove(aenderungenBisDatum_element)
                 bp_plan_element.remove(inkrafttretensDatum_element)
-                bp_plan_element.remove(satzungsbeschlussDatum_element)
-            elif rechtsstand_key == "2000":
-                aenderungenBisDatum_element.text = datum
-                bp_plan_element.remove(aufstellungsbeschlussDatum_element)
-                bp_plan_element.remove(inkrafttretensDatum_element)
-                bp_plan_element.remove(satzungsbeschlussDatum_element)
-            elif rechtsstand_key == "3000":
-                satzungsbeschlussDatum_element.text = datum
-                bp_plan_element.remove(aenderungenBisDatum_element)
-                bp_plan_element.remove(aufstellungsbeschlussDatum_element)
-                bp_plan_element.remove(inkrafttretensDatum_element)
-            elif rechtsstand_key == "4000":
-                inkrafttretensDatum_element.text = datum
-                bp_plan_element.remove(aenderungenBisDatum_element)
-                bp_plan_element.remove(aufstellungsbeschlussDatum_element)
                 bp_plan_element.remove(satzungsbeschlussDatum_element)
 
         for planart_element in root.iter(
