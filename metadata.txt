@@ -2,7 +2,7 @@
 name=XPlan-Umring
 qgisMinimumVersion=3.24
 description=Create XPlanGML from a polygon
-version=2.0.0
+version=2.1.0
 author=Kreis Viersen
 email=open@kreis-viersen.de
 
@@ -19,7 +19,7 @@ icon=icon.png
 experimental=False
 server=False
 hasProcessingProvider=yes
-changelog=unreleased:
+changelog=v2.1.0:
     - Datum Rechtsstand ist nun optional
     - Rechtsstand 2000 (Entwurf) hinzugefügt
     - KBS-Auswahlliste ergänzt mit "EPSG:"
