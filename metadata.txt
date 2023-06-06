@@ -20,6 +20,8 @@ experimental=False
 server=False
 hasProcessingProvider=yes
 changelog=unreleased:
+    - Datum Rechtsstand ist nun optional
+    - Rechtsstand 2000 (Entwurf) hinzugefügt
     - KBS-Auswahlliste ergänzt mit "EPSG:"
     v2.0.0:
     - weitere KBS neben EPSG:25832 möglich

@@ -169,6 +169,7 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
                 "Rechtsstand [Pflicht]",
                 options=[
                     "1000 (Aufstellungsbeschluss)",
+                    "2000 (Entwurf)",
                     "3000 (Satzung)",
                     "4000 (InkraftGetreten)",
                 ],
@@ -180,9 +181,9 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
         )
         self.addParameter(
             QgsProcessingParameterDateTime(
-                "DatumAufstellungsbeschluss",
-                "Datum Rechtsstand [Pflicht]",
-                optional=False,
+                "DatumRechtsstand",
+                "Datum Rechtsstand",
+                optional=True,
                 type=QgsProcessingParameterDateTime.Date,
                 defaultValue=None,
             )
@@ -250,12 +251,12 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
         planart_key = str(planart_keys[planart])
 
         rechtsstand = self.parameterAsInt(parameters, "Rechtsstand", context)
-        rechtsstand_keys = [1000, 3000, 4000]
+        rechtsstand_keys = [1000, 2000, 3000, 4000]
         rechtsstand_key = str(rechtsstand_keys[rechtsstand])
 
-        datum = self.parameterAsString(
-            parameters, "DatumAufstellungsbeschluss", context
-        ).strip()
+        datum = self.parameterAsString(parameters, "DatumRechtsstand", context).strip()
+        if datum == None:
+            datum = ""
 
         kbs = self.parameterAsString(parameters, "Koordinatenbezugssystem", context)
 
@@ -385,6 +386,7 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
               </xplan:plangeber>
               <xplan:planArt>1000</xplan:planArt>
               <xplan:rechtsstand>1000</xplan:rechtsstand>
+              <xplan:aenderungenBisDatum></xplan:aenderungenBisDatum>
               <xplan:aufstellungsbeschlussDatum>2022-09-09</xplan:aufstellungsbeschlussDatum>
               <xplan:inkrafttretensDatum></xplan:inkrafttretensDatum>
               <xplan:satzungsbeschlussDatum></xplan:satzungsbeschlussDatum>
@@ -482,6 +484,11 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
         for bp_plan_element in root.iter(
             "{http://www.xplanung.de/xplangml/5/4}BP_Plan"
         ):
+            aenderungenBisDatum_element = next(
+                bp_plan_element.iter(
+                    "{http://www.xplanung.de/xplangml/5/4}aenderungenBisDatum"
+                )
+            )
             aufstellungsbeschlussDatum_element = next(
                 bp_plan_element.iter(
                     "{http://www.xplanung.de/xplangml/5/4}aufstellungsbeschlussDatum"
@@ -499,14 +506,22 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
             )
             if rechtsstand_key == "1000":
                 aufstellungsbeschlussDatum_element.text = datum
-                bp_plan_element.remove(satzungsbeschlussDatum_element)
+                bp_plan_element.remove(aenderungenBisDatum_element)
                 bp_plan_element.remove(inkrafttretensDatum_element)
+                bp_plan_element.remove(satzungsbeschlussDatum_element)
+            elif rechtsstand_key == "2000":
+                aenderungenBisDatum_element.text = datum
+                bp_plan_element.remove(aufstellungsbeschlussDatum_element)
+                bp_plan_element.remove(inkrafttretensDatum_element)
+                bp_plan_element.remove(satzungsbeschlussDatum_element)
             elif rechtsstand_key == "3000":
                 satzungsbeschlussDatum_element.text = datum
+                bp_plan_element.remove(aenderungenBisDatum_element)
                 bp_plan_element.remove(aufstellungsbeschlussDatum_element)
                 bp_plan_element.remove(inkrafttretensDatum_element)
             elif rechtsstand_key == "4000":
                 inkrafttretensDatum_element.text = datum
+                bp_plan_element.remove(aenderungenBisDatum_element)
                 bp_plan_element.remove(aufstellungsbeschlussDatum_element)
                 bp_plan_element.remove(satzungsbeschlussDatum_element)
 
