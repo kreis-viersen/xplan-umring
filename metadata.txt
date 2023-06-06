@@ -19,7 +19,9 @@ icon=icon.png
 experimental=False
 server=False
 hasProcessingProvider=yes
-changelog=v2.0.0:
+changelog=unreleased:
+    - KBS-Auswahlliste ergänzt mit "EPSG:"
+    v2.0.0:
     - weitere KBS neben EPSG:25832 möglich
     - Umbenennung in Xplan-Umring
     - Überführung in QGIS-Plugin
