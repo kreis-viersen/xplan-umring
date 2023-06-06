@@ -15,7 +15,7 @@ Nach der Installtion des Plugins steht das Werkzeug **XPlan-Umring** über die Q
 ## Workflow
 
 1. Bebauungsplanumring in QGIS digitalisieren oder vorhandenen Umring laden (z.B. mit dem QGIS-Plugin [Flurstücksfinder NRW]).<br>Wichtig: Der Vektorlayer darf nur ein Objekt (= den Umring) vom Typ Polygon beinhalten, ggf. mehrere Flurstücke in QGIS zusammenfügen. 
-2. QGIS-Werkzeug `XPlan-Umring` ausführen.<br>Eingabelayer ist der Vektorlayer mit dem Bebauungsplanumring, die übrigen Modelleingaben ensprechend befüllen/auswählen und Speicherort für das XPlan-Archiv festlegen.
+2. QGIS-Werkzeug `XPlan-Umring` ausführen.<br>Eingabelayer ist der Vektorlayer mit dem Bebauungsplanumring, die übrigen Eingaben ensprechend befüllen/auswählen und Speicherort für das XPlan-Archiv festlegen.
 
 <img src="./screenshots/eingabemaske.png"/>
 
