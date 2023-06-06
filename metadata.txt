@@ -1,15 +1,15 @@
 [general]
 name=XPlan-Umring
 qgisMinimumVersion=3.24
-description=Create an XPlanung-Umring from a polygon
+description=Create XPlanGML from a polygon
 version=2.0.0
 author=Kreis Viersen
 email=open@kreis-viersen.de
 
-about=This plugin adds a processing provider and algorithm to create an XPlanung-Umring from a polygon. 
+about=This plugin adds a processing provider and algorithm to create XPlanGML from a polygon. 
       XPlanung is a German standard for spatial planning data, that's why the plugin is only available in German language. 
       
-      Dieses Plugin fügt einen Processing-Provider und einen Algorithmus (Werkzeug) hinzu, um einen XPlanung-Umring (Bebauungsplan) aus einem Polygon zu erzeugen.
+      Dieses Plugin fügt einen Processing-Provider und einen Algorithmus (Werkzeug) hinzu, um XPlanGML für einen Bebauungsplan aus einem Polygon zu erzeugen (Umringszenario).
 
 tracker=https://github.com/kreis-viersen/xplan-umring/issues
 repository=https://github.com/kreis-viersen/xplan-umring/
@@ -19,4 +19,7 @@ icon=icon.png
 experimental=False
 server=False
 hasProcessingProvider=yes
-# changelog=
+changelog=v2.0.0:
+    - weitere KBS neben EPSG:25832 möglich
+    - Umbenennung in Xplan-Umring
+    - Überführung in QGIS-Plugin
