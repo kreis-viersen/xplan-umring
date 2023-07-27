@@ -9,7 +9,7 @@ email=open@kreis-viersen.de
 about=This plugin adds a processing provider and algorithm to create XPlanGML from a polygon. 
       XPlanung is a German standard for spatial planning data, that's why the plugin is only available in German language. 
       
-      Dieses Plugin fügt einen Processing-Provider und einen Algorithmus (Werkzeug) hinzu, um XPlanGML für einen Bebauungsplan aus einem Polygon zu erzeugen (Umringszenario).
+      Dieses Plugin fügt einen Processing-Provider und einen Algorithmus (Werkzeug) hinzu, um XPlanGML für ein Umringszenario zur erzeugen.
 
 tracker=https://github.com/kreis-viersen/xplan-umring/issues
 repository=https://github.com/kreis-viersen/xplan-umring/
@@ -19,7 +19,9 @@ icon=icon.png
 experimental=False
 server=False
 hasProcessingProvider=yes
-changelog=v2.1.0:
+changelog=unreleased:
+    - auch mehrere Polygone als Eingabe möglich 
+    v2.1.0:
     - Datum Rechtsstand ist nun optional
     - Rechtsstand 2000 (Entwurf) hinzugefügt
     - KBS-Auswahlliste ergänzt mit "EPSG:"

@@ -39,6 +39,8 @@ from qgis.core import (
     QgsProcessingUtils,
 )
 
+from qgis.PyQt.QtXml import QDomDocument
+
 
 class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
     def createInstance(self):
@@ -58,13 +60,13 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
 
     def shortHelpString(self):
         return (
-            "Umringpolygon eines Bebauungsplans aus QGIS nach XPlanGML konvertieren."
+            "Umringpolygon(e) eines Bebauungsplans aus QGIS nach XPlanGML konvertieren."
             + "\n\n"
-            + "Bebauungsplanumring in QGIS digitalisieren oder vorhandenen Umring laden."
+            + "Bebauungsplanumring(e) in QGIS digitalisieren oder vorhandenen(e) Umring(e) laden."
             + "\n\n"
-            + "Wichtig: Der Vektorlayer darf nur ein Objekt (= den Umring) vom Typ Polygon beinhalten."
+            + "Wichtig: Der Eingabelayer muss ein Polygonlayer sein."
             + "\n\n"
-            + "Eingabelayer für das Skript ist der Vektorlayer mit dem Bebauungsplanumring, die übrigen Skripteingaben ensprechend befüllen/auswählen und Speicherort für das XPlanArchiv festlegen."
+            + "Eingabelayer für das Skript ist der Vektorlayer mit dem Bebauungsplanumring(en), die übrigen Skripteingaben ensprechend befüllen/auswählen und Speicherort für das XPlanArchiv festlegen."
             + "\n\n"
             + "Autor: Kreis Viersen"
             + "\n\n"
@@ -74,12 +76,14 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
         )
 
     def shortDescription(self):
-        return "Umringpolygon eines Bebauungsplans aus QGIS nach XPlanung konvertieren."
+        return (
+            "Umringpolygon(e) eines Bebauungsplans aus QGIS nach XPlanung konvertieren."
+        )
 
     def initAlgorithm(self, config=None):
         self.addParameter(
             QgsProcessingParameterVectorLayer(
-                "BPlanUmriss",
+                "Umring",
                 "Vektorlayer mit Umringpolygon [Pflicht]",
                 optional=False,
                 types=[QgsProcessing.TypeVectorPolygon],
@@ -264,11 +268,11 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
 
         # Mehr- zu einteilig
         alg_params = {
-            "INPUT": parameters["BPlanUmriss"],
+            "INPUT": parameters["Umring"],
             "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
         }
-        outputs["MehrZuEinteilig"] = processing.run(
-            "native:multiparttosingleparts",
+        outputs["GeometrienSammeln"] = processing.run(
+            "native:collect",
             alg_params,
             context=context,
             feedback=feedback,
@@ -277,7 +281,7 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
 
         # Layer reprojizieren in ausgewähltes KBS
         alg_params = {
-            "INPUT": outputs["MehrZuEinteilig"]["OUTPUT"],
+            "INPUT": outputs["GeometrienSammeln"]["OUTPUT"],
             "OPERATION": "",
             "TARGET_CRS": QgsCoordinateReferenceSystem(kbs),
             "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
@@ -329,9 +333,15 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
         request = QgsFeatureRequest()
         request.setLimit(1)
         for feature in vlayer.getFeatures(request):
-            wkt_geometry = feature.geometry().asWkt()
-
-            coords = wkt_geometry.split("((")[1].split("))")[0].replace(",", "")
+            doc = QDomDocument()
+            gml_geometry = feature.geometry().constGet().asGml3(doc, 6)
+            doc.appendChild(gml_geometry)
+            gml_geometry_string = (
+                doc.toString(2)
+                .replace("<", "<gml:")
+                .replace("<gml:/", "</gml:")
+                .replace('xmlns="gml"', "")
+            )
 
             bbox = feature.geometry().boundingBox()
             lower_corner = str(bbox.xMinimum()) + " " + str(bbox.yMinimum())
@@ -362,13 +372,7 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
               <xplan:name>Name Bebauungsplan</xplan:name>
               <xplan:nummer>Nummer Bebaungsplan</xplan:nummer>
               <xplan:raeumlicherGeltungsbereich>
-                <gml:Polygon srsName="{kbs}" gml:id="ID_a7faf948-6db3-4dac-8f32-0e9ae0720611">
-                  <gml:exterior>
-                    <gml:LinearRing>
-                      <gml:posList srsDimension="2">-1.36383928571428 0.25 -0.560267857142857 -0.5625 1.08258928571429 -0.151785714285714 0.037946428571429 0.839285714285714 -1.36383928571428 0.25</gml:posList>
-                    </gml:LinearRing>
-                  </gml:exterior>
-                </gml:Polygon>
+                {gml_geometry_string}
               </xplan:raeumlicherGeltungsbereich>
               <xplan:gemeinde>
                 <xplan:XP_Gemeinde>
@@ -429,13 +433,25 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
                 "#" + uuid_3
             )
 
-        uuid_4 = "ID_" + str(uuid.uuid4())
+        for bp_plan_element in root.iter(
+            "{http://www.xplanung.de/xplangml/5/4}BP_Plan"
+        ):
+            for raeumlicherGeltungsbereich_element in next(
+                bp_plan_element.iter("{http://www.xplanung.de/xplangml/5/4}*")
+            ):
+                for MultiSurface_element in raeumlicherGeltungsbereich_element.iter(
+                    "{http://www.opengis.net/gml/3.2}MultiSurface"
+                ):
+                    MultiSurface_element.attrib[
+                        "{http://www.opengis.net/gml/3.2}id"
+                    ] = "ID_" + str(uuid.uuid4())
+                    MultiSurface_element.attrib["srsName"] = kbs
 
         for polygon_element in root.iter("{http://www.opengis.net/gml/3.2}Polygon"):
-            polygon_element.attrib["{http://www.opengis.net/gml/3.2}id"] = uuid_4
-
-        for pos_list_element in root.iter("{http://www.opengis.net/gml/3.2}posList"):
-            pos_list_element.text = coords
+            polygon_element.attrib["{http://www.opengis.net/gml/3.2}id"] = "ID_" + str(
+                uuid.uuid4()
+            )
+            polygon_element.attrib["srsName"] = kbs
 
         for lowerCorner_element in root.iter(
             "{http://www.opengis.net/gml/3.2}lowerCorner"
