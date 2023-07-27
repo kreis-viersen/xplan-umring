@@ -66,7 +66,7 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
             + "\n\n"
             + "Wichtig: Der Eingabelayer muss ein Polygonlayer sein."
             + "\n\n"
-            + "Eingabelayer für das Skript ist der Vektorlayer mit dem Bebauungsplanumring(en), die übrigen Skripteingaben ensprechend befüllen/auswählen und Speicherort für das XPlanArchiv festlegen."
+            + "Eingabelayer für das Skript ist der Vektorlayer mit dem/den Bebauungsplanumring(en), die übrigen Skripteingaben ensprechend befüllen/auswählen und Speicherort für das XPlanArchiv festlegen."
             + "\n\n"
             + "Autor: Kreis Viersen"
             + "\n\n"
