@@ -27,7 +27,8 @@ __date__ = "2023-05-22"
 __copyright__ = "(C) 2023 by Kreis Viersen"
 
 from qgis.core import QgsProcessingProvider
-from .xplan_umring_algorithm import XPlanUmringAlgorithm
+from .xplan_umring_algorithm_bp_5_4 import XPlanUmringAlgorithmBP54
+from .xplan_umring_algorithm_bp_6_0 import XPlanUmringAlgorithmBP60
 
 
 class XPlanUmringProvider(QgsProcessingProvider):
@@ -48,9 +49,8 @@ class XPlanUmringProvider(QgsProcessingProvider):
         """
         Loads all algorithms belonging to this provider.
         """
-        self.addAlgorithm(XPlanUmringAlgorithm())
-        # add additional algorithms here
-        # self.addAlgorithm(MyOtherAlgorithm())
+        self.addAlgorithm(XPlanUmringAlgorithmBP54())
+        self.addAlgorithm(XPlanUmringAlgorithmBP60())
 
     def id(self):
         """
@@ -58,7 +58,7 @@ class XPlanUmringProvider(QgsProcessingProvider):
         string should be a unique, short, character only string, eg "qgis" or
         "gdal". This string should not be localised.
         """
-        return "XPlanung"
+        return "XPlan-Umring"
 
     def name(self):
         """
@@ -67,7 +67,7 @@ class XPlanUmringProvider(QgsProcessingProvider):
 
         This string should be short (e.g. "Lastools") and localised.
         """
-        return self.tr("XPlanung")
+        return self.tr("XPlan-Umring")
 
     def icon(self):
         """

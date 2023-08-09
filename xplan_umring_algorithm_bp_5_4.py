@@ -42,15 +42,15 @@ from qgis.core import (
 from qgis.PyQt.QtXml import QDomDocument
 
 
-class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
+class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
     def createInstance(self):
-        return XPlanUmringAlgorithm()
+        return XPlanUmringAlgorithmBP54()
 
     def name(self):
-        return "XPlan-Umring"
+        return "Bebauungsplan v5.4"
 
     def displayName(self):
-        return "XPlan-Umring"
+        return "Bebauungsplan v5.4"
 
     def group(self):
         return self.groupId()
@@ -84,7 +84,7 @@ class XPlanUmringAlgorithm(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterVectorLayer(
                 "Umring",
-                "Vektorlayer mit Umringpolygon [Pflicht]",
+                "Vektorlayer mit Umringpolygon(en) [Pflicht]",
                 optional=False,
                 types=[QgsProcessing.TypeVectorPolygon],
                 defaultValue=None,
