@@ -20,6 +20,8 @@ experimental=False
 server=False
 hasProcessingProvider=yes
 changelog=unreleased:
+    - neu: Landschaftsplan-Umring v6.0
+    - neu: Bebauungsplan-Umring v6.0
     - auch mehrere Polygone als Eingabe möglich 
     v2.1.0:
     - Datum Rechtsstand ist nun optional

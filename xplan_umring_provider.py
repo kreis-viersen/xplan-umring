@@ -29,6 +29,7 @@ __copyright__ = "(C) 2023 by Kreis Viersen"
 from qgis.core import QgsProcessingProvider
 from .xplan_umring_algorithm_bp_5_4 import XPlanUmringAlgorithmBP54
 from .xplan_umring_algorithm_bp_6_0 import XPlanUmringAlgorithmBP60
+from .xplan_umring_algorithm_lp_6_0 import XPlanUmringAlgorithmLP60
 
 
 class XPlanUmringProvider(QgsProcessingProvider):
@@ -51,6 +52,7 @@ class XPlanUmringProvider(QgsProcessingProvider):
         """
         self.addAlgorithm(XPlanUmringAlgorithmBP54())
         self.addAlgorithm(XPlanUmringAlgorithmBP60())
+        self.addAlgorithm(XPlanUmringAlgorithmLP60())
 
     def id(self):
         """
