@@ -20,7 +20,7 @@ experimental=False
 server=False
 hasProcessingProvider=yes
 changelog=v2.2.1:
-    - LP v6.9: Fix inkrafttretenDatum (ohne "s" bei LP_Plan)
+    - LP v6.0: Fix inkrafttretenDatum (ohne "s" bei LP_Plan)
     v2.2.0:
     - neu: Landschaftsplan-Umring v6.0
     - neu: Bebauungsplan-Umring v6.0
