@@ -431,7 +431,7 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
               <xplan:rechtsstand>{rechtsstand_key}</xplan:rechtsstand>
               <xplan:untergangsDatum></xplan:untergangsDatum>
               <xplan:aufstellungsbeschlussDatum>2022-09-09</xplan:aufstellungsbeschlussDatum>
-              <xplan:inkrafttretensDatum></xplan:inkrafttretensDatum>
+              <xplan:inkrafttretenDatum></xplan:inkrafttretenDatum>
               <xplan:bereich xlink:href="#ID_f92ead39-7f9e-47f0-bfad-498ef2cb0d9f"></xplan:bereich>
             </xplan:LP_Plan>
           </gml:featureMember>
@@ -550,28 +550,28 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
                     "{http://www.xplanung.de/xplangml/6/0}aufstellungsbeschlussDatum"
                 )
             )
-            inkrafttretensDatum_element = next(
+            inkrafttretenDatum_element = next(
                 lp_plan_element.iter(
-                    "{http://www.xplanung.de/xplangml/6/0}inkrafttretensDatum"
+                    "{http://www.xplanung.de/xplangml/6/0}inkrafttretenDatum"
                 )
             )
             if len(datum) > 0:
                 if rechtsstand_key == "1000":
                     aufstellungsbeschlussDatum_element.text = datum
                     lp_plan_element.remove(untergangsDatum_element)
-                    lp_plan_element.remove(inkrafttretensDatum_element)
+                    lp_plan_element.remove(inkrafttretenDatum_element)
                 elif rechtsstand_key == "4000":
-                    inkrafttretensDatum_element.text = datum
+                    inkrafttretenDatum_element.text = datum
                     lp_plan_element.remove(untergangsDatum_element)
                     lp_plan_element.remove(aufstellungsbeschlussDatum_element)
                 elif rechtsstand_key == "5000":
                     untergangsDatum_element.text = datum
                     lp_plan_element.remove(aufstellungsbeschlussDatum_element)
-                    lp_plan_element.remove(inkrafttretensDatum_element)
+                    lp_plan_element.remove(inkrafttretenDatum_element)
             else:
                 lp_plan_element.remove(aufstellungsbeschlussDatum_element)
                 lp_plan_element.remove(untergangsDatum_element)
-                lp_plan_element.remove(inkrafttretensDatum_element)
+                lp_plan_element.remove(inkrafttretenDatum_element)
 
         etree.indent(tree, space="\t", level=0)
 
