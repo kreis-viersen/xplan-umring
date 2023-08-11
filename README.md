@@ -8,7 +8,7 @@ Bei Fragen, Anmerkungen, etc. erreichen Sie uns auch per E-Mail unter [open@krei
 Es wird **QGIS mindestens in der Version 3.24.0** benötigt.<br><br>
 Das Plugin ist im offiziellen [QGIS-Plugin-Repository] enthalten und kann in QGIS über das Hauptmenü (*Erweiterungen -> Erweiterungen verwalten und installieren*) installiert und auch bei Verfügbarkeit einer neuen Version aktualisiert werden.
 
-Nach der Installation des Plugins steht das Werkzeug **XPlan-Umring** über die QGIS-Werkzeugkiste zur Verfügung:
+Nach der Installation des Plugins steht die Werkzeuge unter **XPlan-Umring** über die QGIS-Werkzeugkiste zur Verfügung:
 
 <img src="./screenshots/werkzeugkiste.png"/>
 
@@ -21,10 +21,11 @@ Nach der Installation des Plugins steht das Werkzeug **XPlan-Umring** über die 
 
 ## Anmerkungen
 
-Bis auf die Felder _Plangeber_ und _Datum Rechtsstand_ sind alle Eingabefelder Pflicht. Hierbei handelt es sich **nicht** ausschließlich um Pflichtattribute gemäß der [XPlanung-Spezifikation]. Die Pflichtattribute ergeben sich auch durch die Verwendung der [XPlanBox] im [KRZN]-Gebiet. Die Attribute und Auswahlmöglichkeiten können sich zukunftig noch ändern, wir freuen uns über fachlichen Input :-)
+Einige Eingabefelder sind Pflicht. Hierbei handelt es sich **nicht** ausschließlich um Pflichtattribute gemäß der [XPlanung-Spezifikation]. Die Pflichtattribute ergeben sich auch durch die Verwendung der [XPlanBox] im [KRZN]-Gebiet. Die Attribute und Auswahlmöglichkeiten können sich zukunftig noch ändern, wir freuen uns über fachlichen Input :-)
 
-Aktuell stehen drei Rechtsstände zur Auswahl, wodurch auch bestimmt wird, mit welchem Attribut das Datum angelegt wird:
+Aktuell stehen für den Bebauungsplan vier Rechtsstände zur Auswahl, wodurch auch bestimmt wird, mit welchem Attribut das Datum angelegt wird:
 - Aufstellungsbeschluss -> xplan:aufstellungsbeschlussDatum
+- Entwurf / ImVerfahren -> xplan:aenderungenBisDatum
 - Satzung -> xplan:satzungsbeschlussDatum
 - InkraftGetreten -> xplan:inkrafttretensDatum
 
