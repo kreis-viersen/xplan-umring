@@ -47,7 +47,7 @@ class XPlanUmringAlgorithmBP60(QgsProcessingAlgorithm):
         return XPlanUmringAlgorithmBP60()
 
     def name(self):
-        return "Bebauungsplan60"
+        return "bebauungsplan60"
 
     def displayName(self):
         return "Bebauungsplan v6.0"

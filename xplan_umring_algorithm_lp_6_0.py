@@ -47,7 +47,7 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
         return XPlanUmringAlgorithmLP60()
 
     def name(self):
-        return "Landschaftsplan60"
+        return "landschaftsplan60"
 
     def displayName(self):
         return "Landschaftsplan v6.0"

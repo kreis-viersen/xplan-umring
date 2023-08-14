@@ -26,7 +26,9 @@ __author__ = "Kreis Viersen"
 __date__ = "2023-05-22"
 __copyright__ = "(C) 2023 by Kreis Viersen"
 
+import os
 from qgis.core import QgsProcessingProvider
+from qgis.PyQt.QtGui import QIcon
 from .xplan_umring_algorithm_bp_5_4 import XPlanUmringAlgorithmBP54
 from .xplan_umring_algorithm_bp_6_0 import XPlanUmringAlgorithmBP60
 from .xplan_umring_algorithm_lp_6_0 import XPlanUmringAlgorithmLP60
@@ -38,6 +40,7 @@ class XPlanUmringProvider(QgsProcessingProvider):
         Default constructor.
         """
         QgsProcessingProvider.__init__(self)
+        self.plugin_dir = os.path.dirname(os.path.abspath(__file__))
 
     def unload(self):
         """
@@ -60,7 +63,7 @@ class XPlanUmringProvider(QgsProcessingProvider):
         string should be a unique, short, character only string, eg "qgis" or
         "gdal". This string should not be localised.
         """
-        return "XPlan-Umring"
+        return "xplanumring"
 
     def name(self):
         """
@@ -76,7 +79,7 @@ class XPlanUmringProvider(QgsProcessingProvider):
         Should return a QIcon which is used for your provider inside
         the Processing toolbox.
         """
-        return QgsProcessingProvider.icon(self)
+        return QIcon(os.path.join(self.plugin_dir, "xplan_umring_icon.png"))
 
     def longName(self):
         """
