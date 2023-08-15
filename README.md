@@ -8,7 +8,7 @@ Bei Fragen, Anmerkungen, etc. erreichen Sie uns auch per E-Mail unter [open@krei
 Es wird **QGIS mindestens in der Version 3.24.0** benötigt.<br><br>
 Das Plugin ist im offiziellen [QGIS-Plugin-Repository] enthalten und kann in QGIS über das Hauptmenü (*Erweiterungen -> Erweiterungen verwalten und installieren*) installiert und auch bei Verfügbarkeit einer neuen Version aktualisiert werden.
 
-Nach der Installation des Plugins kann das gewünschte Werkzeug über einen Auswahldialog nach Klick auf das Toolbar-Icon hinzugefügt werden:
+Nach der Installation des Plugins kann das gewünschte Werkzeug über einen Auswahldialog nach Klick auf das Toolbar-Icon ausgewählt werden:
 
 <img src="./screenshots/auswahldialog_xplan-umring.png"/>
 
