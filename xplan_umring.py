@@ -119,7 +119,7 @@ class XPlanUmringPlugin(object):
 
         def saveTool(tool):
             settings.setValue("xplan-umring/mytool", tool)
-            self.selectedTool = settings.value("xplan-umring/mytool")
+            self.selectedTool = tool
 
         self.dlg.rb_bp_54.toggled.connect(lambda: saveTool("bebauungsplan54"))
         self.dlg.rb_bp_60.toggled.connect(lambda: saveTool("bebauungsplan60"))
