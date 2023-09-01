@@ -410,6 +410,7 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
               </gml:boundedBy>
               <xplan:name>Name Bebauungsplan</xplan:name>
               <xplan:nummer>Nummer Bebaungsplan</xplan:nummer>
+              <xplan:untergangsDatum></xplan:untergangsDatum>
               <xplan:raeumlicherGeltungsbereich>
                 {gml_geometry_string}
               </xplan:raeumlicherGeltungsbereich>
@@ -429,7 +430,6 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
                 </xplan:XP_Plangeber>
               </xplan:plangeber>
               <xplan:rechtsstand>{rechtsstand_key}</xplan:rechtsstand>
-              <xplan:untergangsDatum></xplan:untergangsDatum>
               <xplan:aufstellungsbeschlussDatum>2022-09-09</xplan:aufstellungsbeschlussDatum>
               <xplan:inkrafttretenDatum></xplan:inkrafttretenDatum>
               <xplan:bereich xlink:href="#ID_f92ead39-7f9e-47f0-bfad-498ef2cb0d9f"></xplan:bereich>
