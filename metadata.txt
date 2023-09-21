@@ -2,7 +2,7 @@
 name=XPlan-Umring
 qgisMinimumVersion=3.24
 description=Create XPlanGML from polygon(s)
-version=2.3.1
+version=2.3.2
 author=Kreis Viersen
 email=open@kreis-viersen.de
 
@@ -19,7 +19,9 @@ icon=xplan_umring_icon.png
 experimental=False
 server=False
 hasProcessingProvider=yes
-changelog=v2.3.1:
+changelog=v2.3.2:
+    - Behebe unscharfes Icon in Toolbar
+    v2.3.1:
     - Behebe Fehler bei LP mit untergangsDatum
     v2.3.0:
     - Toolbar/Toolbox-Icon
