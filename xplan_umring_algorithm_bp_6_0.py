@@ -46,6 +46,9 @@ class XPlanUmringAlgorithmBP60(QgsProcessingAlgorithm):
     def createInstance(self):
         return XPlanUmringAlgorithmBP60()
 
+    def flags(self):
+        return super().flags() | QgsProcessingAlgorithm.FlagNoThreading
+
     def name(self):
         return "bebauungsplan60"
 

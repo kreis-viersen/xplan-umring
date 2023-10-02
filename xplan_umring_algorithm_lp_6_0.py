@@ -46,6 +46,9 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
     def createInstance(self):
         return XPlanUmringAlgorithmLP60()
 
+    def flags(self):
+        return super().flags() | QgsProcessingAlgorithm.FlagNoThreading
+
     def name(self):
         return "landschaftsplan60"
 

@@ -46,6 +46,9 @@ class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
     def createInstance(self):
         return XPlanUmringAlgorithmBP54()
 
+    def flags(self):
+        return super().flags() | QgsProcessingAlgorithm.FlagNoThreading
+
     def name(self):
         return "bebauungsplan54"
 
