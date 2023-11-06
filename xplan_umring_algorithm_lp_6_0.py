@@ -270,8 +270,6 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
         bundesland = self.parameterAsString(parameters, "Bundesland", context)
         bundesland_key = bundesland.split()[0]
 
-        print(bundesland_key)
-
         gemeindename = self.parameterAsString(
             parameters, "Gemeindename", context
         ).strip()
@@ -439,8 +437,6 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
             </xplan:LP_Plan>
           </gml:featureMember>
         </xplan:XPlanAuszug>"""
-
-        print(rechtsstand_key)
 
         tree = etree.ElementTree(etree.fromstring(template))
         root = tree.getroot()
