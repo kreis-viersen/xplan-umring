@@ -2,7 +2,7 @@
 name=XPlan-Umring
 qgisMinimumVersion=3.24
 description=Create XPlanGML from polygon(s)
-version=2.3.3
+version=2.4.0
 author=Kreis Viersen
 email=open@kreis-viersen.de
 
@@ -19,7 +19,9 @@ icon=xplan_umring_icon.png
 experimental=False
 server=False
 hasProcessingProvider=yes
-changelog=v2.3.3:
+changelog=v2.4.0
+    - Neues Werkzeug: Geltungsbereich Umringszenario ersetzen
+    v2.3.3:
     - Behebe Fehler in Verbindung mit QGIS 3.32
     v2.3.2:
     - Behebe unscharfes Icon in Toolbar

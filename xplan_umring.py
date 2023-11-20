@@ -124,6 +124,7 @@ class XPlanUmringPlugin(object):
         self.dlg.rb_bp_54.toggled.connect(lambda: saveTool("bebauungsplan54"))
         self.dlg.rb_bp_60.toggled.connect(lambda: saveTool("bebauungsplan60"))
         self.dlg.rb_lp_60.toggled.connect(lambda: saveTool("landschaftsplan60"))
+        self.dlg.rb_replace.toggled.connect(lambda: saveTool("replacegeometry"))
 
         if self.selectedTool == "bebauungsplan54":
             self.dlg.rb_bp_54.setChecked(True)
@@ -131,6 +132,8 @@ class XPlanUmringPlugin(object):
             self.dlg.rb_bp_60.setChecked(True)
         elif self.selectedTool == "landschaftsplan60":
             self.dlg.rb_lp_60.setChecked(True)
+        elif self.selectedTool == "replacegeometry":
+            self.dlg.rb_replace.setChecked(True)
 
         result = self.dlg.exec_()
 
