@@ -1,5 +1,5 @@
 # xplan-umring
-### _QGIS-Plugin zum Erstellen einer XPlanGML-Datei für ein Umringszenario_
+### _QGIS-Plugin zum Erstellen einer XPlanGML-Datei für ein Umringszenario (teilvektoriell)_
 
 Bei Fragen, Anmerkungen, etc. erreichen Sie uns auch per E-Mail unter [open@kreis-viersen.de](mailto:open@kreis-viersen.de?subject=xplan-umring).
 
@@ -16,7 +16,7 @@ Alternativ stehen die Werkzeuge unter **XPlan-Umring** über die QGIS-Werkzeugki
 
 <img src="./screenshots/werkzeugkiste.png"/>
 
-## Workflow
+## Workflow neuen Plan erstellen
 
 1. Umring(e) in QGIS digitalisieren oder vorhandene Umring(e) laden (z.B. mit dem QGIS-Plugin [Flurstücksfinder NRW]).<br>Wichtig: Der Eingabelayer muss ein Polygonlayer sein. 
 2. Gewünschtes QGIS-Werkzeug unter `XPlan-Umring` ausführen.<br>Eingabelayer ist der Vektorlayer mit dem/den Umring(en), die übrigen Eingaben ensprechend befüllen/auswählen und Speicherort für das XPlan-Archiv festlegen.
@@ -35,6 +35,21 @@ Aktuell stehen für den Bebauungsplan vier Rechtsstände zur Auswahl, wodurch au
 
 <img src="./screenshots/rechtsstand-datum.png"/>
 Quelle (bearbeitet): https://xleitstelle.de/downloads/xplanung/releases/XPlanung%20Version%205.3/Objektartenkatalog%20%28PDF%29.pdf
+
+
+## Werkzeug Geltungsbereich ersetzen
+
+Umringgeometrie (räumlichen Geltungsbereich) einer XPlanGML ersetzen (alle anderen Attribute bleiben erhalten).
+
+Neuen Geltungsbereich in QGIS digitalisieren oder vorhandenen(e) Umring(e) laden.<br>
+Wichtig: Der Eingabelayer muss ein Polygonlayer sein.
+
+Eingabelayer für das Skript ist der Vektorlayer mit dem/den Umring(en).
+Dazu noch die zu verändernde XPlanGML und den Speicherort und Namen für die erzeugte XPlanGML festlegen.
+
+Es werden nur XPlanGML mit maximal einem *_Bereich unterstützt.
+
+
 
 ## Klassisches Einsatz-Szenario
 
