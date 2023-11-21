@@ -49,7 +49,7 @@ Dazu noch die zu verändernde XPlanGML und den Speicherort und Namen für die er
 
 Es werden nur XPlanGML mit maximal einem *_Bereich unterstützt.
 
-
+<img src="./screenshots/eingabemaske_geltungsbereich_ersetzen.png"/>
 
 ## Klassisches Einsatz-Szenario
 
