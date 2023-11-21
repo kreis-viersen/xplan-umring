@@ -21,6 +21,7 @@ server=False
 hasProcessingProvider=yes
 changelog=v2.4.0
     - Neues Werkzeug: Geltungsbereich Umringszenario ersetzen
+    - Warnmeldungen wenn der Planname nicht für die xPlanBox geeignet ist
     v2.3.3:
     - Behebe Fehler in Verbindung mit QGIS 3.32
     v2.3.2:

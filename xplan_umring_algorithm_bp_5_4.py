@@ -27,10 +27,12 @@ import zipfile
 from lxml import etree
 
 from qgis.core import (
+    Qgis,
+    QgsCoordinateReferenceSystem,
     QgsFeatureRequest,
     QgsProcessing,
     QgsProcessingAlgorithm,
-    QgsCoordinateReferenceSystem,
+    QgsProcessingFeedback,
     QgsProcessingParameterDateTime,
     QgsProcessingParameterEnum,
     QgsProcessingParameterFile,
@@ -40,6 +42,8 @@ from qgis.core import (
 )
 
 from qgis.PyQt.QtXml import QDomDocument
+
+from qgis.utils import iface
 
 
 class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
@@ -70,6 +74,8 @@ class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
             + "Wichtig: Der Eingabelayer muss ein Polygonlayer sein."
             + "\n\n"
             + "Eingabelayer für das Skript ist der Vektorlayer mit dem/den Bebauungsplanumring(en), die übrigen Skripteingaben ensprechend befüllen/auswählen und Speicherort für das XPlanArchiv festlegen."
+            + "\n\n"
+            + "Für die Verwendung in der xPlanBox sind maximal 100 und nur folgende Zeichen für den Plannamen erlaubt: A-Z a-z 0-9 . () _ - ä ü ö Ä Ü Ö ß und Leerzeichen"
             + "\n\n"
             + "Autor: Kreis Viersen"
             + "\n\n"
@@ -229,8 +235,27 @@ class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
             )
         )
 
+    feedback = QgsProcessingFeedback()
+
     def processAlgorithm(self, parameters, context, feedback):
+        def showWarning(message):
+            iface.messageBar().pushMessage(
+                message,
+                level=Qgis.Warning,
+            )
+            feedback.pushWarning(message)
+
         name = self.parameterAsString(parameters, "Name", context).strip()
+
+        chars = re.compile(r"^[A-Za-z0-9.()_\-äüöÄÜÖß\s]*$")
+        if not (chars.match(name)):
+            message = "XPlan-Umring - Ungültige Zeichen im Plannamen für die Verwendung in der xPlanBox gefunden. Erlaubt sind dort nur: A-Z a-z 0-9 . () _ - ä ü ö Ä Ü Ö ß und Leerzeichen"
+            showWarning(message)
+
+        if len(name) > 100:
+            message = "XPlan-Umring - Der Planname hat mehr als 100 Zeichen. Dies ist für die Verwendung in der xPlanBox nicht erlaubt."
+            showWarning(message)
+
         nummer = self.parameterAsString(parameters, "Nummer", context).strip()
         gemeindename = self.parameterAsString(
             parameters, "Gemeindename", context
