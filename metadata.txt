@@ -2,7 +2,7 @@
 name=XPlan-Umring
 qgisMinimumVersion=3.24
 description=Create XPlanGML from polygon(s)
-version=2.4.0
+version=2.5.0
 author=Kreis Viersen
 email=open@kreis-viersen.de
 
@@ -19,7 +19,9 @@ icon=xplan_umring_icon.png
 experimental=False
 server=False
 hasProcessingProvider=yes
-changelog=v2.4.0
+changelog=v2.5.0
+    - neu: Flächennutzungsplan-Umring v6.0
+    v2.4.0
     - Neues Werkzeug: Geltungsbereich Umringszenario ersetzen
     - Warnmeldungen wenn der Planname nicht für die xPlanBox geeignet ist
     v2.3.3:

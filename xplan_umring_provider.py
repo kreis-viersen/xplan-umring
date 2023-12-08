@@ -31,6 +31,7 @@ from qgis.core import QgsProcessingProvider
 from qgis.PyQt.QtGui import QIcon
 from .xplan_umring_algorithm_bp_5_4 import XPlanUmringAlgorithmBP54
 from .xplan_umring_algorithm_bp_6_0 import XPlanUmringAlgorithmBP60
+from .xplan_umring_algorithm_fp_6_0 import XPlanUmringAlgorithmFP60
 from .xplan_umring_algorithm_lp_6_0 import XPlanUmringAlgorithmLP60
 from .xplan_umring_algorithm_replace_geometry import XPlanUmringAlgorithmReplaceGeometry
 
@@ -56,6 +57,7 @@ class XPlanUmringProvider(QgsProcessingProvider):
         """
         self.addAlgorithm(XPlanUmringAlgorithmBP54())
         self.addAlgorithm(XPlanUmringAlgorithmBP60())
+        self.addAlgorithm(XPlanUmringAlgorithmFP60())
         self.addAlgorithm(XPlanUmringAlgorithmLP60())
         self.addAlgorithm(XPlanUmringAlgorithmReplaceGeometry())
 
