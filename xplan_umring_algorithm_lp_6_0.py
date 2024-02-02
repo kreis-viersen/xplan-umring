@@ -39,6 +39,7 @@ from qgis.core import (
     QgsProcessingParameterString,
     QgsProcessingParameterVectorLayer,
     QgsProcessingUtils,
+    QgsSettings,
 )
 
 from qgis.PyQt.QtXml import QDomDocument
@@ -88,6 +89,13 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
         return "Umringpolygon(e) eines Landschaftsplans aus QGIS nach XPlanung konvertieren."
 
     def initAlgorithm(self, config=None):
+        settings = QgsSettings()
+        self.kommune = settings.value("xplan-umring/kommune", "")
+        self.ags = settings.value("xplan-umring/ags", "")
+        self.ortsteilname = ""
+        if self.ags.startswith(("05114", "05154", "05158", "05166", "05170")):
+            self.ortsteilname =  self.kommune
+
         self.addParameter(
             QgsProcessingParameterVectorLayer(
                 "Umring",
@@ -150,7 +158,7 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
                 "Gemeindename",
                 optional=True,
                 multiLine=False,
-                defaultValue="",
+                defaultValue=self.kommune,
             )
         )
         self.addParameter(
@@ -159,7 +167,7 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
                 "Ortsteilname",
                 optional=True,
                 multiLine=False,
-                defaultValue="",
+                defaultValue=self.ortsteilname,
             )
         )
         self.addParameter(
@@ -168,7 +176,7 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
                 "Amtlicher Gemeindeschlüssel (AGS)",
                 optional=True,
                 multiLine=False,
-                defaultValue="",
+                defaultValue=self.ags,
             )
         )
         self.addParameter(
@@ -177,7 +185,7 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
                 "Plangeber",
                 optional=True,
                 multiLine=False,
-                defaultValue=None,
+                defaultValue=self.kommune,
             )
         )
         self.addParameter(

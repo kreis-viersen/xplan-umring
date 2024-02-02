@@ -55,6 +55,15 @@ Es werden nur XPlanGML mit maximal einem *_Bereich unterstützt.
 
 <img src="./screenshots/klassisches_einsatz-szenario.png"/>
 
+## Daten zum Amtlichen Gemeindeschlüssel (AGS)
+
+Im Verzeichnis [ags] befindet sich eine Liste _Amtlichen Gemeindeschlüssel (AGS)_.
+
+Quelle: https://www.xrepository.de/details/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:ags
+
+© Daten (im Auftrag der Herausgebergemeinschaft Statistische Ämter des Bundes und der Länder)  
+    Statistisches Bundesamt (Destatis)
+
 ## XPlan-Reader
 QGIS-Plugin zum Import einer XPlanGML-Datei:<br>
 https://github.com/kreis-viersen/xplan-reader
@@ -64,4 +73,5 @@ https://github.com/kreis-viersen/xplan-reader
 [XPlanung-Spezifikation]: <https://xleitstelle.de/xplanung/releases-xplanung>
 [KRZN]: <https://www.krzn.de/>
 [XPlanBox]: <https://gitlab.opencode.de/diplanung/ozgxplanung>
+[ags]: ./ags/
 

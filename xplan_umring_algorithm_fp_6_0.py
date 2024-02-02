@@ -39,6 +39,7 @@ from qgis.core import (
     QgsProcessingParameterString,
     QgsProcessingParameterVectorLayer,
     QgsProcessingUtils,
+    QgsSettings,
 )
 
 from qgis.PyQt.QtXml import QDomDocument
@@ -88,6 +89,13 @@ class XPlanUmringAlgorithmFP60(QgsProcessingAlgorithm):
         return "Umringpolygon(e) eines Flächennutzungsplans aus QGIS nach XPlanung konvertieren."
 
     def initAlgorithm(self, config=None):
+        settings = QgsSettings()
+        self.kommune = settings.value("xplan-umring/kommune", "")
+        self.ags = settings.value("xplan-umring/ags", "")
+        self.ortsteilname = ""
+        if self.ags.startswith(("05114", "05154", "05158", "05166", "05170")):
+            self.ortsteilname =  self.kommune
+
         self.addParameter(
             QgsProcessingParameterVectorLayer(
                 "Umring",
@@ -121,7 +129,7 @@ class XPlanUmringAlgorithmFP60(QgsProcessingAlgorithm):
                 "Gemeindename",
                 optional=True,
                 multiLine=False,
-                defaultValue="",
+                defaultValue=self.kommune,
             )
         )
         self.addParameter(
@@ -130,7 +138,7 @@ class XPlanUmringAlgorithmFP60(QgsProcessingAlgorithm):
                 "Ortsteilname",
                 optional=True,
                 multiLine=False,
-                defaultValue="",
+                defaultValue=self.ortsteilname,
             )
         )
         self.addParameter(
@@ -139,7 +147,7 @@ class XPlanUmringAlgorithmFP60(QgsProcessingAlgorithm):
                 "Amtlicher Gemeindeschlüssel (AGS)",
                 optional=True,
                 multiLine=False,
-                defaultValue="",
+                defaultValue=self.ags,
             )
         )
         self.addParameter(

@@ -26,9 +26,10 @@ __author__ = "Kreis Viersen"
 __date__ = "2023-05-22"
 __copyright__ = "(C) 2023 by Kreis Viersen"
 
+import inspect
+import json
 import os
 import sys
-import inspect
 
 from qgis import processing
 from qgis.core import QgsApplication, QgsSettings
@@ -36,8 +37,9 @@ from qgis.core import QgsApplication, QgsSettings
 from qgis.utils import iface
 
 from qgis.PyQt import uic
+from qgis.PyQt.QtCore import Qt
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction, QDialog, QMenu, QMessageBox
+from qgis.PyQt.QtWidgets import QAction, QCompleter, QDialog, QMenu, QMessageBox
 
 from .xplan_umring_provider import XPlanUmringProvider
 
@@ -112,13 +114,68 @@ class XPlanUmringPlugin(object):
             self.iface.mainWindow(), "Über XPlan-Umring", aboutString
         )
 
+    def on_combo_box_changed(self, text):
+        opening_parenthesis_index = text.find("(")
+
+        if opening_parenthesis_index != -1:
+            self.kommune = text[:opening_parenthesis_index].strip()
+
+            closing_parenthesis_index = text.find(")", opening_parenthesis_index + 1)
+
+            if closing_parenthesis_index != -1:
+                self.ags = text[
+                    opening_parenthesis_index + 1 : closing_parenthesis_index
+                ]
+            else:
+                self.ags = ""
+        else:
+            self.kommune = text
+            self.ags = ""
+
     def runXplanUmring(self):
         self.dlg = LoadDialog(self)
-        settings = QgsSettings()
-        self.selectedTool = settings.value("xplan-umring/mytool", "bebauungsplan60")
+        self.settings = QgsSettings()
+        self.selectedTool = self.settings.value(
+            "xplan-umring/mytool", "bebauungsplan60"
+        )
+
+        self.kommune = self.settings.value("xplan-umring/kommune", "")
+        self.ags = self.settings.value("xplan-umring/ags", "")
+
+        self.selected_bezeichnung_ags = self.kommune + " (" + self.ags + ")"
+
+        ags_data_source = os.path.join(self.plugin_dir, "ags/AGS_2024-02-29.json")
+
+        with open(ags_data_source, encoding="UTF-8") as json_file:
+            ags_data = json.load(json_file)
+
+        self.bezeichnung_ags = sorted(
+            [f"{entry[1]} ({entry[0]})" for entry in ags_data["daten"]]
+        )
+
+        if self.selected_bezeichnung_ags in self.bezeichnung_ags:
+            selected_index = self.bezeichnung_ags.index(self.selected_bezeichnung_ags)
+        else:
+            custom_string = self.kommune
+            if len(self.ags) > 0:
+                custom_string = custom_string + " (" + self.ags + ")"
+            self.bezeichnung_ags.append(custom_string)
+            selected_index = self.bezeichnung_ags.index(custom_string)
+
+        self.dlg.cb_ags.blockSignals(True)
+        self.dlg.cb_ags.clear()
+        self.dlg.cb_ags.addItems(self.bezeichnung_ags)
+        self.dlg.cb_ags.setCurrentIndex(selected_index)
+        self.dlg.cb_ags.blockSignals(False)
+        self.dlg.cb_ags.setEditable(True)
+        completer = QCompleter(self.bezeichnung_ags, self.dlg.cb_ags)
+        self.dlg.cb_ags.setCompleter(completer)
+        self.dlg.cb_ags.completer().setCompletionMode(QCompleter.PopupCompletion)
+        self.dlg.cb_ags.completer().setCaseSensitivity(Qt.CaseInsensitive)
+        self.dlg.cb_ags.currentTextChanged.connect(self.on_combo_box_changed)
 
         def saveTool(tool):
-            settings.setValue("xplan-umring/mytool", tool)
+            self.settings.setValue("xplan-umring/mytool", tool)
             self.selectedTool = tool
 
         self.dlg.rb_bp_54.toggled.connect(lambda: saveTool("bebauungsplan54"))
@@ -142,4 +199,7 @@ class XPlanUmringPlugin(object):
 
         # check if confirmed with OK
         if result == 1:
+            self.settings.setValue("xplan-umring/kommune", self.kommune)
+            self.settings.setValue("xplan-umring/ags", self.ags)
+
             processing.execAlgorithmDialog("xplanumring:" + self.selectedTool)

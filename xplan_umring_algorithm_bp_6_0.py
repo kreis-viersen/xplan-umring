@@ -39,6 +39,7 @@ from qgis.core import (
     QgsProcessingParameterString,
     QgsProcessingParameterVectorLayer,
     QgsProcessingUtils,
+    QgsSettings,
 )
 
 from qgis.PyQt.QtXml import QDomDocument
@@ -90,6 +91,13 @@ class XPlanUmringAlgorithmBP60(QgsProcessingAlgorithm):
         )
 
     def initAlgorithm(self, config=None):
+        settings = QgsSettings()
+        self.kommune = settings.value("xplan-umring/kommune", "")
+        self.ags = settings.value("xplan-umring/ags", "")
+        self.ortsteilname = ""
+        if self.ags.startswith(("05114", "05154", "05158", "05166", "05170")):
+            self.ortsteilname =  self.kommune
+        
         self.addParameter(
             QgsProcessingParameterVectorLayer(
                 "Umring",
@@ -123,16 +131,16 @@ class XPlanUmringAlgorithmBP60(QgsProcessingAlgorithm):
                 "Gemeindename [Pflicht]",
                 optional=False,
                 multiLine=False,
-                defaultValue="Name der Kommune",
+                defaultValue=self.kommune,
             )
         )
         self.addParameter(
             QgsProcessingParameterString(
                 "Ortsteilname",
-                "Ortsteilname [Pflicht]",
-                optional=False,
+                "Ortsteilname",
+                optional=True,
                 multiLine=False,
-                defaultValue="Name der Kommune wenn nichts anderes bekannt",
+                defaultValue=self.ortsteilname,
             )
         )
         self.addParameter(
@@ -141,7 +149,7 @@ class XPlanUmringAlgorithmBP60(QgsProcessingAlgorithm):
                 "AGS (8-stellig) [Pflicht]",
                 optional=False,
                 multiLine=False,
-                defaultValue="05166032",
+                defaultValue=self.ags,
             )
         )
         self.addParameter(
@@ -507,10 +515,19 @@ class XPlanUmringAlgorithmBP60(QgsProcessingAlgorithm):
         ):
             gemeindename_element.text = gemeindename
 
-        for ortsteilname_element in root.iter(
-            "{http://www.xplanung.de/xplangml/6/0}ortsteilName"
-        ):
-            ortsteilname_element.text = ortsteilname
+        ortsteilname_element = next(
+            bp_plan_element.iter(
+                "{http://www.xplanung.de/xplangml/6/0}ortsteilName"
+            )
+        )
+
+        if ortsteilname == "":
+            for xp_gemeinde_element in root.iter(
+                "{http://www.xplanung.de/xplangml/6/0}XP_Gemeinde"
+            ):
+                xp_gemeinde_element.remove(ortsteilname_element)
+        else:
+                ortsteilname_element.text = ortsteilname
 
         for ags_element in root.iter("{http://www.xplanung.de/xplangml/6/0}ags"):
             ags_element.text = ags
