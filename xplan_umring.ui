@@ -96,7 +96,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Geltungsbereich Umringszenario ersetzen (Geometrie-Update)</string>
+      <string>Geometrie-Update</string>
      </property>
     </widget>
    </item>

@@ -50,7 +50,7 @@ class XPlanUmringAlgorithmReplaceGeometry(QgsProcessingAlgorithm):
         return "replacegeometry"
 
     def displayName(self):
-        return "Geltungsbereich Umringszenario ersetzen"
+        return "Geometrie-Update"
 
     def group(self):
         return self.groupId()

@@ -37,7 +37,7 @@ Aktuell stehen für den Bebauungsplan vier Rechtsstände zur Auswahl, wodurch au
 Quelle (bearbeitet): https://xleitstelle.de/downloads/xplanung/releases/XPlanung%20Version%205.3/Objektartenkatalog%20%28PDF%29.pdf
 
 
-## Werkzeug Geltungsbereich ersetzen
+## Werkzeug "Geometrie Update"
 
 Umringgeometrie (räumlichen Geltungsbereich) einer XPlanGML ersetzen (alle anderen Attribute bleiben erhalten).
 
@@ -49,7 +49,17 @@ Dazu noch die zu verändernde XPlanGML und den Speicherort und Namen für die er
 
 Es werden nur XPlanGML mit maximal einem *_Bereich unterstützt.
 
-<img src="./screenshots/eingabemaske_geltungsbereich_ersetzen.png"/>
+<img src="./screenshots/eingabemaske_geometrie-update.png"/>
+
+## Werkzeug "Rasterplan mit Polygon zuschneiden"
+
+Eingabelayer für das Werkzeug sind:
+1. Rasterlayer mit dem Plan, welcher zugeschnitten werden soll.
+2. Vektorlayer mit dem Polygon, welches zum Zuschneiden verwendet werden soll.
+
+Dazu den Speicherort und Name für den erzeugten Rasterplan festlegen.
+
+<img src="./screenshots/eingabemaske_raster_zuschneiden.png"/>
 
 ## Klassisches Einsatz-Szenario
 
