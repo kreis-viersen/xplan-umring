@@ -183,6 +183,7 @@ class XPlanUmringPlugin(object):
         self.dlg.rb_fp_60.toggled.connect(lambda: saveTool("flaechennutzungsplan60"))
         self.dlg.rb_lp_60.toggled.connect(lambda: saveTool("landschaftsplan60"))
         self.dlg.rb_replace.toggled.connect(lambda: saveTool("replacegeometry"))
+        self.dlg.rb_clip.toggled.connect(lambda: saveTool("clipraster"))
 
         if self.selectedTool == "bebauungsplan54":
             self.dlg.rb_bp_54.setChecked(True)
@@ -194,6 +195,8 @@ class XPlanUmringPlugin(object):
             self.dlg.rb_lp_60.setChecked(True)
         elif self.selectedTool == "replacegeometry":
             self.dlg.rb_replace.setChecked(True)
+        elif self.selectedTool == "clipraster":
+            self.dlg.rb_clip.setChecked(True)
 
         result = self.dlg.exec_()
 

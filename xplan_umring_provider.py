@@ -34,6 +34,7 @@ from .xplan_umring_algorithm_bp_6_0 import XPlanUmringAlgorithmBP60
 from .xplan_umring_algorithm_fp_6_0 import XPlanUmringAlgorithmFP60
 from .xplan_umring_algorithm_lp_6_0 import XPlanUmringAlgorithmLP60
 from .xplan_umring_algorithm_replace_geometry import XPlanUmringAlgorithmReplaceGeometry
+from .xplan_umring_algorithm_clip_raster import XPlanUmringAlgorithmClipRaster
 
 
 class XPlanUmringProvider(QgsProcessingProvider):
@@ -60,6 +61,7 @@ class XPlanUmringProvider(QgsProcessingProvider):
         self.addAlgorithm(XPlanUmringAlgorithmFP60())
         self.addAlgorithm(XPlanUmringAlgorithmLP60())
         self.addAlgorithm(XPlanUmringAlgorithmReplaceGeometry())
+        self.addAlgorithm(XPlanUmringAlgorithmClipRaster())
 
     def id(self):
         """
