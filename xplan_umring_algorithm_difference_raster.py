@@ -1,6 +1,6 @@
 """
 ***************************************************************************
-XPlan-Umring - Clip Raster
+XPlan-Umring - Difference Raster
 
         begin                : April 2024
         Copyright            : (C) 2024 by Kreis Viersen
@@ -31,18 +31,18 @@ from qgis.core import (
 )
 
 
-class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
+class XPlanUmringAlgorithmDifferenceRaster(QgsProcessingAlgorithm):
     def createInstance(self):
-        return XPlanUmringAlgorithmClipRaster()
+        return XPlanUmringAlgorithmDifferenceRaster()
 
     def flags(self):
         return super().flags() | QgsProcessingAlgorithm.FlagNoThreading
 
     def name(self):
-        return "clipraster"
+        return "differenceraster"
 
     def displayName(self):
-        return "Rasterplan auf Polygon zuschneiden"
+        return "Polygon von Rasterplan abziehen"
 
     def group(self):
         return self.groupId()
@@ -52,13 +52,13 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
 
     def shortHelpString(self):
         return (
-            "Rasterplan mit Polygon zuschneiden"
+            "Polygon von Rasterplan abziehen"
             + "\n\n"
             + "Eingabelayer für das Skript sind:"
             + "\n"
-            + "1. Rasterlayer mit dem Plan, welcher zugeschnitten werden soll."
+            + "1. Rasterlayer mit dem Plan, von welchem die Fläche des Polygons abgezogen werden soll."
             + "\n"
-            + "2. Vektorlayer mit dem Polygon, welches zum Zuschneiden verwendet werden soll."
+            + "2. Vektorlayer mit dem Polygon, welches zum Abziehen verwendet werden soll."
             + "\n\n"
             + "Wichtig: Der Eingabelayer muss ein Polygonlayer sein."
             + "\n\n"
@@ -72,26 +72,27 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
         )
 
     def shortDescription(self):
-        return "Rasterplan mit Polygon zuschneiden"
+        return "Polygon von Rasterplan abziehen"
 
     def initAlgorithm(self, config=None):
         self.addParameter(
             QgsProcessingParameterRasterLayer(
-                "alter_plan_raster", "alter Plan (Raster)", defaultValue=None
+                "alter_plan_raster", "Alter Plan (Raster)", defaultValue=None
             )
         )
         self.addParameter(
             QgsProcessingParameterVectorLayer(
-                "polygon_zum_abziehen_vektor",
-                "Polygon zum Abziehen (Vektor)",
+                "polygon_zum_zuschneiden",
+                "Polygon zum Zuschneiden (Vektor)",
+                optional=False,
                 types=[QgsProcessing.TypeVectorPolygon],
                 defaultValue=None,
             )
         )
         self.addParameter(
             QgsProcessingParameterRasterDestination(
-                "ErzeugterRasterplan",
-                "erzeugter Rasterplan",
+                "ZugeschnittenerRasterplan",
+                "Zugeschnittener Rasterplan",
                 createByDefault=True,
                 defaultValue=None,
             )
@@ -100,14 +101,31 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
     feedback = QgsProcessingFeedback()
 
     def processAlgorithm(self, parameters, context, feedback):
-        feedback = QgsProcessingMultiStepFeedback(2, feedback)
+        feedback = QgsProcessingMultiStepFeedback(4, feedback)
         results = {}
         outputs = {}
+
+        # Layer aus Ausdehnung erzeugen
+        alg_params = {
+            "INPUT": parameters["alter_plan_raster"],
+            "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
+        }
+        outputs["LayerAusAusdehnungErzeugen"] = processing.run(
+            "native:extenttolayer",
+            alg_params,
+            context=context,
+            feedback=feedback,
+            is_child_algorithm=True,
+        )
+
+        feedback.setCurrentStep(1)
+        if feedback.isCanceled():
+            return {}
 
         # Durch maximalen Abstand segmentieren
         alg_params = {
             "DISTANCE": 0.01,
-            "INPUT": parameters["polygon_zum_abziehen_vektor"],
+            "INPUT": parameters["polygon_zum_zuschneiden"],
             "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
         }
         outputs["DurchMaximalenAbstandSegmentieren"] = processing.run(
@@ -118,7 +136,26 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
             is_child_algorithm=True,
         )
 
-        feedback.setCurrentStep(1)
+        feedback.setCurrentStep(2)
+        if feedback.isCanceled():
+            return {}
+
+        # Differenz
+        alg_params = {
+            "GRID_SIZE": None,
+            "INPUT": outputs["LayerAusAusdehnungErzeugen"]["OUTPUT"],
+            "OVERLAY": outputs["DurchMaximalenAbstandSegmentieren"]["OUTPUT"],
+            "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
+        }
+        outputs["Differenz"] = processing.run(
+            "native:difference",
+            alg_params,
+            context=context,
+            feedback=feedback,
+            is_child_algorithm=True,
+        )
+
+        feedback.setCurrentStep(3)
         if feedback.isCanceled():
             return {}
 
@@ -130,7 +167,7 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
             "EXTRA": "",
             "INPUT": parameters["alter_plan_raster"],
             "KEEP_RESOLUTION": False,
-            "MASK": outputs["DurchMaximalenAbstandSegmentieren"]["OUTPUT"],
+            "MASK": outputs["Differenz"]["OUTPUT"],
             "MULTITHREADING": False,
             "NODATA": None,
             "OPTIONS": "",
@@ -140,7 +177,7 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
             "TARGET_EXTENT": None,
             "X_RESOLUTION": None,
             "Y_RESOLUTION": None,
-            "OUTPUT": parameters["ErzeugterRasterplan"],
+            "OUTPUT": parameters["ZugeschnittenerRasterplan"],
         }
         outputs["RasterAufLayermaskeZuschneiden"] = processing.run(
             "gdal:cliprasterbymasklayer",
@@ -149,7 +186,7 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
             feedback=feedback,
             is_child_algorithm=True,
         )
-        results["ErzeugterRasterplan"] = outputs["RasterAufLayermaskeZuschneiden"][
-            "OUTPUT"
-        ]
+        results["ZugeschnittenerRasterplan"] = outputs[
+            "RasterAufLayermaskeZuschneiden"
+        ]["OUTPUT"]
         return results

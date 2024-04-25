@@ -51,7 +51,7 @@ Es werden nur XPlanGML mit maximal einem *_Bereich unterstützt.
 
 <img src="./screenshots/eingabemaske_geometrie-update.png"/>
 
-## Werkzeug "Rasterplan mit Polygon zuschneiden"
+## Werkzeug "Rasterplan auf Polygon zuschneiden"
 
 Eingabelayer für das Werkzeug sind:
 1. Rasterlayer mit dem Plan, welcher zugeschnitten werden soll.
@@ -60,6 +60,16 @@ Eingabelayer für das Werkzeug sind:
 Dazu den Speicherort und Name für den erzeugten Rasterplan festlegen.
 
 <img src="./screenshots/eingabemaske_raster_zuschneiden.png"/>
+
+## Werkzeug "Polygon von Rasterplan abziehen"
+
+Eingabelayer für das Werkzeug sind:
+1. Rasterlayer mit dem Plan, von welchem die Fläche des Polygons abgezogen werden soll.
+2. Vektorlayer mit dem Polygon, welches zum Abziehen verwendet werden soll.
+
+Dazu den Speicherort und Name für den erzeugten Rasterplan festlegen.
+
+<img src="./screenshots/eingabemaske_polygon_von_raster_abziehen.png"/>
 
 ## Klassisches Einsatz-Szenario
 
