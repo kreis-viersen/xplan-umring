@@ -82,8 +82,8 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
         )
         self.addParameter(
             QgsProcessingParameterVectorLayer(
-                "polygon_zum_abziehen_vektor",
-                "Polygon zum Abziehen (Vektor)",
+                "polygon_zum_zuschneiden_vektor",
+                "Polygon zum Zuschneiden (Vektor)",
                 types=[QgsProcessing.TypeVectorPolygon],
                 defaultValue=None,
             )
@@ -107,7 +107,7 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
         # Durch maximalen Abstand segmentieren
         alg_params = {
             "DISTANCE": 0.01,
-            "INPUT": parameters["polygon_zum_abziehen_vektor"],
+            "INPUT": parameters["polygon_zum_zuschneiden_vektor"],
             "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
         }
         outputs["DurchMaximalenAbstandSegmentieren"] = processing.run(

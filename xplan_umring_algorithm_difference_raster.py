@@ -82,8 +82,8 @@ class XPlanUmringAlgorithmDifferenceRaster(QgsProcessingAlgorithm):
         )
         self.addParameter(
             QgsProcessingParameterVectorLayer(
-                "polygon_zum_zuschneiden",
-                "Polygon zum Zuschneiden (Vektor)",
+                "polygon_zum_abziehen",
+                "Polygon zum Abziehen (Vektor)",
                 optional=False,
                 types=[QgsProcessing.TypeVectorPolygon],
                 defaultValue=None,
@@ -91,8 +91,8 @@ class XPlanUmringAlgorithmDifferenceRaster(QgsProcessingAlgorithm):
         )
         self.addParameter(
             QgsProcessingParameterRasterDestination(
-                "ZugeschnittenerRasterplan",
-                "Zugeschnittener Rasterplan",
+                "ErzeugterRasterplan",
+                "erzeugter Rasterplan",
                 createByDefault=True,
                 defaultValue=None,
             )
@@ -125,7 +125,7 @@ class XPlanUmringAlgorithmDifferenceRaster(QgsProcessingAlgorithm):
         # Durch maximalen Abstand segmentieren
         alg_params = {
             "DISTANCE": 0.01,
-            "INPUT": parameters["polygon_zum_zuschneiden"],
+            "INPUT": parameters["polygon_zum_abziehen"],
             "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
         }
         outputs["DurchMaximalenAbstandSegmentieren"] = processing.run(
@@ -177,7 +177,7 @@ class XPlanUmringAlgorithmDifferenceRaster(QgsProcessingAlgorithm):
             "TARGET_EXTENT": None,
             "X_RESOLUTION": None,
             "Y_RESOLUTION": None,
-            "OUTPUT": parameters["ZugeschnittenerRasterplan"],
+            "OUTPUT": parameters["ErzeugterRasterplan"],
         }
         outputs["RasterAufLayermaskeZuschneiden"] = processing.run(
             "gdal:cliprasterbymasklayer",
@@ -186,7 +186,7 @@ class XPlanUmringAlgorithmDifferenceRaster(QgsProcessingAlgorithm):
             feedback=feedback,
             is_child_algorithm=True,
         )
-        results["ZugeschnittenerRasterplan"] = outputs[
+        results["ErzeugterRasterplan"] = outputs[
             "RasterAufLayermaskeZuschneiden"
         ]["OUTPUT"]
         return results

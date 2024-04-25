@@ -2,7 +2,7 @@
 name=XPlan-Umring
 qgisMinimumVersion=3.24
 description=Create XPlanGML from polygon(s)
-version=2.8.0
+version=2.8.1
 author=Kreis Viersen
 email=open@kreis-viersen.de
 
@@ -19,7 +19,9 @@ icon=xplan_umring_icon.png
 experimental=False
 server=False
 hasProcessingProvider=yes
-changelog=v2.8.0:
+changelog=v2.8.1:
+    - Eingaben für Hilfswerkzeuge eindeutiger benannt
+    v2.8.0:
     - Neues Werkzeug: "Rasterplan auf Polygon zuschneiden"
     - Umbenennung Werkzeug: "Rasterplan mit Polygon zuschneiden" nach "Polygon von Rasterplan abziehen"
     v2.7.0:
