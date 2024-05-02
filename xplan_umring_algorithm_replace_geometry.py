@@ -216,9 +216,23 @@ class XPlanUmringAlgorithmReplaceGeometry(QgsProcessingAlgorithm):
 
         outputs = {}
 
+        # Zu erhaltende Felder
+        alg_params = {
+            "FIELDS": [""],
+            "INPUT": parameters["Umring"],
+            "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
+        }
+        outputs["ZuErhaltendeFelder"] = processing.run(
+            "native:retainfields",
+            alg_params,
+            context=context,
+            feedback=feedback,
+            is_child_algorithm=True,
+        )
+
         # Mehr- zu einteilig
         alg_params = {
-            "INPUT": parameters["Umring"],
+            "INPUT": outputs["ZuErhaltendeFelder"]["OUTPUT"],
             "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
         }
         outputs["GeometrienSammeln"] = processing.run(
@@ -339,9 +353,9 @@ class XPlanUmringAlgorithmReplaceGeometry(QgsProcessingAlgorithm):
         for MultiSurface_element in new_geltungsbereich_element.iter(
             "{http://www.opengis.net/gml/3.2}MultiSurface"
         ):
-            MultiSurface_element.attrib[
-                "{http://www.opengis.net/gml/3.2}id"
-            ] = "ID_" + str(uuid.uuid4())
+            MultiSurface_element.attrib["{http://www.opengis.net/gml/3.2}id"] = (
+                "ID_" + str(uuid.uuid4())
+            )
             MultiSurface_element.attrib["srsName"] = kbs
 
         for polygon_element in new_geltungsbereich_element.iter(
