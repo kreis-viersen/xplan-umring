@@ -61,7 +61,7 @@ class XPlanUmringAlgorithmDifferenceRaster(QgsProcessingAlgorithm):
             + "\n"
             + "2. Vektorlayer mit dem Polygon, welches zum Abziehen verwendet werden soll."
             + "\n"
-            + "Wichtig: Der Eingabelayer muss ein Polygonlayer sein."
+            + "Wichtig: Der Vektorlayer muss ein Polygonlayer sein."
             + "\n"
             + "3. Optional kann die Farbe auf Farpalettenindex 0 als Leerwert gesetzt werden. "
             + "\n"
