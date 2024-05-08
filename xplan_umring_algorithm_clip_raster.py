@@ -63,7 +63,7 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
             + "\n"
             + "Wichtig: Der Vektorlayer muss ein Polygonlayer sein."
             + "\n"
-            + "3. Optional kann die Farbe auf Farpalettenindex 0 als Leerwert gesetzt werden. "
+            + "3. Optional kann die Farbe auf Farbpalettenindex 0 als Leerwert gesetzt werden. "
             + "\n"
             + "Für die Verwendung des Rasterplans in der KRZN-XPlanBox sollte dies die Regel und "
             + "die Farbe auf Index 0 'Reinweiß' RGB(255,255,255) sein."
