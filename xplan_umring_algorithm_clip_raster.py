@@ -25,6 +25,7 @@ from qgis.core import (
     QgsProcessingAlgorithm,
     QgsProcessingFeedback,
     QgsProcessingMultiStepFeedback,
+    QgsProcessingParameterBoolean,
     QgsProcessingParameterVectorLayer,
     QgsProcessingParameterRasterLayer,
     QgsProcessingParameterRasterDestination,
@@ -59,8 +60,13 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
             + "1. Rasterlayer mit dem Plan, welcher zugeschnitten werden soll."
             + "\n"
             + "2. Vektorlayer mit dem Polygon, welches zum Zuschneiden verwendet werden soll."
-            + "\n\n"
+            + "\n"
             + "Wichtig: Der Eingabelayer muss ein Polygonlayer sein."
+            + "\n"
+            + "3. Optional kann die Farbe auf Farpalettenindex 0 als Leerwert gesetzt werden. "
+            + "\n"
+            + "Für die Verwendung des Rasterplans in der KRZN-XPlanBox sollte dies die Regel und "
+            + "die Farbe auf Index 0 'Reinweiß' RGB(255,255,255) sein."
             + "\n\n"
             + "Dazu den Speicherort und Name für den erzeugten Rasterplan festlegen."
             + "\n\n"
@@ -89,6 +95,14 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
             )
         )
         self.addParameter(
+            QgsProcessingParameterBoolean(
+                "no_data",
+                "Farbpalettenindex 0 als Leerwert setzen",
+                optional=True,
+                defaultValue=False,
+            )
+        )
+        self.addParameter(
             QgsProcessingParameterRasterDestination(
                 "ErzeugterRasterplan",
                 "erzeugter Rasterplan",
@@ -103,6 +117,12 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
         feedback = QgsProcessingMultiStepFeedback(2, feedback)
         results = {}
         outputs = {}
+
+        no_data = self.parameterAsBool(parameters, "no_data", context)
+
+        palett_index = None
+        if no_data:
+            palett_index = 0
 
         # Durch maximalen Abstand segmentieren
         alg_params = {
@@ -132,7 +152,7 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
             "KEEP_RESOLUTION": False,
             "MASK": outputs["DurchMaximalenAbstandSegmentieren"]["OUTPUT"],
             "MULTITHREADING": False,
-            "NODATA": None,
+            "NODATA": palett_index,
             "OPTIONS": "",
             "SET_RESOLUTION": False,
             "SOURCE_CRS": None,

@@ -2,7 +2,7 @@
 name=XPlan-Umring
 qgisMinimumVersion=3.24
 description=Create XPlanGML from polygon(s)
-version=2.9.0
+version=2.10.0
 author=Kreis Viersen
 email=open@kreis-viersen.de
 
@@ -19,7 +19,9 @@ icon=xplan_umring_icon.png
 experimental=False
 server=False
 hasProcessingProvider=yes
-changelog=v2.9.0:
+changelog=v2.10.0:
+    - Raster-Hilfswerkzeuge: Option zum Leerwert setzen
+    v2.9.0:
     - Werkzeug "Geometrie-Update" verbessert
     v2.8.1:
     - Eingaben für Hilfswerkzeuge eindeutiger benannt
