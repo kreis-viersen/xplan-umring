@@ -190,7 +190,7 @@ class XPlanUmringAlgorithmDifferenceRaster(QgsProcessingAlgorithm):
             "MASK": outputs["Differenz"]["OUTPUT"],
             "MULTITHREADING": False,
             "NODATA": palett_index,
-            "OPTIONS": "",
+            "OPTIONS": "COMPRESS=DEFLATE",
             "SET_RESOLUTION": False,
             "SOURCE_CRS": None,
             "TARGET_CRS": None,
