@@ -518,6 +518,20 @@ class XPlanUmringAlgorithmBP60(QgsProcessingAlgorithm):
             )
             polygon_element.attrib["srsName"] = kbs
 
+        for linestring_element in root.iter(
+            "{http://www.opengis.net/gml/3.2}LineString"
+        ):
+            linestring_element.attrib["{http://www.opengis.net/gml/3.2}id"] = (
+                "ID_" + str(uuid.uuid4())
+            )
+            linestring_element.attrib["srsName"] = kbs
+
+        for curve_element in root.iter("{http://www.opengis.net/gml/3.2}Curve"):
+            curve_element.attrib["{http://www.opengis.net/gml/3.2}id"] = "ID_" + str(
+                uuid.uuid4()
+            )
+            curve_element.attrib["srsName"] = kbs
+
         for lowerCorner_element in root.iter(
             "{http://www.opengis.net/gml/3.2}lowerCorner"
         ):

@@ -2,7 +2,7 @@
 name=XPlan-Umring
 qgisMinimumVersion=3.24
 description=Create XPlanGML from polygon(s)
-version=2.10.0
+version=2.11.0
 author=Kreis Viersen
 email=open@kreis-viersen.de
 
@@ -19,10 +19,10 @@ icon=xplan_umring_icon.png
 experimental=False
 server=False
 hasProcessingProvider=yes
-changelog=unreleased:
+changelog=v2.11.0:
     - neue optionale Attribute "technHerstellDatum" und "erstellungsMassstab" für BP, FP, LP v6.0 
     - Raster-Hilfswerkzeuge: Komprimiere erzeugte Rasterpläne mit Deflate
-    - Raster-Hilfswerkzeuge: Behebe Fehler für bestimmte Polygone
+    - alle Werkzeuge: behebe diverse Fehler für bestimmte Eingabe-Polygone
     v2.10.0:
     - Raster-Hilfswerkzeuge: Option zum Leerwert setzen
     v2.9.0:

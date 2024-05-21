@@ -366,6 +366,22 @@ class XPlanUmringAlgorithmReplaceGeometry(QgsProcessingAlgorithm):
             )
             polygon_element.attrib["srsName"] = kbs
 
+        for linestring_element in new_geltungsbereich_element.iter(
+            "{http://www.opengis.net/gml/3.2}LineString"
+        ):
+            linestring_element.attrib["{http://www.opengis.net/gml/3.2}id"] = (
+                "ID_" + str(uuid.uuid4())
+            )
+            linestring_element.attrib["srsName"] = kbs
+
+        for curve_element in new_geltungsbereich_element.iter(
+            "{http://www.opengis.net/gml/3.2}Curve"
+        ):
+            curve_element.attrib["{http://www.opengis.net/gml/3.2}id"] = "ID_" + str(
+                uuid.uuid4()
+            )
+            curve_element.attrib["srsName"] = kbs
+
         raeumlicherGeltungsbereich_element.getparent().replace(
             raeumlicherGeltungsbereich_element, new_geltungsbereich_element
         )

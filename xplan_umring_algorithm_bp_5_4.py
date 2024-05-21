@@ -96,7 +96,7 @@ class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
         self.ags = settings.value("xplan-umring/ags", "")
         self.ortsteilname = ""
         if self.ags.startswith(("05114", "05154", "05158", "05166", "05170")):
-            self.ortsteilname =  self.kommune
+            self.ortsteilname = self.kommune
 
         self.addParameter(
             QgsProcessingParameterVectorLayer(
@@ -489,6 +489,20 @@ class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
             )
             polygon_element.attrib["srsName"] = kbs
 
+        for linestring_element in root.iter(
+            "{http://www.opengis.net/gml/3.2}LineString"
+        ):
+            linestring_element.attrib["{http://www.opengis.net/gml/3.2}id"] = (
+                "ID_" + str(uuid.uuid4())
+            )
+            linestring_element.attrib["srsName"] = kbs
+
+        for curve_element in root.iter("{http://www.opengis.net/gml/3.2}Curve"):
+            curve_element.attrib["{http://www.opengis.net/gml/3.2}id"] = "ID_" + str(
+                uuid.uuid4()
+            )
+            curve_element.attrib["srsName"] = kbs
+
         for lowerCorner_element in root.iter(
             "{http://www.opengis.net/gml/3.2}lowerCorner"
         ):
@@ -516,9 +530,7 @@ class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
             gemeindename_element.text = gemeindename
 
         ortsteilname_element = next(
-            bp_plan_element.iter(
-                "{http://www.xplanung.de/xplangml/5/4}ortsteilName"
-            )
+            bp_plan_element.iter("{http://www.xplanung.de/xplangml/5/4}ortsteilName")
         )
 
         if ortsteilname == "":
@@ -527,7 +539,7 @@ class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
             ):
                 xp_gemeinde_element.remove(ortsteilname_element)
         else:
-                ortsteilname_element.text = ortsteilname
+            ortsteilname_element.text = ortsteilname
 
         for ags_element in root.iter("{http://www.xplanung.de/xplangml/5/4}ags"):
             ags_element.text = ags
