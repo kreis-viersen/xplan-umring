@@ -36,6 +36,7 @@ from qgis.core import (
     QgsProcessingParameterDateTime,
     QgsProcessingParameterEnum,
     QgsProcessingParameterFile,
+    QgsProcessingParameterNumber,
     QgsProcessingParameterString,
     QgsProcessingParameterVectorLayer,
     QgsProcessingUtils,
@@ -94,7 +95,7 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
         self.ags = settings.value("xplan-umring/ags", "")
         self.ortsteilname = ""
         if self.ags.startswith(("05114", "05154", "05158", "05166", "05170")):
-            self.ortsteilname =  self.kommune
+            self.ortsteilname = self.kommune
 
         self.addParameter(
             QgsProcessingParameterVectorLayer(
@@ -269,6 +270,24 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
             )
         )
         self.addParameter(
+            QgsProcessingParameterNumber(
+                "Erstellungsmaßstab",
+                "Erstellungsmaßstab",
+                optional=True,
+                type=QgsProcessingParameterNumber.Integer,
+                minValue=1,
+            )
+        )
+        self.addParameter(
+            QgsProcessingParameterDateTime(
+                "DatumHerstellung",
+                "Datum technische Herstellung",
+                optional=True,
+                type=QgsProcessingParameterDateTime.Date,
+                defaultValue=None,
+            )
+        )
+        self.addParameter(
             QgsProcessingParameterFile(
                 name="outputZip",
                 description="Speicherpfad für erzeugtes XPlan-Archiv [Pflicht]",
@@ -334,6 +353,14 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
         datum = self.parameterAsString(parameters, "DatumRechtsstand", context).strip()
 
         kbs = self.parameterAsString(parameters, "Koordinatenbezugssystem", context)
+
+        erstellungsmaßstab = self.parameterAsString(
+            parameters, "Erstellungsmaßstab", context
+        )
+
+        herstellungsdatum = self.parameterAsString(
+            parameters, "DatumHerstellung", context
+        ).strip()
 
         my_output_folder = self.parameterAsString(parameters, "outputZip", context)
 
@@ -445,6 +472,8 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
               <xplan:name>Name Bebauungsplan</xplan:name>
               <xplan:nummer>Nummer Bebaungsplan</xplan:nummer>
               <xplan:untergangsDatum></xplan:untergangsDatum>
+              <xplan:technHerstellDatum>{herstellungsdatum}</xplan:technHerstellDatum>
+              <xplan:erstellungsMassstab>{erstellungsmaßstab}</xplan:erstellungsMassstab>
               <xplan:raeumlicherGeltungsbereich>
                 {gml_geometry_string}
               </xplan:raeumlicherGeltungsbereich>
@@ -604,6 +633,18 @@ class XPlanUmringAlgorithmLP60(QgsProcessingAlgorithm):
                 lp_plan_element.remove(aufstellungsbeschlussDatum_element)
                 lp_plan_element.remove(untergangsDatum_element)
                 lp_plan_element.remove(inkrafttretenDatum_element)
+
+        for erstellungsmaßstab_element in root.iter(
+            "{http://www.xplanung.de/xplangml/6/0}erstellungsMassstab"
+        ):
+            if erstellungsmaßstab == "":
+                lp_plan_element.remove(erstellungsmaßstab_element)
+
+        for herstellungsdatum_element in root.iter(
+            "{http://www.xplanung.de/xplangml/6/0}technHerstellDatum"
+        ):
+            if herstellungsdatum == "":
+                lp_plan_element.remove(herstellungsdatum_element)
 
         etree.indent(tree, space="\t", level=0)
 

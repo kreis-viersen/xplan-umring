@@ -20,6 +20,7 @@ experimental=False
 server=False
 hasProcessingProvider=yes
 changelog=unreleased:
+    - neue optionale Attribute "technHerstellDatum" und "erstellungsMassstab" für BP, FP, LP v6.0 
     - Raster-Hilfswerkzeuge: Komprimiere erzeugte Rasterpläne mit Deflate
     - Raster-Hilfswerkzeuge: Behebe Fehler für bestimmte Polygone
     v2.10.0:

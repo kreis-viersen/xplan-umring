@@ -36,6 +36,7 @@ from qgis.core import (
     QgsProcessingParameterDateTime,
     QgsProcessingParameterEnum,
     QgsProcessingParameterFile,
+    QgsProcessingParameterNumber,
     QgsProcessingParameterString,
     QgsProcessingParameterVectorLayer,
     QgsProcessingUtils,
@@ -96,8 +97,8 @@ class XPlanUmringAlgorithmBP60(QgsProcessingAlgorithm):
         self.ags = settings.value("xplan-umring/ags", "")
         self.ortsteilname = ""
         if self.ags.startswith(("05114", "05154", "05158", "05166", "05170")):
-            self.ortsteilname =  self.kommune
-        
+            self.ortsteilname = self.kommune
+
         self.addParameter(
             QgsProcessingParameterVectorLayer(
                 "Umring",
@@ -235,6 +236,24 @@ class XPlanUmringAlgorithmBP60(QgsProcessingAlgorithm):
             )
         )
         self.addParameter(
+            QgsProcessingParameterNumber(
+                "Erstellungsmaßstab",
+                "Erstellungsmaßstab",
+                optional=True,
+                type=QgsProcessingParameterNumber.Integer,
+                minValue=1,
+            )
+        )
+        self.addParameter(
+            QgsProcessingParameterDateTime(
+                "DatumHerstellung",
+                "Datum technische Herstellung",
+                optional=True,
+                type=QgsProcessingParameterDateTime.Date,
+                defaultValue=None,
+            )
+        )
+        self.addParameter(
             QgsProcessingParameterFile(
                 name="outputZip",
                 description="Speicherpfad für erzeugtes XPlan-Archiv [Pflicht]",
@@ -297,6 +316,14 @@ class XPlanUmringAlgorithmBP60(QgsProcessingAlgorithm):
         datum = self.parameterAsString(parameters, "DatumRechtsstand", context).strip()
 
         kbs = self.parameterAsString(parameters, "Koordinatenbezugssystem", context)
+
+        erstellungsmaßstab = self.parameterAsString(
+            parameters, "Erstellungsmaßstab", context
+        )
+
+        herstellungsdatum = self.parameterAsString(
+            parameters, "DatumHerstellung", context
+        ).strip()
 
         my_output_folder = self.parameterAsString(parameters, "outputZip", context)
 
@@ -407,6 +434,8 @@ class XPlanUmringAlgorithmBP60(QgsProcessingAlgorithm):
               </gml:boundedBy>
               <xplan:name>Name Bebauungsplan</xplan:name>
               <xplan:nummer>Nummer Bebaungsplan</xplan:nummer>
+              <xplan:technHerstellDatum>{herstellungsdatum}</xplan:technHerstellDatum>
+              <xplan:erstellungsMassstab>{erstellungsmaßstab}</xplan:erstellungsMassstab>
               <xplan:raeumlicherGeltungsbereich>
                 {gml_geometry_string}
               </xplan:raeumlicherGeltungsbereich>
@@ -516,9 +545,7 @@ class XPlanUmringAlgorithmBP60(QgsProcessingAlgorithm):
             gemeindename_element.text = gemeindename
 
         ortsteilname_element = next(
-            bp_plan_element.iter(
-                "{http://www.xplanung.de/xplangml/6/0}ortsteilName"
-            )
+            bp_plan_element.iter("{http://www.xplanung.de/xplangml/6/0}ortsteilName")
         )
 
         if ortsteilname == "":
@@ -527,7 +554,7 @@ class XPlanUmringAlgorithmBP60(QgsProcessingAlgorithm):
             ):
                 xp_gemeinde_element.remove(ortsteilname_element)
         else:
-                ortsteilname_element.text = ortsteilname
+            ortsteilname_element.text = ortsteilname
 
         for ags_element in root.iter("{http://www.xplanung.de/xplangml/6/0}ags"):
             ags_element.text = ags
@@ -599,6 +626,18 @@ class XPlanUmringAlgorithmBP60(QgsProcessingAlgorithm):
             "{http://www.xplanung.de/xplangml/6/0}rechtsstand"
         ):
             rechtsstand_element.text = rechtsstand_key
+
+        for erstellungsmaßstab_element in root.iter(
+            "{http://www.xplanung.de/xplangml/6/0}erstellungsMassstab"
+        ):
+            if erstellungsmaßstab == "":
+                bp_plan_element.remove(erstellungsmaßstab_element)
+
+        for herstellungsdatum_element in root.iter(
+            "{http://www.xplanung.de/xplangml/6/0}technHerstellDatum"
+        ):
+            if herstellungsdatum == "":
+                bp_plan_element.remove(herstellungsdatum_element)
 
         etree.indent(tree, space="\t", level=0)
 
