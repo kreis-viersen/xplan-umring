@@ -141,11 +141,29 @@ class XPlanUmringAlgorithmDifferenceRaster(QgsProcessingAlgorithm):
         feedback.setCurrentStep(1)
         if feedback.isCanceled():
             return {}
+        
+        # Zu erhaltende Felder
+        alg_params = {
+            "FIELDS": [""],
+            "INPUT": parameters["polygon_zum_abziehen"],
+            "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
+        }
+        outputs["ZuErhaltendeFelder"] = processing.run(
+            "native:retainfields",
+            alg_params,
+            context=context,
+            feedback=feedback,
+            is_child_algorithm=True,
+        )
+
+        feedback.setCurrentStep(2)
+        if feedback.isCanceled():
+            return {}
 
         # Durch maximalen Abstand segmentieren
         alg_params = {
             "DISTANCE": 0.01,
-            "INPUT": parameters["polygon_zum_abziehen"],
+            "INPUT": outputs["ZuErhaltendeFelder"]["OUTPUT"],
             "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
         }
         outputs["DurchMaximalenAbstandSegmentieren"] = processing.run(
@@ -156,7 +174,7 @@ class XPlanUmringAlgorithmDifferenceRaster(QgsProcessingAlgorithm):
             is_child_algorithm=True,
         )
 
-        feedback.setCurrentStep(2)
+        feedback.setCurrentStep(3)
         if feedback.isCanceled():
             return {}
 
@@ -175,7 +193,7 @@ class XPlanUmringAlgorithmDifferenceRaster(QgsProcessingAlgorithm):
             is_child_algorithm=True,
         )
 
-        feedback.setCurrentStep(3)
+        feedback.setCurrentStep(4)
         if feedback.isCanceled():
             return {}
 

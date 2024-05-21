@@ -124,10 +124,28 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
         if no_data:
             palett_index = 0
 
+        # Zu erhaltende Felder
+        alg_params = {
+            "FIELDS": [""],
+            "INPUT": parameters["polygon_zum_zuschneiden_vektor"],
+            "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
+        }
+        outputs["ZuErhaltendeFelder"] = processing.run(
+            "native:retainfields",
+            alg_params,
+            context=context,
+            feedback=feedback,
+            is_child_algorithm=True,
+        )
+
+        feedback.setCurrentStep(1)
+        if feedback.isCanceled():
+            return {}
+
         # Durch maximalen Abstand segmentieren
         alg_params = {
             "DISTANCE": 0.01,
-            "INPUT": parameters["polygon_zum_zuschneiden_vektor"],
+            "INPUT": outputs["ZuErhaltendeFelder"]["OUTPUT"],
             "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
         }
         outputs["DurchMaximalenAbstandSegmentieren"] = processing.run(
@@ -138,7 +156,7 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
             is_child_algorithm=True,
         )
 
-        feedback.setCurrentStep(1)
+        feedback.setCurrentStep(2)
         if feedback.isCanceled():
             return {}
 

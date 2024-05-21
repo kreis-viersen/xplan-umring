@@ -21,6 +21,7 @@ server=False
 hasProcessingProvider=yes
 changelog=unreleased:
     - Raster-Hilfswerkzeuge: Komprimiere erzeugte Rasterpläne mit Deflate
+    - Raster-Hilfswerkzeuge: Behebe Fehler für bestimmte Polygone
     v2.10.0:
     - Raster-Hilfswerkzeuge: Option zum Leerwert setzen
     v2.9.0:
