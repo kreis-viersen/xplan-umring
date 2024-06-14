@@ -383,8 +383,23 @@ class XPlanUmringAlgorithmFP60(QgsProcessingAlgorithm):
             is_child_algorithm=True,
         )
 
+        # Z/M-Werte fallenlassen
+        alg_params = {
+            "INPUT": outputs["DoppelteSttzpunkteEntfernen"]["OUTPUT"],
+            "DROP_M_VALUES": True,
+            "DROP_Z_VALUES": True,
+            "OUTPUT": QgsProcessing.TEMPORARY_OUTPUT,
+        }
+        outputs["ZmwerteFallenlassen"] = processing.run(
+            "native:dropmzvalues",
+            alg_params,
+            context=context,
+            feedback=feedback,
+            is_child_algorithm=True,
+        )
+
         vlayer = QgsProcessingUtils.mapLayerFromString(
-            outputs["DoppelteSttzpunkteEntfernen"]["OUTPUT"], context
+            outputs["ZmwerteFallenlassen"]["OUTPUT"], context
         )
 
         request = QgsFeatureRequest()
