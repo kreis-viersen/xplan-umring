@@ -151,20 +151,23 @@ class XPlanUmringAlgorithmReplaceGeometry(QgsProcessingAlgorithm):
         raeumlicherGeltungsbereich_element = None
         kbs = None
 
+        plan_element_found = False
         for elem in ("BP_Plan", "FP_Plan", "LP_Plan", "RP_Plan", "SO_Plan"):
             try:
-                if next(gml_root.iter("{" + xplan_ns_uri + "}" + elem)).tag:
+                plan_element = next(gml_root.iter("{" + xplan_ns_uri + "}" + elem))
+                if plan_element.tag:
                     plan_category = elem
                     plan_category_short = plan_category.split("_")[0]
                     feedback.pushInfo("Plankategorie: " + plan_category)
-                    plan_element = next(
-                        gml_root.iter("{" + xplan_ns_uri + "}" + plan_category)
-                    )
+                    plan_element_found = True
                     break
-            except:
-                raise QgsProcessingException(
-                    "Kein *_Plan gefunden, dies wird nicht unterstützt!"
-                )
+            except StopIteration:
+                continue
+
+        if not plan_element_found:
+            raise QgsProcessingException(
+                "Kein *_Plan gefunden, dies wird nicht unterstützt!"
+            )
 
         bereich_count = 0
         try:

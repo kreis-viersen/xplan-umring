@@ -2,7 +2,7 @@
 name=XPlan-Umring
 qgisMinimumVersion=3.24
 description=Create XPlanGML from polygon(s)
-version=2.12.0
+version=2.12.1
 author=Kreis Viersen
 email=open@kreis-viersen.de
 
@@ -19,7 +19,9 @@ icon=xplan_umring_icon.png
 experimental=False
 server=False
 hasProcessingProvider=yes
-changelog=v2.12.0:
+changelog=v2.12.1:
+    - fix Hilfswerkzeug "Geometrie-Update" für andere Planarten als BP
+    v2.12.0:
     - Entferne Z/M-Werte von Eingabe-Polygon
     v2.11.0:
     - neue optionale Attribute "technHerstellDatum" und "erstellungsMassstab" für BP, FP, LP v6.0 
