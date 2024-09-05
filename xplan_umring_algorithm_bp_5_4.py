@@ -180,8 +180,8 @@ class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
                 ],
                 optional=False,
                 allowMultiple=False,
-                usesStaticStrings=False,
-                defaultValue=[0],
+                usesStaticStrings=True,
+                defaultValue="1000 (BPlan)",
             )
         )
         self.addParameter(
@@ -196,8 +196,8 @@ class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
                 ],
                 optional=False,
                 allowMultiple=False,
-                usesStaticStrings=False,
-                defaultValue=[0],
+                usesStaticStrings=True,
+                defaultValue="1000 (Aufstellungsbeschluss)",
             )
         )
         self.addParameter(
@@ -274,25 +274,11 @@ class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
         ags = self.parameterAsString(parameters, "AGS8stelligPflicht", context).strip()
         plangeber = self.parameterAsString(parameters, "Plangeber", context).strip()
 
-        planart = self.parameterAsInt(parameters, "Planart", context)
-        planart_keys = [
-            1000,
-            10000,
-            10001,
-            3000,
-            4000,
-            40000,
-            40001,
-            40002,
-            5000,
-            7000,
-            9999,
-        ]
-        planart_key = str(planart_keys[planart])
+        planart = self.parameterAsString(parameters, "Planart", context)
+        planart_key = planart.split()[0]
 
-        rechtsstand = self.parameterAsInt(parameters, "Rechtsstand", context)
-        rechtsstand_keys = [1000, 2000, 3000, 4000]
-        rechtsstand_key = str(rechtsstand_keys[rechtsstand])
+        rechtsstand = self.parameterAsString(parameters, "Rechtsstand", context)
+        rechtsstand_key = rechtsstand.split()[0]
 
         datum = self.parameterAsString(parameters, "DatumRechtsstand", context).strip()
 
