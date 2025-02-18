@@ -61,6 +61,13 @@ Dazu den Speicherort und Name für den erzeugten Rasterplan festlegen.
 
 <img src="./screenshots/eingabemaske_raster_zuschneiden.png"/>
 
+### Bekannte Fehlermeldung und Ursache
+
+Die folgende Fehlermeldung ist ein Hinweis auf einer fehlerhafte Georeferenzierung eines GeoTIFF.<br>
+Erneutes Georeferenzieren mit QGIS kann hier helfen.
+
+<img src="./screenshots/fehler_geotiff.png"/>
+
 ## Werkzeug "Polygon von Rasterplan abziehen"
 
 Eingabelayer für das Werkzeug sind:
