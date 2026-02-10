@@ -53,7 +53,7 @@ class XPlanUmringAlgorithmFP60(QgsProcessingAlgorithm):
         return XPlanUmringAlgorithmFP60()
 
     def flags(self):
-        return super().flags() | QgsProcessingAlgorithm.FlagNoThreading
+        return super().flags() | QgsProcessingAlgorithm.Flag.FlagNoThreading
 
     def name(self):
         return "flaechennutzungsplan60"
@@ -102,7 +102,7 @@ class XPlanUmringAlgorithmFP60(QgsProcessingAlgorithm):
                 "Umring",
                 "Vektorlayer mit Umringpolygon(en) [Pflicht]",
                 optional=False,
-                types=[QgsProcessing.TypeVectorPolygon],
+                types=[QgsProcessing.SourceType.TypeVectorPolygon],
                 defaultValue=None,
             )
         )
@@ -208,7 +208,7 @@ class XPlanUmringAlgorithmFP60(QgsProcessingAlgorithm):
                 "DatumRechtsstand",
                 "Datum Rechtsstand",
                 optional=True,
-                type=QgsProcessingParameterDateTime.Date,
+                type=QgsProcessingParameterDateTime.Type.Date,
                 defaultValue=None,
             )
         )
@@ -242,7 +242,7 @@ class XPlanUmringAlgorithmFP60(QgsProcessingAlgorithm):
                 "Erstellungsmaßstab",
                 "Erstellungsmaßstab",
                 optional=True,
-                type=QgsProcessingParameterNumber.Integer,
+                type=QgsProcessingParameterNumber.Type.Integer,
                 minValue=1,
             )
         )
@@ -251,7 +251,7 @@ class XPlanUmringAlgorithmFP60(QgsProcessingAlgorithm):
                 "DatumHerstellung",
                 "Datum technische Herstellung",
                 optional=True,
-                type=QgsProcessingParameterDateTime.Date,
+                type=QgsProcessingParameterDateTime.Type.Date,
                 defaultValue=None,
             )
         )
@@ -259,7 +259,7 @@ class XPlanUmringAlgorithmFP60(QgsProcessingAlgorithm):
             QgsProcessingParameterFile(
                 name="outputZip",
                 description="Speicherpfad für erzeugtes XPlan-Archiv [Pflicht]",
-                behavior=QgsProcessingParameterFile.Folder,
+                behavior=QgsProcessingParameterFile.Behavior.Folder,
                 fileFilter="Alle Dateien (*.*)",
             )
         )
@@ -270,7 +270,7 @@ class XPlanUmringAlgorithmFP60(QgsProcessingAlgorithm):
         def showWarning(message):
             iface.messageBar().pushMessage(
                 message,
-                level=Qgis.Warning,
+                level=Qgis.MessageLevel.Warning,
             )
             feedback.pushWarning(message)
 

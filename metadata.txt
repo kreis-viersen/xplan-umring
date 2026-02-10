@@ -19,6 +19,7 @@ icon=xplan_umring_icon.png
 experimental=False
 server=False
 hasProcessingProvider=yes
+supportsQt6=True
 changelog=v2.12.2:
     - Optimierungen im Quellcode
     v2.12.1:

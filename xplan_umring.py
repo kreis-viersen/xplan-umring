@@ -170,8 +170,8 @@ class XPlanUmringPlugin(object):
         self.dlg.cb_ags.setEditable(True)
         completer = QCompleter(self.bezeichnung_ags, self.dlg.cb_ags)
         self.dlg.cb_ags.setCompleter(completer)
-        self.dlg.cb_ags.completer().setCompletionMode(QCompleter.PopupCompletion)
-        self.dlg.cb_ags.completer().setCaseSensitivity(Qt.CaseInsensitive)
+        self.dlg.cb_ags.completer().setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
+        self.dlg.cb_ags.completer().setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         self.dlg.cb_ags.currentTextChanged.connect(self.on_combo_box_changed)
 
         def saveTool(tool):
@@ -201,7 +201,7 @@ class XPlanUmringPlugin(object):
         elif self.selectedTool == "differenceraster":
             self.dlg.rb_difference.setChecked(True)
 
-        result = self.dlg.exec_()
+        result = self.dlg.exec()
 
         # check if confirmed with OK
         if result == 1:

@@ -52,7 +52,7 @@ class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
         return XPlanUmringAlgorithmBP54()
 
     def flags(self):
-        return super().flags() | QgsProcessingAlgorithm.FlagNoThreading
+        return super().flags() | QgsProcessingAlgorithm.Flag.FlagNoThreading
 
     def name(self):
         return "bebauungsplan54"
@@ -103,7 +103,7 @@ class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
                 "Umring",
                 "Vektorlayer mit Umringpolygon(en) [Pflicht]",
                 optional=False,
-                types=[QgsProcessing.TypeVectorPolygon],
+                types=[QgsProcessing.SourceType.TypeVectorPolygon],
                 defaultValue=None,
             )
         )
@@ -205,7 +205,7 @@ class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
                 "DatumRechtsstand",
                 "Datum Rechtsstand",
                 optional=True,
-                type=QgsProcessingParameterDateTime.Date,
+                type=QgsProcessingParameterDateTime.Type.Date,
                 defaultValue=None,
             )
         )
@@ -238,7 +238,7 @@ class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
             QgsProcessingParameterFile(
                 name="outputZip",
                 description="Speicherpfad für erzeugtes XPlan-Archiv [Pflicht]",
-                behavior=QgsProcessingParameterFile.Folder,
+                behavior=QgsProcessingParameterFile.Behavior.Folder,
                 fileFilter="Alle Dateien (*.*)",
             )
         )
@@ -249,7 +249,7 @@ class XPlanUmringAlgorithmBP54(QgsProcessingAlgorithm):
         def showWarning(message):
             iface.messageBar().pushMessage(
                 message,
-                level=Qgis.Warning,
+                level=Qgis.MessageLevel.Warning,
             )
             feedback.pushWarning(message)
 

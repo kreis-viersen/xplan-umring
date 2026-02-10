@@ -37,7 +37,7 @@ class XPlanUmringAlgorithmDifferenceRaster(QgsProcessingAlgorithm):
         return XPlanUmringAlgorithmDifferenceRaster()
 
     def flags(self):
-        return super().flags() | QgsProcessingAlgorithm.FlagNoThreading
+        return super().flags() | QgsProcessingAlgorithm.Flag.FlagNoThreading
 
     def name(self):
         return "differenceraster"
@@ -91,7 +91,7 @@ class XPlanUmringAlgorithmDifferenceRaster(QgsProcessingAlgorithm):
                 "polygon_zum_abziehen",
                 "Polygon zum Abziehen (Vektor)",
                 optional=False,
-                types=[QgsProcessing.TypeVectorPolygon],
+                types=[QgsProcessing.SourceType.TypeVectorPolygon],
                 defaultValue=None,
             )
         )

@@ -37,7 +37,7 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
         return XPlanUmringAlgorithmClipRaster()
 
     def flags(self):
-        return super().flags() | QgsProcessingAlgorithm.FlagNoThreading
+        return super().flags() | QgsProcessingAlgorithm.Flag.FlagNoThreading
 
     def name(self):
         return "clipraster"
@@ -90,7 +90,7 @@ class XPlanUmringAlgorithmClipRaster(QgsProcessingAlgorithm):
             QgsProcessingParameterVectorLayer(
                 "polygon_zum_zuschneiden_vektor",
                 "Polygon zum Zuschneiden (Vektor)",
-                types=[QgsProcessing.TypeVectorPolygon],
+                types=[QgsProcessing.SourceType.TypeVectorPolygon],
                 defaultValue=None,
             )
         )

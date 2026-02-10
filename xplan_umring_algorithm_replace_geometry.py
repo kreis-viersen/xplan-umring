@@ -44,7 +44,7 @@ class XPlanUmringAlgorithmReplaceGeometry(QgsProcessingAlgorithm):
         return XPlanUmringAlgorithmReplaceGeometry()
 
     def flags(self):
-        return super().flags() | QgsProcessingAlgorithm.FlagNoThreading
+        return super().flags() | QgsProcessingAlgorithm.Flag.FlagNoThreading
 
     def name(self):
         return "replacegeometry"
@@ -88,7 +88,7 @@ class XPlanUmringAlgorithmReplaceGeometry(QgsProcessingAlgorithm):
                 "Umring",
                 "Vektorlayer mit Umringpolygon(en)",
                 optional=False,
-                types=[QgsProcessing.TypeVectorPolygon],
+                types=[QgsProcessing.SourceType.TypeVectorPolygon],
                 defaultValue=None,
             )
         )
@@ -96,7 +96,7 @@ class XPlanUmringAlgorithmReplaceGeometry(QgsProcessingAlgorithm):
             QgsProcessingParameterFile(
                 "eingabeXplanGml",
                 "XPlanGML bei welcher die Umring-Geometrie(en) ersetzt werden sollen",
-                behavior=QgsProcessingParameterFile.File,
+                behavior=QgsProcessingParameterFile.Behavior.File,
                 fileFilter="GML-Dateien (*.gml *.GML)",
                 defaultValue=None,
             )
