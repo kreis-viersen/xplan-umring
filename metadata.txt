@@ -2,7 +2,7 @@
 name=XPlan-Umring
 qgisMinimumVersion=3.24
 description=Create XPlanGML from polygon(s)
-version=2.12.2
+version=2.13.0
 author=Kreis Viersen
 email=open@kreis-viersen.de
 
@@ -20,7 +20,9 @@ experimental=False
 server=False
 hasProcessingProvider=yes
 supportsQt6=True
-changelog=v2.12.2:
+changelog=v2.13.0:
+    - Unterstützung für Qt6 / QGIS 4
+    v2.12.2:
     - Optimierungen im Quellcode
     v2.12.1:
     - fix Hilfswerkzeug "Geometrie-Update" für andere Planarten als BP
